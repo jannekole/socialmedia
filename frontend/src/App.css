@@ -1,0 +1,159 @@
+body {
+  font-family:  Segoe UI, arial, comic sans ms, sans-serif;
+  background-color: hsl(0, 0%, 97%);
+}
+
+.App {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.userName {
+  color: #777777
+}
+.userLink {
+  text-decoration: none;
+  color: black;
+
+}
+.userLink:hover .fullName{
+  text-decoration: underline;
+  color: #7ca7fb;
+}
+.userLinkContainer {
+  padding-bottom: 5px;
+}
+.fullName {
+  font-weight: bold;
+}
+.infoBox {
+  text-align: center;
+}
+.post {
+  margin: 10px;
+  border: 1px solid rgb(205, 205, 205);
+  padding: 10px;
+  background-color: white;
+}
+.replyDivider {
+  height: 0px;
+  border-top: 1px solid rgb(186, 186, 186);
+  margin: 7px 20px;
+
+}
+
+.postActionBar {
+  padding: 3px 7px;
+  margin: 5px 0px 0px 0px;
+  background-color: hsl(0, 0%, 97%);
+}
+.notLink {
+  margin: 0px 10px 0px 0px;
+
+  text-decoration: none;
+  color: rgb(0, 131, 195);
+
+
+}
+.notLink:hover {
+  text-decoration: underline;
+}
+
+.postContent {
+  margin: 0px 0px;
+}
+.postContent ~ .postContent {
+  border-top: 1px solid grey;
+}
+
+.reply {
+  margin-top: 10px;
+}
+.reply > .postContent {
+  border-left: 7px solid hsl(215, 100%, 82%);
+  padding-left: 10px;
+
+}
+
+
+
+
+.postList {
+  width: 600px;
+}
+.topBarContainer {
+  background-color: rgb(133, 182, 255);
+
+  width: 100%;
+  position: fixed;
+  top: 0;
+  box-shadow: 0px 3px 3px rgb(154, 154, 154);
+
+}
+.topBar{
+  max-width: 600px;
+
+  margin: 0 auto;
+
+
+
+  display: flex;
+  justify-content:space-between;
+
+}
+
+
+.buttonText {
+
+  display: inline;
+  margin: 0px 20px;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  vertical-align: bottom;
+
+}
+.topBarLeft, .topBarRight {
+  width: 300px;
+  display: flex;
+}
+
+.topBarLeft {
+  justify-content: flex-start;
+}
+
+.topBarRight {
+  justify-content: flex-end;
+}
+
+.topBarLeft > .topBarButton {
+  float: left;
+}
+
+.topBarRight > .topBarButton {
+  float:right;
+}
+.topBarButton {
+
+
+  align-items: center;
+
+  display: flex;
+  height: 40px;
+
+  text-decoration: none;
+  white-space: nowrap;
+  color: black;
+}
+
+
+.topBarButton:hover {
+  background-color: rgb(93, 127, 179);
+}
+img {
+  height: ;
+}
+.container {
+  display: inline;
+}
