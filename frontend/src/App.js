@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+
 import { createStore, applyMiddleware } from 'redux';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -15,11 +15,18 @@ import UserPage from './containers/UserPage';
 
 import reducer from './reducers';
 
+const middlewares = [];
+
+if (process.env.NODE_ENV === `development`) {
+  const { logger } = require(`redux-logger`);
+
+  middlewares.push(logger);
+}
+
+middlewares.push(thunk);
+
 var store = createStore(reducer, composeWithDevTools(
-  applyMiddleware(
-    thunk,
-    logger
-  )
+  applyMiddleware(...middlewares)
 ));
 
 store.dispatch({type: "none"});
