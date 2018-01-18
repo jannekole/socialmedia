@@ -22,17 +22,15 @@ var store = createStore(reducer, composeWithDevTools(
   )
 ));
 
-store.dispatch({type: "none"});
-
 class App extends Component {
   render() {
     return <Provider store={store}>
       <Router>
         <div>
           <TopBar />
-          <div className="App" >
-            <Route exact path="/" component={FrontPageContainer} />
-            <Route path="/user/:userName" component={FrontPageContainer}/>
+          <div className="" >
+            <Route exact path="/" component={UserPage} />
+            <Route path="/user/:userName" component={UserPage}/>
             <Route exact path="/userpage" component={UserPage} />
           </div>
         </div>

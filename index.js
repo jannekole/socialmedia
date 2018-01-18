@@ -10,19 +10,29 @@ var port = process.env.PORT || 3001;
 var app = express();
 
 
+var routes = require('./api/routes/routes');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("frontend/build"));
-}
+
+
+routes(app);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
   console.log("production");
 }
+
 app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'frontend/build', 'index.html'))
 });
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).json({error: err.message});
+});
+
 
 app.listen(port);
 

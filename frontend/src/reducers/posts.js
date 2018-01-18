@@ -1,5 +1,5 @@
 import initialState from './defaultPosts';
-import { REQUEST_POSTS, RECEIVE_POSTS } from '../actions/actions';
+import { REQUEST_POSTS, RECEIVE_POSTS , REPLY_INPUT_VISIBILITY} from '../actions/actions';
 
 
 const userPosts = (state = {items: [], isFetching: false}, action) => {
@@ -9,6 +9,19 @@ const userPosts = (state = {items: [], isFetching: false}, action) => {
     }
     case RECEIVE_POSTS: {
       return {...state, isFetching: false};
+    }
+    case REPLY_INPUT_VISIBILITY: {
+      console.log(state);
+      let newState = {...state};
+
+      newState.items = state.items.map((post) => {
+        if (post.id === action.postId) {
+          return {...post, replyInputVisible: action.visible};
+        } else {
+          return post;
+        }
+      });
+      return newState;
     }
     default: {
       return ;
@@ -20,7 +33,8 @@ const posts = (state = initialState, action) => {
   switch (action.type) {
 
     case REQUEST_POSTS:
-    case RECEIVE_POSTS:{
+    case RECEIVE_POSTS:
+    case REPLY_INPUT_VISIBILITY:{
 
       let newState = {...state};
       newState.byUser = {...state.byUser};

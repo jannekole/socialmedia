@@ -12,7 +12,7 @@ class TopBar extends Component {
       <div className="topBar">
         <div className="topBarLeft">
 
-          <NavLink to="/userpage" className="topBarButton">
+          <NavLink to="/" className="topBarButton">
             <div className="buttonText">My page</div>
           </NavLink>
 

@@ -6,9 +6,9 @@ import { loadPosts } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
 
-  let userName = ownProps.match.params.userName || "_all";
+  let userFilter = ownProps.match.params.userFilter || "_all";
 
-  let user = state.posts.byUser[userName];
+  let user = state.posts.byUser[userFilter];
 
   let posts = user ? user.items : [];
 
@@ -16,16 +16,16 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     posts,
-    isFetching
+    isFetching,
+    userFilter
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 
-  let userName = ownProps.match.params.userName || "_all";
-
   return {
-    loadPosts: () => dispatch(loadPosts(userName))
+    loadPosts: (userFilter) => dispatch(loadPosts("jdksdlkdsl"))
+
   };
 };
 

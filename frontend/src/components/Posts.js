@@ -20,8 +20,8 @@ class Posts extends Component {
         let replies = this.props.posts.filter((childPost) => {
           return post.id === childPost.parentId;
         });
-
-        return <Post post={post} user={post.user} replies={replies} key={post.id} />;
+        let replyInputVisible = post.replyInputVisible || false;
+        return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post.id} />;
       });
     const loadingIndicator = (isFetching) => {
       return isFetching
@@ -48,5 +48,6 @@ export default Posts;
 Posts.propTypes = {
   posts: PropTypes.array.isRequired,
   loadPosts: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  changeReplyInputVisibility: PropTypes.func.isRequired
 };

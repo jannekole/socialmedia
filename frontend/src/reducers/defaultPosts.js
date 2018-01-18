@@ -4,7 +4,7 @@ let post0 = {
   id: "0",
   user: {
     name: "Tommi Kolehmainen",
-    username: "tommo"
+    userName: "tommo"
   },
   text: "This HTML file is a template.  If you open it directly in the browser, you will see an empty page.      You can add webfonts, meta tags, or analytics to this file.    The build step will place the bundled scripts into the <body> tag.      To begin the development, run `npm start` or `yarn start`.To create a production bundle, use `npm run build` or `yarn build`.    "
 };
@@ -13,7 +13,7 @@ let post = {
   id: "1",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "Eka postaus"
 };
@@ -23,7 +23,7 @@ let post1 = {
   id: "2",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "Eka postaus"
 };
@@ -33,7 +33,7 @@ let post2 = {
   id: "3",
   user: {
     name: "Tommi Kolehmainen",
-    username: "tommo"
+    userName: "tommo"
   },
   text: "This HTML file is a template.  If you open it directly in the browser, you will see an empty page.      You can add webfonts, meta tags, or analytics to this file.    The build step will place the bundled scripts into the <body> tag.      To begin the development, run `npm start` or `yarn start`.To create a production bundle, use `npm run build` or `yarn build`.    "
 };
@@ -44,7 +44,7 @@ let reply1 = {
   id: "11",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "1. vastaus postaukseen"
 };
@@ -53,7 +53,7 @@ let reply2 = {
   id: "12",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "Vastaus postaukseen"
 };
@@ -62,7 +62,7 @@ let reply3 = {
   id: "13",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "Vastaus postaukseen"
 };
@@ -71,7 +71,7 @@ let reply4 = {
   id: "14",
   user: {
     name: "Janne Kolehmainen",
-    username: "jannekol"
+    userName: "jannekol"
   },
   text: "Vastaus postaukseen"
 };

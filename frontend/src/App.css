@@ -2,9 +2,14 @@ body {
   font-family:  Segoe UI, arial, comic sans ms, sans-serif;
   background-color: hsl(0, 0%, 97%);
 }
+.page {
+    margin-top: 40px;
+}
+.page > *:first-child{
+  padding-top: 3px;
+}
+.content {
 
-.App {
-  margin-top: 40px;
   display: flex;
   justify-content: center;
 }
@@ -75,7 +80,14 @@ body {
   padding-left: 10px;
 
 }
-
+.replyInput {
+  -webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+display: block;
+width: 100%;
+margin-top: 5px;
+}
 
 
 
@@ -89,7 +101,7 @@ body {
   position: fixed;
   top: 0;
   box-shadow: 0px 3px 3px rgb(154, 154, 154);
-
+  z-index: 5;
 }
 .topBar{
   max-width: 600px;
@@ -100,6 +112,7 @@ body {
 
   display: flex;
   justify-content:space-between;
+
 
 }
 
@@ -156,4 +169,27 @@ img {
 }
 .container {
   display: inline;
+}
+.userPageTopInfo {
+  background-color: white;
+  border-bottom: 1px solid rgb(205, 205, 205);
+
+  position: relative;
+
+
+}
+.profilePic {
+  float: left;
+  display: block;
+  border: 5px solid rgb(181, 181, 181);
+  margin: 5px;
+
+}
+.bottomRow {
+  clear:both;
+}
+.userPageInfo {
+  position: absolute;
+  bottom: 5px;
+left: 250px;
 }

@@ -3,21 +3,14 @@ import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
+import UserLink from '../components/UserLink';
+
 class PostContent extends Component {
 
 
-  renderUserLink(user) {
-
-    return <div className="userLinkContainer">
-      <Link  to={`/user/${user.username}`} className="userLink">
-        <span className="fullName">{user.name}</span>
-        <span className="userName">{` @${user.username}`}</span>
-      </Link>
-    </div>;
-  }
   render() {
     return <div className="postContent">
-      {this.renderUserLink(this.props.user)}
+      <UserLink user={this.props.user}/>
       <div className="postText">
         {this.props.post.text}
       </div>

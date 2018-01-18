@@ -1,8 +1,10 @@
 
 
-const list = (state = {isFetching: false, discussionId: "jgd"}, action) => {
+const users = (state = {
+  jannekol: {userName: "jannekol", name: "Janne Kolehmainen", followers: 284, following: 319},
+  tommo: {userName: "tommo", name: "Tommi Kolehmainen"}
+}, action) => {
   switch (action.type) {
-
 
     default:
       return state;
@@ -11,4 +13,4 @@ const list = (state = {isFetching: false, discussionId: "jgd"}, action) => {
 
 
 
-export default list;
+export default users;
