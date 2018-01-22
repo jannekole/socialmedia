@@ -1,10 +1,15 @@
 
 var controller = require('../controllers/controllers');
+var userControllers = require('../controllers/userControllers');
 
 module.exports = function(app) {
   app.route('/api/posts/')
     .get(controller.getPosts)
-    .post(controller.postPost);
+    .post(controller.userToBody, controller.postPost);
+
+  app.route('/api/users/')
+    .get(userControllers.getUsers)
+    .post(userControllers.addUser);
 
   app.route('/api/internalError/')
     .get(controller.error);

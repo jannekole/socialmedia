@@ -3,13 +3,10 @@ var Schema = mongoose.Schema;
 
 
 var user = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: [true, 'No userId']
-  },
   userName: {
     type: String,
-    required: [true, 'No username']
+    required: [true, 'No username'],
+    unique: [true, 'Username already exists']
   },
   name: {
     first: {

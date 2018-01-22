@@ -55,7 +55,7 @@ class Post extends Component {
     return <div className="post">
       <PostContentContainer post={this.props.post}/>
       {this.renderActionBar()}
-      {this.renderReplyBox()}
+      {/* {this.renderReplyBox()} */}
       {this.renderReplies(this.props.replies)}
 
 

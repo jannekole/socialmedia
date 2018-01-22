@@ -3,10 +3,28 @@ var Schema = mongoose.Schema;
 
 
 var post = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: [true, 'No userId']
+
+  user: {
+    _id: {
+      type: String,
+      required: [true, 'No user Id']
+    },
+    userName: {
+      type: String,
+      required: [true, 'No username']
+    },
+    name: {
+      first: {
+        type: String,
+        required: [true, 'No first name']
+      },
+      last:{
+        type: String,
+        required: [true, 'No last name']
+      },
+    }
   },
+
   text: {
     type: String,
     required: [true, 'No text']

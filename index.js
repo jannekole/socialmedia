@@ -1,5 +1,5 @@
 
-
+var mongoose = require('mongoose');
 var express = require('express');
 var path = require('path');
 
@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 
 var port = process.env.PORT || 3001;
 var app = express();
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/discussion');
 
 
 var routes = require('./api/routes/routes');
