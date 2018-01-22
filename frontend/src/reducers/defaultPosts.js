@@ -1,7 +1,7 @@
 
 let post0 = {
   parentId: "0",
-  id: "0",
+  _id: "0",
   user: {
     name: "Tommi Kolehmainen",
     userName: "tommo"
@@ -10,7 +10,7 @@ let post0 = {
 };
 let post = {
   parentId: "0",
-  id: "1",
+  _id: "1",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"
@@ -20,7 +20,7 @@ let post = {
 
 let post1 = {
   parentId: "0",
-  id: "2",
+  _id: "2",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"
@@ -30,7 +30,7 @@ let post1 = {
 
 let post2 = {
   parentId: "0",
-  id: "3",
+  _id: "3",
   user: {
     name: "Tommi Kolehmainen",
     userName: "tommo"
@@ -41,7 +41,7 @@ let post2 = {
 
 let reply1 = {
   parentId: "1",
-  id: "11",
+  _id: "11",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"
@@ -50,7 +50,7 @@ let reply1 = {
 };
 let reply2 = {
   parentId: "1",
-  id: "12",
+  _id: "12",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"
@@ -59,7 +59,7 @@ let reply2 = {
 };
 let reply3 = {
   parentId: "1",
-  id: "13",
+  _id: "13",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"
@@ -68,7 +68,7 @@ let reply3 = {
 };
 let reply4 = {
   parentId: "1",
-  id: "14",
+  _id: "14",
   user: {
     name: "Janne Kolehmainen",
     userName: "jannekol"

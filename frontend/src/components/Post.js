@@ -16,12 +16,12 @@ class Post extends Component {
   clickReply(e) {
     let { replyInputVisible } = this.props;
     this.props.changeReplyInputVisibility(
-      this.props.post.id, !replyInputVisible);
+      this.props.post._id, !replyInputVisible);
     e.preventDefault();
   }
 
   renderReply(reply) {
-    return <div className="reply" key={reply.id}>
+    return <div className="reply" key={reply._id}>
 
       <PostContentContainer post={reply}/>
     </div>;
@@ -31,10 +31,11 @@ class Post extends Component {
     return <div className="replies">{renderedReplies}</div>;
   }
   renderActionBar() {
+    var a;
     return <div className="postActionBar" >
-      <a href="#"  className="notLink"> Like </a>
+      <a href="#" onClick={a} className="notLink"> Like </a>
       <a href="#" onClick={this.clickReply} className="notLink"> Reply </a>
-      <a href="#"  className="notLink"> Share </a>
+      <a href="#" onClick={a} className="notLink"> Share </a>
     </div>;
   }
 
@@ -67,7 +68,6 @@ export default Post;
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   replies: PropTypes.array.isRequired,
   replyInputVisible: PropTypes.bool.isRequired,
   changeReplyInputVisibility: PropTypes.func.isRequired

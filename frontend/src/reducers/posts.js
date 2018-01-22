@@ -1,6 +1,27 @@
 import initialState from './defaultPosts';
 import { REQUEST_POSTS, RECEIVE_POSTS , REPLY_INPUT_VISIBILITY} from '../actions/actions';
 
+const merge = (newObjects, oldObjects) => {
+
+  var objects = [...newObjects];
+  var oldLength = oldObjects.length;
+  var newLength = newObjects.length;
+  for (let i = 0; i < oldLength; i++) {
+    let isDuplicate = false;
+    for (let j = 0; j < newLength; j++) {
+      if (oldObjects[i]._id == newObjects[j]._id) {
+        isDuplicate = true;
+        break;
+      }
+
+    }
+    if (!isDuplicate) {
+      objects = objects.concat(oldObjects[i]);
+    }
+  }
+  console.log('objects',objects);
+  return objects;
+};
 
 const userPosts = (state = {items: [], isFetching: false}, action) => {
   switch (action.type) {
@@ -8,14 +29,25 @@ const userPosts = (state = {items: [], isFetching: false}, action) => {
       return {...state, isFetching: true};
     }
     case RECEIVE_POSTS: {
-      return {...state, isFetching: false};
+      let newState = {...state, isFetching: false};
+      if (action.data.posts) {
+        newState.items = merge( action.data.posts, newState.items);
+      }
+      if (action.data.replies) {
+        newState.items = merge(action.data.replies, newState.items);
+      }
+
+
+
+
+
+      return newState;
     }
     case REPLY_INPUT_VISIBILITY: {
-      console.log(state);
       let newState = {...state};
 
       newState.items = state.items.map((post) => {
-        if (post.id === action.postId) {
+        if (post._id === action.postId) {
           return {...post, replyInputVisible: action.visible};
         } else {
           return post;

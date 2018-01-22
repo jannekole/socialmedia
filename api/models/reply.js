@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var post = new Schema({
+var reply = new Schema({
+  parentId: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'No parentId']
+  },
   userId: {
     type: Schema.Types.ObjectId,
     required: [true, 'No userId']
@@ -14,4 +18,4 @@ var post = new Schema({
 
 });
 
-module.exports = mongoose.model('Post', post);
+module.exports = mongoose.model('Reply', reply);

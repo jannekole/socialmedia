@@ -10,5 +10,5 @@ module.exports = function(app) {
     .get(controller.error);
 
   app.route('/api/:something')
-    .all((req, res)=>{res.status(404).json({error: "Wrong api url"});});
+    .all((req, res)=>{res.status(404).json({errors: ["Wrong api url"]});});
 };

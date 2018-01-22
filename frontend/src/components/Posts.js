@@ -14,14 +14,14 @@ class Posts extends Component {
   render() {
     let posts = this.props.posts
       .filter((post) => {
-        return post.parentId === "0";
+        return post.parentId === "0" || !post.parentId;
       })
       .map((post) => {
         let replies = this.props.posts.filter((childPost) => {
-          return post.id === childPost.parentId;
+          return post._id === childPost.parentId;
         });
         let replyInputVisible = post.replyInputVisible || false;
-        return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post.id} />;
+        return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post._id} />;
       });
     const loadingIndicator = (isFetching) => {
       return isFetching

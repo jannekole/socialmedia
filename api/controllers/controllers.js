@@ -11,14 +11,19 @@ exports.getPosts = function (req, res) {
   res.json(
     {
       posts:[{
-        userId: "12345",
+
+        user:{
+          userId: "12345",
+          userName: "jannekol",
+          name: "Janne Kolehmainen"
+        },
         _id: "kkl3k3k32",
         text: "post from api"
       }],
       users: [
         {
           _id: "12345",
-          userName: "jannekole",
+          userName: "jannekol",
           name: "Janne Kolehmainen"
         },
         {
@@ -29,7 +34,11 @@ exports.getPosts = function (req, res) {
       ],
       replies: [{
         parentId: "kkl3k3k32",
-        userId: "d12dsd45",
+        user:{
+          userId: "d12dsd45",
+          userName: "tommo",
+          name: "Tommi Kolehmainen"
+        },
         text: "reply from api"
       }]
     });

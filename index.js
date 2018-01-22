@@ -12,7 +12,7 @@ var app = express();
 
 var routes = require('./api/routes/routes');
 
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
@@ -30,7 +30,7 @@ app.get('*', function (request, response){
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
-  res.status(500).json({error: err.message});
+  res.status(500).json({errors: [err.message]});
 });
 
 
