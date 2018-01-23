@@ -67,9 +67,10 @@ exports.userToBody = function (req, res, next) {
   User.findOne({_id: userId},
     (err, user) => {
       console.log('user',user)
-      if (!user) {
-        console.log("User does not exist");
-        next("User does not exist");
+      if (err) {
+        next(err);
+      } else if (!user) {
+        next({message: 'No user found with userId'});
       } else {
         req.body.user = user;
         next();
@@ -85,9 +86,10 @@ exports.postPost = function (req, res, next) {
   post.save((err, message) => {
     console.log('here');
     if (err) {
+      console.log('err',err);
       next(err);
     } else {
-      res.json(message);
+      res.json({posts: [message]});
     }
   });
 };

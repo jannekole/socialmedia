@@ -52,10 +52,11 @@ class Post extends Component {
   }
 
   render() {
+    console.log('post rendered');
     return <div className="post">
       <PostContentContainer post={this.props.post}/>
       {this.renderActionBar()}
-      {/* {this.renderReplyBox()} */}
+      {this.renderReplyBox()}
       {this.renderReplies(this.props.replies)}
 
 
