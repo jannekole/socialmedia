@@ -80,6 +80,16 @@ body {
   padding-left: 10px;
 
 }
+
+.messageInput {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+
+}
 .replyInput {
   -webkit-box-sizing: border-box;
 -moz-box-sizing: border-box;

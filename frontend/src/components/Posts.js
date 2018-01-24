@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Post from '../components/Post';
 
-import { connect } from 'react-redux';
 
 class Posts extends Component {
 
@@ -12,17 +11,21 @@ class Posts extends Component {
 
 
   render() {
-    let posts = this.props.posts
-      .filter((post) => {
-        return post.parentId === "0" || !post.parentId;
-      })
-      .map((post) => {
-        let replies = this.props.posts.filter((childPost) => {
-          return post._id === childPost.parentId;
+    let posts;
+    if (this.props.posts) {
+      posts = this.props.posts
+        .filter((post) => {
+          return post.parentId === "0" || !post.parentId;
+        })
+        .map((post) => {
+          let replies = this.props.posts.filter((childPost) => {
+            return post._id === childPost.parentId;
+          });
+          let replyInputVisible = post.replyInputVisible || false;
+          return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post._id} />;
         });
-        let replyInputVisible = post.replyInputVisible || false;
-        return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post._id} />;
-      });
+    }
+
     const loadingIndicator = (isFetching) => {
       return isFetching
         ? <div className="post infoBox">Loading... </div>
@@ -35,7 +38,7 @@ class Posts extends Component {
         : null;
     };
 
-    return <div className="postList">
+    return <div>
       {loadingIndicator(this.props.isFetching)}
       {posts}
       {nothingHereIndicator(this.props.isFetching)}

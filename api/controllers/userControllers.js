@@ -6,23 +6,30 @@ exports.error = (req, res) => {
 };
 
 
-exports.getUsers = function (req, res) {
+exports.getUsers = function (req, res, next) {
 
-  res.json(
-    {
-      users: [
-        {
-          _id: "12345",
-          userName: "jannekol",
-          name: "Janne Kolehmainen"
-        },
-        {
-          _id: "d12dsd45",
-          userName: "tommo",
-          name: "Tommi Kolehmainen"
-        }
-      ]
-    });
+  User.find({}, (err, users) => {
+    if (err) {
+      next(err);
+    } else {
+      res.json({users});
+    }
+  });
+  // res.json(
+  //   {
+  //     users: [
+  //       {
+  //         _id: "12345",
+  //         userName: "jannekol",
+  //         name: "Janne Kolehmainen"
+  //       },
+  //       {
+  //         _id: "d12dsd45",
+  //         userName: "tommo",
+  //         name: "Tommi Kolehmainen"
+  //       }
+  //     ]
+  //   });
     // Post.find({conversationId: req.params.conversationId},
     //   (err, messages) => {
     //     if (err) {
@@ -33,17 +40,16 @@ exports.getUsers = function (req, res) {
     //
     //   }
     // );
-  };
+};
 
 
 
   exports.addUser = function (req, res, next) {
 
     console.log('body',req.body);
-    let post = new User(req.body);
+    let user = new User(req.body);
 
-    post.save(  (err, message) => {
-      console.log('here');
+    user.save(  (err, message) => {
       if (err) {
         next(err);
       } else {

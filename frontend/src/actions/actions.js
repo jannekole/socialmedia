@@ -28,7 +28,7 @@ export const loadPostsError = (user, error) => {
 
 export const loadPosts = (user) => {
   return (dispatch) => {
-    dispatch(loadPostsPre(user));
+
     var loadError = function(error) {
       return loadPostsError(user, error);
     };
@@ -36,52 +36,68 @@ export const loadPosts = (user) => {
     var loadSuccess = (json) => {
       return loadPostsSuccess(user, json);
     };
+    dispatch(loadPostsPre(user));
+    apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'GET');
 
-    load(dispatch, '/api/posts', loadSuccess, loadError);
-
-    // fetch('/api/posts', {
-    //   method: 'GET',
-    //   credentials: 'same-origin'
-    // }).then((res) => {
-    //   if (!res.ok) {
-    //     console.log('response not ok');
-    //     res.json().then(
-    //       (json) => {
-    //         console.log('json ok');
-    //         dispatch(loadPostsError(user, json.errors));
-    //       },
-    //       (err) => {
-    //         console.log('error parsing json');
-    //         dispatch(loadPostsError(user, err));
-    //       }
-    //     );
-    //   } else {
-    //     res.json().then(
-    //       (json) => {
-    //         console.log('json', json);
-    //         dispatch(loadPostsSuccess(user, json));
-    //       },
-    //       (err) => {
-    //         console.log('error parsing json');
-    //         dispatch(loadPostsError(user, err));
-    //       }
-    //     );
-    //   }
-    // }).catch(err => {
-    //   console.log('catcherr', err);
-    //   dispatch(loadPostsError(user, err));
-    // });
-    //
 
   };
 };
 
-const load = (dispatch, url, success, error) => {
+export const loadUserSuccess = (userName, data) => {
+  return {
+    type: RECEIVE_USER,
+    userName,
+    data
+  };
+};
+export const loadUsers = (userName) => {
+  return (dispatch) => {
+    //dispatch(loadPostsPre(userName));
+    var loadError = function(error) {
+      return ()=>{return null;};
+    };
+
+    var loadSuccess = (json) => {
+      return loadUserSuccess(userName, json);
+    };
+
+    apiFetch(dispatch, '/api/users', loadSuccess, loadError, 'GET');
+
+
+  };
+};
+
+export const postPost = (userName, text) => {
+  return (dispatch) => {
+    //dispatch(loadPostsPre(userName));
+    var loadError = function(error) {
+      return ()=>{return null;};
+    };
+
+    var loadSuccess = (json) => {
+      return loadUserSuccess(userName, json);
+    };
+
+    var data = {
+      userName,
+      text
+    };
+    apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'POST', data);
+
+
+  };
+};
+
+const apiFetch = (dispatch, url, success, error, method, data) => {
 
   console.log('success', success);
 
   fetch(url, {
-    method: 'GET',
+    method,
+    body: JSON.stringify(data),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
     credentials: 'same-origin'
   }).then((res) => {
     if (!res.ok) {
@@ -132,3 +148,6 @@ export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POSTS_ERROR = 'RECEIVE_POSTS_ERROR';
 export const REPLY_INPUT_VISIBILITY = 'REPLY_INPUT_VISIBILITY';
+
+
+export const RECEIVE_USER = 'RECEIVE_USER';

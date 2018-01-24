@@ -1,35 +1,18 @@
-import initialState from './defaultPosts';
 import { REQUEST_POSTS, RECEIVE_POSTS , REPLY_INPUT_VISIBILITY} from '../actions/actions';
 
-const merge = (newObjects, oldObjects) => {
+import merge from './merge';
 
-  var objects = [...newObjects];
-  var oldLength = oldObjects.length;
-  var newLength = newObjects.length;
-  for (let i = 0; i < oldLength; i++) {
-    let isDuplicate = false;
-    for (let j = 0; j < newLength; j++) {
-      if (oldObjects[i]._id == newObjects[j]._id) {
-        isDuplicate = true;
-        break;
-      }
-
-    }
-    if (!isDuplicate) {
-      objects = objects.concat(oldObjects[i]);
-    }
-  }
-  console.log('objects',objects);
-  return objects;
-};
-
-const userPosts = (state = {items: [], isFetching: false}, action) => {
+const posts = (state = {items: [], isFetching: {}}, action) => {
   switch (action.type) {
     case REQUEST_POSTS: {
-      return {...state, isFetching: true};
+      let isFetching = {...state.isFetching, [action.user]: true};
+      return {...state, isFetching};
     }
     case RECEIVE_POSTS: {
-      let newState = {...state, isFetching: false};
+      let isFetching = {...state.isFetching, [action.user]: false};
+
+      let newState = {...state, isFetching};
+
       if (action.data.posts) {
         newState.items = merge( action.data.posts, newState.items);
       }
@@ -56,25 +39,25 @@ const userPosts = (state = {items: [], isFetching: false}, action) => {
       return newState;
     }
     default: {
-      return ;
+      return state;
     }
   }
 };
 
-const posts = (state = initialState, action) => {
-  switch (action.type) {
-
-    case REQUEST_POSTS:
-    case RECEIVE_POSTS:
-    case REPLY_INPUT_VISIBILITY:{
-
-      let newState = {...state};
-      newState.byUser = {...state.byUser};
-      newState.byUser[action.user] = userPosts( state.byUser[action.user], action );
-
-
-      return newState;
-    }
+// const posts = (state = initialState, action) => {
+//   switch (action.type) {
+//
+//     case REQUEST_POSTS:
+//     case RECEIVE_POSTS:
+//     case REPLY_INPUT_VISIBILITY:{
+//
+//       let newState = {...state};
+//       newState.byUser = {...state.byUser};
+//       newState.byUser[action.user] = userPosts( state.byUser[action.user], action );
+//
+//
+//       return newState;
+//     }
     // case RECEIVE_POSTS: {
     //   let post = {
     //     parentId: "0",
@@ -94,10 +77,10 @@ const posts = (state = initialState, action) => {
     //   return {...state, frontPage: newFrontPage };
     // }
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
 
 

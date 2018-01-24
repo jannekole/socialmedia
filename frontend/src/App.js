@@ -10,7 +10,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
 import TopBar from './components/TopBar';
-import FrontPageContainer from './containers/PostListContainer';
 import UserPage from './containers/UserPage';
 
 import reducer from './reducers';

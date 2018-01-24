@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class TopBar extends Component {
 
@@ -42,10 +41,3 @@ export default TopBar;
 TopBar.propTypes = {
 
 };
-
-var x = <div className="topBarButton">
-
-  <span className="helper"></span>
-  <img  src="/messages.png" />
-
-</div>;

@@ -63,14 +63,21 @@ exports.getPosts = function (req, res, next) {
 };
 
 exports.userToBody = function (req, res, next) {
-  var userId = req.body.userId;
-  User.findOne({_id: userId},
+  var userName = req.body.userName;
+  var query;
+  if (userName) {
+    query = {userName};
+  } else {
+    let _id = req.body.userId;
+    query = {_id};
+  }
+  User.findOne(query,
     (err, user) => {
       console.log('user',user)
       if (err) {
         next(err);
       } else if (!user) {
-        next({message: 'No user found with userId'});
+        next({message: 'No user found with user name or Id'});
       } else {
         req.body.user = user;
         next();
@@ -80,11 +87,9 @@ exports.userToBody = function (req, res, next) {
 
 exports.postPost = function (req, res, next) {
 
-  console.log('postpost body',req.body);
   let post = new Post(req.body);
 
   post.save((err, message) => {
-    console.log('here');
     if (err) {
       console.log('err',err);
       next(err);

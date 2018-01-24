@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Link } from 'react-router-dom';
-
 import PostContentContainer from '../containers/PostContentContainer';
 
 
@@ -33,9 +31,9 @@ class Post extends Component {
   renderActionBar() {
     var a;
     return <div className="postActionBar" >
-      <a href="#" onClick={a} className="notLink"> Like </a>
-      <a href="#" onClick={this.clickReply} className="notLink"> Reply </a>
-      <a href="#" onClick={a} className="notLink"> Share </a>
+      {/* <a href="#" onClick={a} className="notLink"> Like </a> */}
+      <a href="" onClick={this.clickReply} className="notLink"> Reply </a>
+      {/* <a href="#" onClick={a} className="notLink"> Share </a> */}
     </div>;
   }
 
@@ -52,7 +50,6 @@ class Post extends Component {
   }
 
   render() {
-    console.log('post rendered');
     return <div className="post">
       <PostContentContainer post={this.props.post}/>
       {this.renderActionBar()}
