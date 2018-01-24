@@ -58,24 +58,24 @@ const posts = (state = {items: [], isFetching: {}}, action) => {
 //
 //       return newState;
 //     }
-    // case RECEIVE_POSTS: {
-    //   let post = {
-    //     parentId: "0",
-    //     id: "5",
-    //     user: {
-    //       name: "Janne Kolehmainen",
-    //       username: "jannekol"
-    //     },
-    //     text: "Eka postaus"
-    //   };
-    //
-    //   let prevItems = state.byUser[action.user] ? state.byUser[action.user].items : [];
-    //
-    //   let newItems = [...prevItems, post];
-    //   let newFrontPage = {...state.byUser[action.user], items: newItems};
-    //
-    //   return {...state, frontPage: newFrontPage };
-    // }
+// case RECEIVE_POSTS: {
+//   let post = {
+//     parentId: "0",
+//     id: "5",
+//     user: {
+//       name: "Janne Kolehmainen",
+//       username: "jannekol"
+//     },
+//     text: "Eka postaus"
+//   };
+//
+//   let prevItems = state.byUser[action.user] ? state.byUser[action.user].items : [];
+//
+//   let newItems = [...prevItems, post];
+//   let newFrontPage = {...state.byUser[action.user], items: newItems};
+//
+//   return {...state, frontPage: newFrontPage };
+// }
 
 //     default:
 //       return state;
