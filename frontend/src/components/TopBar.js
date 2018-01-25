@@ -8,14 +8,17 @@ class TopBar extends Component {
 
   render() {
     var user = this.props.user;
-    var userName = user.userName || "Not logged in";
+    var userName = user.userName || "";
+    var userNameText = userName || "Not logged in";
+
+    var userURL = userName ? "/user/" + userName : "/";
 
     return <div className="topBarContainer">
       <div className="topBar">
         <div className="topBarLeft">
 
-          <NavLink to="/" className="topBarButton">
-            <div className="buttonText">{userName}</div>
+          <NavLink to={userURL} className="topBarButton">
+            <div className="buttonText">{userNameText}</div>
           </NavLink>
 
 

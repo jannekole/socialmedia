@@ -102,7 +102,12 @@ export const loadUsers = (userName) => {
 
   };
 };
-
+const postPostSuccess = (data) => {
+  return {
+    type: POST_POST_SUCCESS,
+    data
+  };
+};
 export const postPost = (userName, text) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(userName));
@@ -111,7 +116,7 @@ export const postPost = (userName, text) => {
     };
 
     var loadSuccess = (json) => {
-      return loadUserSuccess(userName, json);
+      return postPostSuccess(json);
     };
 
     var data = {
@@ -190,3 +195,5 @@ export const RECEIVE_USER = 'RECEIVE_USER';
 export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+
+export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';

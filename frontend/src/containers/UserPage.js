@@ -12,7 +12,7 @@ class UserPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {input: "hei"};
+    this.state = {input: ""};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -49,7 +49,7 @@ class UserPage extends Component {
 
       postForm = <div className="post">
         <form onSubmit={this.handleSubmit}>
-          Post something {this.state.input}
+          Post something
           <label>
             <textarea  name="text" rows="4" className="messageInput" onChange={this.handleInputChange} value={this.state.input} type="text" disabled={isDisabled} ></textarea>
           </label>

@@ -12,7 +12,6 @@ const users = (state = {
       let newState = {...state};
 
       if (action.data.users) {
-        console.log('action',action)
         let users = action.data.users;
         let numOfUsers = users.length;
         let newUsers = {};
@@ -22,7 +21,6 @@ const users = (state = {
         }
         newState.byUserName =  merge({}, state.byUserName, newUsers);
       }
-      console.log('newstate',newState);
 
       return newState;
     }
