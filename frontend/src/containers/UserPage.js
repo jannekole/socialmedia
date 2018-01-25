@@ -51,7 +51,7 @@ class UserPage extends Component {
         <form onSubmit={this.handleSubmit}>
           Post something {this.state.input}
           <label>
-            <textarea  name="text" rows="4" className="messageInput" onChange={this.handleInputChange} value={this.state.input} autoFocus type="text" disabled={isDisabled} ></textarea>
+            <textarea  name="text" rows="4" className="messageInput" onChange={this.handleInputChange} value={this.state.input} type="text" disabled={isDisabled} ></textarea>
           </label>
           <input type="submit" disabled={isDisabled} value="Send" />
           <div className="notification">{isLoading ? 'loading...' : null }{notification} </div>
@@ -98,8 +98,9 @@ UserPage.propTypes = {
   loadUser: PropTypes.func.isRequired,
   postPost: PropTypes.func.isRequired,
   user: PropTypes.object,
-  userName: PropTypes.string.isRequired,
-  changeReplyInputVisibility: PropTypes.func.isRequired
+  //userName: PropTypes.string.isRequired,
+  changeReplyInputVisibility: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -122,7 +123,6 @@ const mapStateToProps = (state, ownProps) => {
     contentIsFetching,
     user,
     key
-
   };
 };
 
@@ -144,9 +144,3 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const UserPageContainer =  connect(mapStateToProps, mapDispatchToProps)(UserPage);
 
 export default UserPageContainer;
-
-
-
-UserPage.propTypes = {
-  match: PropTypes.object.isRequired
-};

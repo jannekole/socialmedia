@@ -7,7 +7,8 @@ module.exports = function(app) {
     .get(controller.getPosts)
     .post(controller.userToBody, controller.postPost);
 
-  app.route('/api/users/')
+
+  app.route('/api/users/:userName?')
     .get(userControllers.getUsers)
     .post(userControllers.addUser);
 

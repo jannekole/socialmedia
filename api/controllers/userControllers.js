@@ -8,9 +8,16 @@ exports.error = (req, res) => {
 
 exports.getUsers = function (req, res, next) {
 
-  User.find({}, (err, users) => {
+  let userName = req.params.userName;
+  let query = {};
+  if (userName) {
+    query = {userName};
+  }
+  User.find(query, (err, users) => {
     if (err) {
       next(err);
+    } else if (users.length === 0) {
+      next({message: "No user found"});
     } else {
       res.json({users});
     }

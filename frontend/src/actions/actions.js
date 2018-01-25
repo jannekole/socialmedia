@@ -1,8 +1,44 @@
 import fetch from 'isomorphic-fetch';
 
 
+export const setThisUser = (data) => {
+
+  return {
+    type: CHANGE_THIS_USER,
+    data
+  };
+};
+const loginError = (errors) => {
+  return {
+    type: LOGIN_ERROR,
+    errors
+  };
+};
+export const login = (userName) => {
+  return (dispatch) => {
+
+    var loadError = function(error) {
+      return loginError(error);
+    };
+
+    var loadSuccess = (json) => {
+      return setThisUser(json);
+    };
 
 
+    //dispatch(loadPostsPre(user));
+    getUserByName(dispatch, userName, loadSuccess, loadError);
+
+
+  };
+};
+const getUserByName = (dispatch, userName, loadSuccess, loadError) => {
+  let uri = '/api/users/' + userName;
+
+  apiFetch(dispatch, uri, loadSuccess, loadError, 'GET');
+
+
+};
 export const loadPostsPre = (user) => {
   return {
     type: REQUEST_POSTS,
@@ -151,3 +187,6 @@ export const REPLY_INPUT_VISIBILITY = 'REPLY_INPUT_VISIBILITY';
 
 
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
+
+export const LOGIN_ERROR = 'LOGIN_ERROR';

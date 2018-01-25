@@ -1,4 +1,4 @@
-import {RECEIVE_USER} from '../actions/actions';
+import {RECEIVE_USER, CHANGE_THIS_USER} from '../actions/actions';
 
 import merge from 'lodash/merge';
 
@@ -6,7 +6,8 @@ const users = (state = {
   byUserName: {}}, action) => {
   switch (action.type) {
 
-    case RECEIVE_USER:{
+    case RECEIVE_USER:
+    case CHANGE_THIS_USER: {
 
       let newState = {...state};
 

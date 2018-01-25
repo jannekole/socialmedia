@@ -203,3 +203,8 @@ img {
   bottom: 5px;
 left: 250px;
 }
+
+.notification {
+  font-size: 12px;
+  color: red;
+}

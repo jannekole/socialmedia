@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { NavLink } from 'react-router-dom';
 
@@ -6,13 +7,15 @@ class TopBar extends Component {
 
 
   render() {
+    var user = this.props.user;
+    var userName = user.userName || "Not logged in";
 
     return <div className="topBarContainer">
       <div className="topBar">
         <div className="topBarLeft">
 
           <NavLink to="/" className="topBarButton">
-            <div className="buttonText">My page</div>
+            <div className="buttonText">{userName}</div>
           </NavLink>
 
 
@@ -39,5 +42,6 @@ class TopBar extends Component {
 export default TopBar;
 
 TopBar.propTypes = {
+  user: PropTypes.object.isRequired
 
 };

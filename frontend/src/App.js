@@ -9,8 +9,9 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
-import TopBar from './components/TopBar';
+import TopBar from './containers/TopBarContainer';
 import UserPage from './containers/UserPage';
+import PageContentContainer from './containers/PageContentContainer';
 
 import reducer from './reducers';
 
@@ -23,15 +24,19 @@ var store = createStore(reducer, composeWithDevTools(
 
 class App extends Component {
   render() {
+
+    var pageContent = <div className="" >
+      <Route exact path="/" component={UserPage} />
+      <Route path="/user/:userName" component={UserPage}/>
+      <Route exact path="/userpage" component={UserPage} />
+    </div>;
+
     return <Provider store={store}>
       <Router>
         <div>
           <TopBar />
-          <div className="" >
-            <Route exact path="/" component={UserPage} />
-            <Route path="/user/:userName" component={UserPage}/>
-            <Route exact path="/userpage" component={UserPage} />
-          </div>
+          {/* {pageContent} */}
+          <PageContentContainer />
         </div>
       </Router>
     </Provider>;
