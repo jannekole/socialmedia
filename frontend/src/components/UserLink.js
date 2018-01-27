@@ -7,7 +7,7 @@ const UserLink = (props) => {
   let fullName;
   let userName;
   if (!user.name) {
-    fullName = "- -";
+    fullName = "";
   } else {
     let firstName = user.name.first || "";
     let lastName = user.name.last || "";
@@ -25,6 +25,9 @@ const UserLink = (props) => {
 
 UserLink.propTypes = {
   user: PropTypes.object.isRequired
+};
+UserLink.defaultProps = {
+  user: {}
 };
 
 export default UserLink;

@@ -22,45 +22,27 @@ exports.getUsers = function (req, res, next) {
       res.json({users});
     }
   });
-  // res.json(
-  //   {
-  //     users: [
-  //       {
-  //         _id: "12345",
-  //         userName: "jannekol",
-  //         name: "Janne Kolehmainen"
-  //       },
-  //       {
-  //         _id: "d12dsd45",
-  //         userName: "tommo",
-  //         name: "Tommi Kolehmainen"
-  //       }
-  //     ]
-  //   });
-    // Post.find({conversationId: req.params.conversationId},
-    //   (err, messages) => {
-    //     if (err) {
-    //       res.status(500).send(err);
-    //     } else {
-    //       res.json(messages);
-    //     }
-    //
-    //   }
-    // );
 };
 
 
 
-  exports.addUser = function (req, res, next) {
+exports.addUser = function (req, res, next) {
 
-    console.log('body',req.body);
-    let user = new User(req.body);
+  console.log('body',req.body);
+  let userName = req.body.userName.toLowerCase();
+  let name = req.body.name;
+  let user = new User({userName, name});
 
-    user.save(  (err, message) => {
-      if (err) {
-        next(err);
-      } else {
-        res.json(message);
+  user.save((err, message) => {
+    if (err) {
+      console.log('err.message', err.message)
+      if (err.message.startsWith("E11000 ")) {
+        err.message = "Username already exists";
       }
-    }  );
-  };
+      next(err);
+
+    } else {
+      res.json(message);
+    }
+  });
+};

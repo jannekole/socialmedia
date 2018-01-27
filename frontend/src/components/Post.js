@@ -8,13 +8,23 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.clickReply = this.clickReply.bind(this);
-
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   clickReply(e) {
-    let { replyInputVisible } = this.props;
+    let { replyInputVisible } = this.props.post;
     this.props.changeReplyInputVisibility(
       this.props.post._id, !replyInputVisible);
+    e.preventDefault();
+  }
+  handleInputChange(e) {
+    this.props.changeReplyInput(e.target.value, this.props.post._id);
+    e.preventDefault();
+  }
+  handleSubmit(e) {
+    let userName = this.props.thisUser.userName;
+    this.props.postReply(userName, e.target.text.value, this.props.post._id);
     e.preventDefault();
   }
 
@@ -38,14 +48,14 @@ class Post extends Component {
   }
 
   renderReplyBox() {
-    let { replyInputVisible } = this.props;
+    let { replyInputVisible, replyInputText } = this.props.post;
 
     if (!replyInputVisible) {
       return null;
     }
-
-    return <form>
-      <textarea autoFocus="true" className="replyInput" />
+    return <form onSubmit={this.handleSubmit}>
+      <textarea name="text" autoFocus="true" className="replyInput" value={replyInputText} onChange={this.handleInputChange}/>
+      <input type="submit" disabled={false} value="Send" />
     </form>;
   }
 
@@ -54,9 +64,7 @@ class Post extends Component {
       <PostContentContainer post={this.props.post}/>
       {this.renderActionBar()}
       {this.renderReplyBox()}
-      {this.renderReplies(this.props.replies)}
-
-
+      {this.renderReplies(this.props.post.replies)}
     </div>
     ;
   }
@@ -67,6 +75,9 @@ export default Post;
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   replies: PropTypes.array.isRequired,
-  replyInputVisible: PropTypes.bool.isRequired,
-  changeReplyInputVisibility: PropTypes.func.isRequired
+  changeReplyInputVisibility: PropTypes.func.isRequired,
+  postReply: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  changeReplyInput: PropTypes.func.isRequired,
+  thisUser: PropTypes.object,
 };

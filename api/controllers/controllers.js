@@ -5,6 +5,18 @@ exports.error = (req, res) => {
   throw new Error('something went wrong');
 };
 
+exports.postReply = function (req, res, next) {
+  var user = req.user;
+  var text = req.body.text;
+  var postId = req.params.postId;
+  Post.findOneAndUpdate({_id: postId}, {$push: {replies: {text, user}}}, { runValidators: true, new: true }, (err, post) => {
+    if (err) {
+      next(err);
+    } else {
+      res.json({posts: [post]});
+    }
+  });
+};
 
 exports.getPosts = function (req, res, next) {
 
@@ -16,53 +28,10 @@ exports.getPosts = function (req, res, next) {
     }
   });
 
-  // res.json(
-  //   {
-  //     posts:[{
-  //
-  //       user:{
-  //         userId: "12345",
-  //         userName: "jannekol",
-  //         name: "Janne Kolehmainen"
-  //       },
-  //       _id: "kkl3k3k32",
-  //       text: "post from api"
-  //     }],
-  //     users: [
-  //       {
-  //         _id: "12345",
-  //         userName: "jannekol",
-  //         name: "Janne Kolehmainen"
-  //       },
-  //       {
-  //         _id: "d12dsd45",
-  //         userName: "tommo",
-  //         name: "Tommi Kolehmainen"
-  //       }
-  //     ],
-  //     replies: [{
-  //       parentId: "kkl3k3k32",
-  //       user:{
-  //         userId: "d12dsd45",
-  //         userName: "tommo",
-  //         name: "Tommi Kolehmainen"
-  //       },
-  //       text: "reply from api"
-  //     }]
-  //   });
-  // Post.find({conversationId: req.params.conversationId},
-  //   (err, messages) => {
-  //     if (err) {
-  //       res.status(500).send(err);
-  //     } else {
-  //       res.json(messages);
-  //     }
-  //
-  //   }
-  // );
 };
 
 exports.userToBody = function (req, res, next) {
+
   var userName = req.body.userName;
   var query;
   if (userName) {
@@ -79,15 +48,17 @@ exports.userToBody = function (req, res, next) {
       } else if (!user) {
         next({message: 'No user found with user name or Id'});
       } else {
-        req.body.user = user;
+        req.user = user;
         next();
       }
     });
 };
 
 exports.postPost = function (req, res, next) {
+  var user = req.user;
+  var text = req.body.text;
 
-  let post = new Post(req.body);
+  let post = new Post({user, text});
 
   post.save((err, message) => {
     if (err) {

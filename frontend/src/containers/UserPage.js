@@ -17,13 +17,14 @@ class UserPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
 
     window.scrollTo(0, 0);
   }
 
+
   handleSubmit(e) {
-    this.props.postPost(this.state.input);
+    this.props.postPost(this.props.thisUser.userName, this.state.input);
     e.preventDefault();
   }
 
@@ -41,12 +42,16 @@ class UserPage extends Component {
     let isLoading = false;
     let notification = null;
 
+    //if this is a userpage, render UserPageTopInfo
     if (this.props.user) {
       userPage = <UserPageTopInfo
         user={this.props.user}
         loadUser={this.props.loadUser}
       />;
+    }
 
+    //If this is the user's own page or front page, render reply box
+    if (!this.props.user || this.props.user.userName === this.props.thisUser.userName) {
       postForm = <div className="post">
         <form onSubmit={this.handleSubmit}>
           Post something
@@ -57,6 +62,7 @@ class UserPage extends Component {
           <div className="notification">{isLoading ? 'loading...' : null }{notification} </div>
         </form>
       </div>;
+
     }
 
     let userName = this.props.match.params.userName;
@@ -68,7 +74,7 @@ class UserPage extends Component {
     }
 
 
-    return <div className="page">
+    return <div className="">
 
       {userPage}
 
@@ -83,6 +89,7 @@ class UserPage extends Component {
             isFetching={this.props.contentIsFetching}
             loadPosts={this.props.loadPosts}
             changeReplyInputVisibility={this.props.changeReplyInputVisibility}
+            routerKey={this.props.routerKey}
           />
         </div>
       </div>
@@ -98,9 +105,10 @@ UserPage.propTypes = {
   loadUser: PropTypes.func.isRequired,
   postPost: PropTypes.func.isRequired,
   user: PropTypes.object,
-  //userName: PropTypes.string.isRequired,
   changeReplyInputVisibility: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  routerKey: PropTypes.string.isRequired,
+  thisUser: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -115,14 +123,16 @@ const mapStateToProps = (state, ownProps) => {
     user = state.users.byUserName[userFilter] || {};
   }
 
+  let thisUser = state.thisUser;
 
-  let key = ownProps.location.key;
+  let routerKey = ownProps.location.key;
 
   return {
     posts,
     contentIsFetching,
     user,
-    key
+    thisUser,
+    routerKey // updates component when linked from same page
   };
 };
 
@@ -135,7 +145,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadPosts: () => dispatch(loadPosts(userName)),
     loadUser: () => dispatch(loadUsers(userName)),
-    postPost: (text) => dispatch(postPost(userName, text)),
+    postPost: (userName, text) => dispatch(postPost(userName, text)),
     changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, userName, visible))
   };
 };

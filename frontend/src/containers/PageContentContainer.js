@@ -15,16 +15,20 @@ class PageContent extends Component {
   render() {
     var pageContent = <div className="" >
       <Route exact path="/" component={UserPage} />
-      <Route path="/user/:userName" component={UserPage}/>
+      <Route path="/user/:userName" component={UserPage} />
       <Route exact path="/userpage" component={UserPage} />
     </div>;
-    return this.props.user.userName ? pageContent : <LoginPage login={this.props.login} notification={this.props.user.loginErrorMessage} />;
+    return <div className="page">
+      {this.props.user.userName ? pageContent : <LoginPage login={this.props.login} notification={this.props.user.loginErrorMessage} />}
+    </div>;
   }
 }
 PageContent.propTypes = {
   user: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired,
-  notification: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired
+};
+PageContent.defaultProps = {
+
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -40,7 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     login: (userName) => dispatch(login(userName))
-
+    //set login notification
   };
 };
 

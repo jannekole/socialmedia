@@ -31,7 +31,8 @@ app.get('*', function (request, response){
 });
 
 app.use(function (err, req, res, next) {
-  console.error(err.stack);
+  console.error("Error message: ", err.message);
+  console.error("Error stack: ", err.stack);
   res.status(500).json({errors: [err.message]});
 });
 

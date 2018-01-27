@@ -108,6 +108,41 @@ const postPostSuccess = (data) => {
     data
   };
 };
+const postReplySuccess = (data) => {
+  return {
+    type: POST_REPLY_SUCCESS,
+    data
+  };
+};
+
+export const changeReplyInput = (text, postId) => {
+  return {
+    type: CHANGE_REPLY_INPUT,
+    text,
+    postId
+  };
+};
+export const postReply = (userName, text, parentId) => {
+  return (dispatch) => {
+    //dispatch(loadPostsPre(userName));
+    var loadError = function(error) {
+      return ()=>{return null;};
+    };
+
+    var loadSuccess = (json) => {
+      return postReplySuccess(json);
+    };
+
+    var data = {
+      userName,
+      text
+    };
+    let url = '/api/posts/reply/' + parentId;
+    apiFetch(dispatch, url, loadSuccess, loadError, 'POST', data);
+
+
+  };
+};
 export const postPost = (userName, text) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(userName));
@@ -189,7 +224,7 @@ export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POSTS_ERROR = 'RECEIVE_POSTS_ERROR';
 export const REPLY_INPUT_VISIBILITY = 'REPLY_INPUT_VISIBILITY';
-
+export const CHANGE_REPLY_INPUT = 'CHANGE_REPLY_INPUT';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
@@ -197,3 +232,4 @@ export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';
+export const POST_REPLY_SUCCESS = 'POST_REPLY_SUCCESS';

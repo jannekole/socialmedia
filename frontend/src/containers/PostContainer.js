@@ -1,18 +1,22 @@
-import React from 'react';
 import Post from '../components/Post';
+import { postReply, changeReplyInput } from '../actions/actions';
 
-class PostContainer extends React.Component {
+import { connect } from 'react-redux';
 
+const mapStateToProps = (state) => {
+  return {
+    thisUser: state.thisUser
+  };
+};
 
-  render() {
+const mapDispatchToProps = (dispatch, ownProps) => {
 
+  return {
+    postReply: (userName, text, parentId) => dispatch(postReply(userName, text, parentId)),
+    changeReplyInput: (text, parentId) => dispatch(changeReplyInput(text, parentId))
+  };
+};
 
-    return (
-      <Post post={this.props.post}/>
-    );
-  }
-
-}
-
+const PostContainer = connect(mapStateToProps, mapDispatchToProps)(Post);
 
 export default PostContainer;

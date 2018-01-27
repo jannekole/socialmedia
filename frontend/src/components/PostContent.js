@@ -8,6 +8,7 @@ class PostContent extends Component {
 
 
   render() {
+    console.log('user',this.props.user)
     return <div className="postContent">
       <UserLink user={this.props.user}/>
       <div className="postText">

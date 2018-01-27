@@ -1,6 +1,17 @@
-import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_USER, REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS} from '../actions/actions';
+import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_USER, REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS, CHANGE_REPLY_INPUT, POST_REPLY_SUCCESS} from '../actions/actions';
 
 import merge from './merge';
+
+const postReducer = (state = {}, action) => {
+  switch (action.type) {
+    case REPLY_INPUT_VISIBILITY:
+      return {...state, replyInputVisible: action.visible};
+    case CHANGE_REPLY_INPUT:
+      return {...state, replyInputText: action.text};
+    default:
+      return state;
+  }
+};
 
 const posts = (state = {items: [], isFetching: {}}, action) => {
   switch (action.type) {
@@ -10,6 +21,7 @@ const posts = (state = {items: [], isFetching: {}}, action) => {
     }
     case RECEIVE_POSTS:
     case POST_POST_SUCCESS:
+    case POST_REPLY_SUCCESS:
     case RECEIVE_USER: {
       let isFetching = {...state.isFetching, [action.user]: false};
 
@@ -21,19 +33,15 @@ const posts = (state = {items: [], isFetching: {}}, action) => {
       if (action.data.replies) {
         newState.items = merge(action.data.replies, newState.items);
       }
-
-
-
-
-
       return newState;
     }
-    case REPLY_INPUT_VISIBILITY: {
+    case REPLY_INPUT_VISIBILITY:
+    case CHANGE_REPLY_INPUT: {
       let newState = {...state};
 
       newState.items = state.items.map((post) => {
         if (post._id === action.postId) {
-          return {...post, replyInputVisible: action.visible};
+          return postReducer(post, action);
         } else {
           return post;
         }

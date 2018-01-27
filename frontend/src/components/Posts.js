@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Post from '../components/Post';
+import PostContainer from '../containers/PostContainer';
 
 
 class Posts extends Component {
@@ -9,18 +9,22 @@ class Posts extends Component {
     this.props.loadPosts();
   }
 
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.routerKey !== this.props.routerKey) {
+      this.props.loadPosts();
+    }
+  }
 
   render() {
     var secondsFromObjectId = function (objectId) {
       return parseInt(objectId.substring(0, 8), 16);
     };
     let posts;
-    let reverse = 1; // -1 to reverse 
+    let reverse = 1; // -1 to reverse
     if (this.props.posts) {
       posts = this.props.posts
         .filter((post) => {
-          return post.parentId === "0" || !post.parentId;
+          return post.parentId === "000000000000000000000000" || !post.parentId;
         });
 
       posts.sort((a, b) => {return reverse * (secondsFromObjectId(b._id) - secondsFromObjectId(a._id));});
@@ -28,8 +32,7 @@ class Posts extends Component {
         let replies = this.props.posts.filter((childPost) => {
           return post._id === childPost.parentId;
         });
-        let replyInputVisible = post.replyInputVisible || false;
-        return <Post post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replyInputVisible={replyInputVisible} replies={replies} key={post._id} />;
+        return <PostContainer post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replies={replies} key={post._id} />;
       });
     }
 
@@ -59,5 +62,6 @@ Posts.propTypes = {
   posts: PropTypes.array.isRequired,
   loadPosts: PropTypes.func.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  changeReplyInputVisibility: PropTypes.func.isRequired
+  changeReplyInputVisibility: PropTypes.func.isRequired,
+  routerKey: PropTypes.string.isRequired,
 };
