@@ -1,4 +1,4 @@
-import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_USER, REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS, CHANGE_REPLY_INPUT, POST_REPLY_SUCCESS} from '../actions/actions';
+import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_USER, REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS, CHANGE_REPLY_INPUT, POST_REPLY_SUCCESS, LIKE_RECEIVED} from '../actions/actions';
 
 import merge from './merge';
 
@@ -19,6 +19,7 @@ const posts = (state = {items: [], isFetching: {}}, action) => {
       let isFetching = {...state.isFetching, [action.user]: true};
       return {...state, isFetching};
     }
+    case LIKE_RECEIVED:
     case RECEIVE_POSTS:
     case POST_POST_SUCCESS:
     case POST_REPLY_SUCCESS:

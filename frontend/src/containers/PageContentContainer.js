@@ -19,12 +19,12 @@ class PageContent extends Component {
       <Route exact path="/userpage" component={UserPage} />
     </div>;
     return <div className="page">
-      {this.props.user.userName ? pageContent : <LoginPage login={this.props.login} notification={this.props.user.loginErrorMessage} />}
+      {this.props.thisUser.user.userName ? pageContent : <LoginPage login={this.props.login} notification={this.props.thisUser.loginErrorMessage} />}
     </div>;
   }
 }
 PageContent.propTypes = {
-  user: PropTypes.object.isRequired,
+  thisUser: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired
 };
 PageContent.defaultProps = {
@@ -32,10 +32,10 @@ PageContent.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  var user = state.thisUser;
+  var thisUser = state.thisUser;
 
   return {
-    user
+    thisUser
 
   };
 };

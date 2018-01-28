@@ -12,6 +12,10 @@ Sample requests:
 
 
     /api/replies/:parentId returns all replies
+
+
+    /api/likes/  PUT
+    {id, type: [post, reply], like: bool, userName}
 Sample responses:
 
 Contains at minimum "data" or "errors"

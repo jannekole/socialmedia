@@ -18,7 +18,7 @@ class UserPage extends Component {
   }
 
   componentDidMount() {
-
+    this.props.loadUser();
     window.scrollTo(0, 0);
   }
 
@@ -43,7 +43,7 @@ class UserPage extends Component {
     let notification = null;
 
     //if this is a userpage, render UserPageTopInfo
-    if (this.props.user) {
+    if (!this.props.all) {
       userPage = <UserPageTopInfo
         user={this.props.user}
         loadUser={this.props.loadUser}
@@ -51,7 +51,7 @@ class UserPage extends Component {
     }
 
     //If this is the user's own page or front page, render reply box
-    if (!this.props.user || this.props.user.userName === this.props.thisUser.userName) {
+    if (this.props.all || (this.props.user && this.props.user.userName === this.props.thisUser.userName)) {
       postForm = <div className="post">
         <form onSubmit={this.handleSubmit}>
           Post something
@@ -109,21 +109,24 @@ UserPage.propTypes = {
   match: PropTypes.object.isRequired,
   routerKey: PropTypes.string.isRequired,
   thisUser: PropTypes.object.isRequired,
+  all: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
 
 
-  let userFilter = ownProps.match.params.userName || "_all";
+  let userFilter = ownProps.match.params.userName;
+  let all = !userFilter;
+
   let posts = state.posts.items;
   let contentIsFetching = posts ? (state.posts.isFetching[userFilter] === true) : true;
 
   let user;
-  if (userFilter !== "_all") {
-    user = state.users.byUserName[userFilter] || {};
+  if (!all) {
+    user = state.users.byUserName[userFilter];
   }
 
-  let thisUser = state.thisUser;
+  let thisUser = state.thisUser.user;
 
   let routerKey = ownProps.location.key;
 
@@ -131,6 +134,7 @@ const mapStateToProps = (state, ownProps) => {
     posts,
     contentIsFetching,
     user,
+    all,
     thisUser,
     routerKey // updates component when linked from same page
   };

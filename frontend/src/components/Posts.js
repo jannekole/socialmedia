@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PostContainer from '../containers/PostContainer';
 
+import sortPostsByDate from '../utils/sortPostsByDate';
 
 class Posts extends Component {
 
@@ -20,14 +21,14 @@ class Posts extends Component {
       return parseInt(objectId.substring(0, 8), 16);
     };
     let posts;
-    let reverse = 1; // -1 to reverse
+    let order = 1; // -1 to reverse
     if (this.props.posts) {
       posts = this.props.posts
         .filter((post) => {
           return post.parentId === "000000000000000000000000" || !post.parentId;
         });
-
-      posts.sort((a, b) => {return reverse * (secondsFromObjectId(b._id) - secondsFromObjectId(a._id));});
+      sortPostsByDate(posts, 1);
+      //posts.sort((a, b) => {return order * (secondsFromObjectId(b._id) - secondsFromObjectId(a._id));});
       posts = posts.map((post) => {
         let replies = this.props.posts.filter((childPost) => {
           return post._id === childPost.parentId;

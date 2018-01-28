@@ -7,6 +7,7 @@ const merge = (newObjects, oldObjects) => {
     let isDuplicate = false;
     for (let j = 0; j < newLength; j++) {
       if (oldObjects[i]._id === newObjects[j]._id) {
+        objects[j] = Object.assign({}, oldObjects[i], newObjects[j]);
         isDuplicate = true;
         break;
       }

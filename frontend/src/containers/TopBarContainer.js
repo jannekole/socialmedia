@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { loadPosts } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
-  var user = state.thisUser;
+  var user = state.thisUser.user;
 
   return {
     user

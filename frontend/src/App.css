@@ -57,10 +57,13 @@ body {
   margin: 0px 10px 0px 0px;
 
   text-decoration: none;
-  color: rgb(0, 131, 195);
-
-
+  color: rgb(115, 115, 115);
 }
+.notLink.activated{
+  font-weight: bold;
+  color: rgb(0, 33, 255);
+}
+
 .notLink:hover {
   text-decoration: underline;
 }

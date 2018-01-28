@@ -37,7 +37,7 @@ class LoginPage extends Component  {
           <form onSubmit={this.handleSubmit}>
             <label>
               {"Enter your username: "}
-              <input  name="userName" className="" onChange={this.handleInputChange} value={this.state.input} type="text" disabled={this.state.isDisabled} >
+              <input  name="userName" className="" onChange={this.handleInputChange} value={this.state.input} type="text" autoFocus="true" disabled={this.state.isDisabled} >
 
               </input>
             </label>

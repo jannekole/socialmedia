@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import PostContentContainer from '../containers/PostContentContainer';
 
+import sortPostsByDate from '../utils/sortPostsByDate';
 
 class Post extends Component {
   constructor(props) {
@@ -10,12 +11,20 @@ class Post extends Component {
     this.clickReply = this.clickReply.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.clickLike = this.clickLike.bind(this);
   }
 
   clickReply(e) {
     let { replyInputVisible } = this.props.post;
     this.props.changeReplyInputVisibility(
       this.props.post._id, !replyInputVisible);
+    e.preventDefault();
+  }
+  clickLike(e) {
+    let { userName } = this.props.thisUser;
+    let {_id } = this.props.post;
+    let like = !this.isLiked();
+    this.props.sendLike(userName, like, _id, "post");
     e.preventDefault();
   }
   handleInputChange(e) {
@@ -35,14 +44,34 @@ class Post extends Component {
     </div>;
   }
   renderReplies(replies) {
-    let renderedReplies = replies.map((reply) => this.renderReply(reply));
+    let sortedReplies = sortPostsByDate([...replies], -1);
+    let renderedReplies = sortedReplies.map((reply) => this.renderReply(reply));
     return <div className="replies">{renderedReplies}</div>;
+  }
+  isLiked() {
+    let { likes } = this.props.post;
+    let { _id } = this.props.thisUser;
+    return likes.includes(_id);
+  }
+  buttonClass(isActive) {
+    return isActive ? "notLink activated" : "notLink";
+  }
+  numberOfLikedText() {
+    var num = this.props.post.likes.length;
+    if (num <= 0) {
+      return "";
+    } else if (num === 1) {
+      return "1 like";
+    } else {
+      return `${num} likes`;
+    }
   }
   renderActionBar() {
     var a;
     return <div className="postActionBar" >
-      {/* <a href="#" onClick={a} className="notLink"> Like </a> */}
       <a href="" onClick={this.clickReply} className="notLink"> Reply </a>
+      <a href="#" onClick={this.clickLike} className={this.buttonClass(this.isLiked())}> Like </a>
+      <span className="likesText">{this.numberOfLikedText()}</span>
       {/* <a href="#" onClick={a} className="notLink"> Share </a> */}
     </div>;
   }
@@ -55,7 +84,7 @@ class Post extends Component {
     }
     return <form onSubmit={this.handleSubmit}>
       <textarea name="text" autoFocus="true" className="replyInput" value={replyInputText} onChange={this.handleInputChange}/>
-      <input type="submit" disabled={false} value="Send" />
+      <input type="submit" disabled={false} value="Reply" />
     </form>;
   }
 
@@ -64,7 +93,7 @@ class Post extends Component {
       <PostContentContainer post={this.props.post}/>
       {this.renderActionBar()}
       {this.renderReplyBox()}
-      {this.renderReplies(this.props.post.replies)}
+      {this.renderReplies(this.props.replies)}
     </div>
     ;
   }
@@ -80,4 +109,5 @@ Post.propTypes = {
   user: PropTypes.object.isRequired,
   changeReplyInput: PropTypes.func.isRequired,
   thisUser: PropTypes.object,
+  sendLike: PropTypes.func.isRequired,
 };

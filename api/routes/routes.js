@@ -6,12 +6,15 @@ module.exports = function(app) {
   app.route('/api/posts/')
     .get(controller.getPosts)
     .post(controller.userToBody, controller.postPost);
-  app.route('/api/posts/reply/:postId?')
-    .post(controller.userToBody, controller.postReply);
+  app.route('/api/posts/reply/:parentId?')
+    .post(controller.userToBody, controller.parentPostToBody, controller.latestSiblingToBody, controller.postReply);
 
   app.route('/api/users/:userName?')
     .get(userControllers.getUsers)
     .post(userControllers.addUser);
+
+  app.route('/api/likes')
+    .put(controller.userToBody, controller.putLike);
 
   app.route('/api/internalError/')
     .get(controller.error);

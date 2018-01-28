@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var port = process.env.PORT || 3001;
 var app = express();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/discussion');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialmedia');
 
 
 var routes = require('./api/routes/routes');

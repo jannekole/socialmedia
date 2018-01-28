@@ -1,6 +1,33 @@
 import fetch from 'isomorphic-fetch';
 
 
+export const likeSuccessful = (data) => {
+
+  return {
+    type: LIKE_RECEIVED,
+    data
+  };
+};
+export const sendLike = (userName, like, subjectId, type) => {
+  return (dispatch) => {
+    var loadError = function(error) {
+      return ()=>null;
+    };
+
+    var loadSuccess = (json) => {
+      return dispatch(likeSuccessful(json));
+    };
+    var data = {
+      userName,
+      like,
+      id: subjectId,
+      type
+    };
+    apiFetch(dispatch, '/api/likes', loadSuccess, loadError, 'PUT', data);
+
+
+  };
+};
 export const setThisUser = (data) => {
 
   return {
@@ -166,8 +193,6 @@ export const postPost = (userName, text) => {
 
 const apiFetch = (dispatch, url, success, error, method, data) => {
 
-  console.log('success', success);
-
   fetch(url, {
     method,
     body: JSON.stringify(data),
@@ -233,3 +258,4 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';
 export const POST_REPLY_SUCCESS = 'POST_REPLY_SUCCESS';
+export const LIKE_RECEIVED = 'LIKE_RECEIVED';

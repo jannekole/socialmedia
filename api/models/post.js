@@ -1,12 +1,13 @@
 var mongoose = require('mongoose');
+
 var Schema = mongoose.Schema;
 
-
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var reply = new Schema({
   user: {
     _id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: [true, 'No user Id']
     },
     userName: {
@@ -53,15 +54,19 @@ var post = new Schema({
       },
     }
   },
-
   text: {
     type: String,
     required: [true, 'No text']
   },
-
   replies: {
     type: [reply]
-  }
+  },
+  likes: {
+    type: [ObjectId]
+  },
+  parentId: mongoose.Schema.Types.ObjectId,
+  parentUserId: mongoose.Schema.Types.ObjectId ,
+  previousReplyId: mongoose.Schema.Types.ObjectId
 
 });
 
