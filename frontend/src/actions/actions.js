@@ -1,8 +1,62 @@
 import fetch from 'isomorphic-fetch';
 
 
-export const likeSuccessful = (data) => {
+export const followSuccess = (data, remove) => {
+  console.log('like');
+  return {
+    type: FOLLOW_SUCCESS,
+    data,
+    remove
+  };
+};
+export const receiveFollows = (data) => {
+  console.log('like');
+  return {
+    type: FOLLOWS_RECEIVED,
+    data
+  };
+};
+export const getFollows = (followerId, followingId) => {
+  return (dispatch) => {
+    var loadError = function(error) {
+      return ()=>null;
+    };
+    var loadSuccess = (json) => {
+      return receiveFollows(json);
+    };
+    console.log(followerId, followingId);
+    let followerUrl = followerId || "null";
+    let followingUrl = followingId || "null";
+    var url = '/api/follows/' + followerUrl + '/' + followingUrl;
+    apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
+  };
+};
+export const follow = (userId, followingId, unFollow=false) => {
+  return (dispatch) => {
+    var loadError = function(error) {
+      return ()=>null;
+    };
+    var loadSuccess = (json) => {
+      return followSuccess(json, unFollow);
+    };
+    console.log(userId, followingId);
 
+    let data = {
+      userId,
+      followingId
+    };
+    let method;
+    if (unFollow) {
+      method = 'DELETE';
+    } else {
+      method = 'PUT';
+    }
+    var url = '/api/follows/';
+    apiFetch(dispatch, url, loadSuccess, loadError, method, data);
+  };
+};
+export const likeSuccessful = (data) => {
+  console.log('like');
   return {
     type: LIKE_RECEIVED,
     data
@@ -13,9 +67,8 @@ export const sendLike = (userName, like, subjectId, type) => {
     var loadError = function(error) {
       return ()=>null;
     };
-
     var loadSuccess = (json) => {
-      return dispatch(likeSuccessful(json));
+      return likeSuccessful(json);
     };
     var data = {
       userName,
@@ -23,13 +76,11 @@ export const sendLike = (userName, like, subjectId, type) => {
       id: subjectId,
       type
     };
+    console.log('likepre')
     apiFetch(dispatch, '/api/likes', loadSuccess, loadError, 'PUT', data);
-
-
   };
 };
 export const setThisUser = (data) => {
-
   return {
     type: CHANGE_THIS_USER,
     data
@@ -89,7 +140,7 @@ export const loadPostsError = (user, error) => {
   };
 };
 
-export const loadPosts = (user) => {
+export const loadPosts = (user, thisUserName) => {
   return (dispatch) => {
 
     var loadError = function(error) {
@@ -100,7 +151,10 @@ export const loadPosts = (user) => {
       return loadPostsSuccess(user, json);
     };
     dispatch(loadPostsPre(user));
-    apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'GET');
+    var body = {
+      userName: thisUserName
+    };
+    apiFetch(dispatch, '/api/posts/followed', loadSuccess, loadError, 'PUT', body);
 
 
   };
@@ -259,3 +313,6 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';
 export const POST_REPLY_SUCCESS = 'POST_REPLY_SUCCESS';
 export const LIKE_RECEIVED = 'LIKE_RECEIVED';
+
+export const FOLLOWS_RECEIVED = 'FOLLOWS_RECEIVED';
+export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';

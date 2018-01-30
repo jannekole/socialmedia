@@ -12,11 +12,11 @@ const mapStateToProps = (state, ownProps) => {
 
   let posts = user ? user.items : [];
 
-  let isFetching = user ? (user.isFetching == true) : true;
+  let isDoneFetching = user ? (user.isDoneFetching == true) : true;
 
   return {
     posts,
-    isFetching,
+    isDoneFetching,
     userFilter
   };
 };

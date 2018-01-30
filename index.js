@@ -21,6 +21,8 @@ app.use(bodyParser.json());
 
 routes(app);
 
+
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));
   console.log("production");
@@ -33,6 +35,7 @@ app.get('*', function (request, response){
 app.use(function (err, req, res, next) {
   console.error("Error message: ", err.message);
   console.error("Error stack: ", err.stack);
+
   res.status(500).json({errors: [err.message]});
 });
 

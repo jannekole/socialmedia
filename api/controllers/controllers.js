@@ -104,8 +104,9 @@ exports.postReply = function (req, res, next) {
 };
 
 exports.getPosts = function (req, res, next) {
-
-  Post.find({}, (err, posts) => {
+  console.log(req.follows);
+  let follows = req.follows;
+  Post.find({'user._id': { $in: follows}}, (err, posts) => {
     if (err) {
       next(err);
     } else {
@@ -115,28 +116,6 @@ exports.getPosts = function (req, res, next) {
 
 };
 
-exports.userToBody = function (req, res, next) {
-
-  var userName = req.body.userName;
-  var query;
-  if (userName) {
-    query = {userName};
-  } else {
-    let _id = req.body.userId;
-    query = {_id};
-  }
-  User.findOne(query,
-    (err, user) => {
-      if (err) {
-        next(err);
-      } else if (!user) {
-        next({message: 'No user found with user name or Id'});
-      } else {
-        req.user = user;
-        next();
-      }
-    });
-};
 
 exports.postPost = function (req, res, next) {
   var user = req.user;

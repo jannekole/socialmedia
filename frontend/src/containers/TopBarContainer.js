@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { loadPosts } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
-  var user = state.thisUser.user;
-
+  var thisUser = state.thisUser;
+  //var currentPath = ownProps.location.pathname;
   return {
-    user
-
+    thisUser,
+  //  currentPath
   };
 };
 

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {Redirect} from 'react-router-dom';
+
 class LoginPage extends Component  {
 
   constructor(props) {
@@ -27,9 +29,18 @@ class LoginPage extends Component  {
     this.setState({userNameInput: e.target.value});
     e.preventDefault();
   }
+  redirect(shouldRedirect) {
+    var redirectUrl = "/"; //this.props.location.pathname;
+    return shouldRedirect ? <Redirect to={redirectUrl} /> : null;
+  }
 
   render() {
-    let notification = this.state.notification || this.props.notification;
+
+
+
+    let notification = this.state.notification || this.props.thisUser.loginErrorMessage;
+
+    var { isLoggedIn } = this.props.thisUser;
 
     return <div className="content">
       <div className="postList">
@@ -44,6 +55,7 @@ class LoginPage extends Component  {
             <input type="submit" disabled={this.state.isDisabled} value="Log in" />
             <div className="notification">{this.state.isLoading ? 'loading...' : null }{notification} </div>
           </form>
+          {this.redirect(isLoggedIn)}
         </div>
       </div>
     </div>;
@@ -52,8 +64,8 @@ class LoginPage extends Component  {
 
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
-  notification: PropTypes.string.isRequired,
-
+  thisUser: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default LoginPage;

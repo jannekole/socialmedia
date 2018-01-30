@@ -25,5 +25,9 @@
     "url": "https://github.com/jannekole/socialmedia/issues"
   },
   "homepage": "https://github.com/jannekole/socialmedia#readme",
-  "description": ""
+  "description": "",
+  "nodemonConfig": {
+    "ignore": ["frontend/*"],
+    "delay": "2500"
+  }
 }

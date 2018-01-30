@@ -5,6 +5,47 @@ exports.error = (req, res) => {
   throw new Error('something went wrong');
 };
 
+exports.followingToBody = function (req, res, next) {
+  var followingId = req.body.followingId;
+  var query = {_id: followingId};
+  User.findOne(query,
+    (err, user) => {
+      if (err) {
+        console.log('following',err)
+        next(err);
+      } else if (!user) {
+        next({errors: ["User to follow not found"]});
+      } else {
+        req.userToFollow = user;
+        next();
+      }
+    });
+};
+
+
+exports.userToBody = function (req, res, next) {
+
+  var userName = req.body.userName;
+  var query;
+  if (userName) {
+    query = {userName};
+  } else {
+    let _id = req.body.userId;
+    query = {_id};
+  }
+  User.findOne(query,
+    (err, user) => {
+      if (err) {
+        next(err);
+      } else if (!user) {
+        res.status(403);
+        res.json({errors: ["Forbidden"]});
+      } else {
+        req.user = user;
+        next();
+      }
+    });
+};
 
 exports.getUsers = function (req, res, next) {
 

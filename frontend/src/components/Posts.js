@@ -7,12 +7,15 @@ import sortPostsByDate from '../utils/sortPostsByDate';
 class Posts extends Component {
 
   componentDidMount() {
-    this.props.loadPosts();
+    this.props.loadPosts(this.props.thisUser.user.userName);
+    this.props.getFollows(this.props.thisUser.user._id);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.routerKey !== this.props.routerKey) {
-      this.props.loadPosts();
+      this.props.loadPosts(this.props.thisUser.user.userName);
+      console.log('thisuser',this.props.thisUser.user._id)
+      this.props.getFollows(this.props.thisUser.user._id);
     }
   }
 
@@ -37,22 +40,22 @@ class Posts extends Component {
       });
     }
 
-    const loadingIndicator = (isFetching) => {
-      return isFetching
+    const loadingIndicator = (isDoneFetching) => {
+      return !isDoneFetching
         ? <div className="post infoBox">Loading... </div>
         : null;
     };
 
-    const nothingHereIndicator = (isFetching) => {
-      return !isFetching && !posts.length
+    const nothingHereIndicator = (isDoneFetching) => {
+      return isDoneFetching && !posts.length
         ? <div className="post infoBox">{"There doesn't seem to be anything here"} </div>
         : null;
     };
 
     return <div>
-      {loadingIndicator(this.props.isFetching)}
+      {loadingIndicator(this.props.isDoneFetching)}
       {posts}
-      {nothingHereIndicator(this.props.isFetching)}
+      {nothingHereIndicator(this.props.isDoneFetching)}
     </div>;
   }
 }
@@ -62,7 +65,9 @@ export default Posts;
 Posts.propTypes = {
   posts: PropTypes.array.isRequired,
   loadPosts: PropTypes.func.isRequired,
-  isFetching: PropTypes.bool.isRequired,
+  getFollows: PropTypes.func.isRequired,
+  isDoneFetching: PropTypes.bool.isRequired,
   changeReplyInputVisibility: PropTypes.func.isRequired,
   routerKey: PropTypes.string.isRequired,
+  thisUser: PropTypes.object.isRequired,
 };

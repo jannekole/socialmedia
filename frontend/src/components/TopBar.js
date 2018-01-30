@@ -7,17 +7,19 @@ class TopBar extends Component {
 
 
   render() {
-    var user = this.props.user;
-    var userName = user.userName || "";
-    var userNameText = userName || "Not logged in";
+    var { user, isLoggedIn } = this.props.thisUser;
+    var userName = user.userName;
+    var userNameText = isLoggedIn ? userName : "Log in";
 
-    var userURL = userName ? "/user/" + userName : "/";
+    var loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
+    var userUrl = "/user/" + userName;
+    var url = isLoggedIn ? userUrl : loginUrl;
 
     return <div className="topBarContainer">
       <div className="topBar">
         <div className="topBarLeft">
 
-          <NavLink to={userURL} className="topBarButton">
+          <NavLink to={url} className="topBarButton">
             <div className="buttonText">{userNameText}</div>
           </NavLink>
 
@@ -31,7 +33,7 @@ class TopBar extends Component {
           </NavLink>
         </div>
         <div className="topBarRight">
-          <NavLink to="/" className="topBarButton">
+          <NavLink to="/login" className="topBarButton">
 
             <img  src="/messages.png" alt="Messages"/>
 
@@ -45,6 +47,5 @@ class TopBar extends Component {
 export default TopBar;
 
 TopBar.propTypes = {
-  user: PropTypes.object.isRequired
-
+  thisUser: PropTypes.object.isRequired,
 };

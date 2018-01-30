@@ -34,7 +34,7 @@ class App extends Component {
     return <Provider store={store}>
       <Router>
         <div>
-          <TopBar />
+          <Route component={TopBar} />
           {/* {pageContent} */}
           <PageContentContainer />
         </div>

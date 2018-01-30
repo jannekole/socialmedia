@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadPosts, loadUsers, postPost, changeReplyInputVisibility } from '../actions/actions';
+import { loadPosts, loadUsers, postPost, changeReplyInputVisibility , getFollows, follow} from '../actions/actions';
 
 import Posts from '../components/Posts';
 import UserPageTopInfo from '../components/UserPageTopInfo';
@@ -19,12 +19,14 @@ class UserPage extends Component {
 
   componentDidMount() {
     this.props.loadUser();
+
+
     window.scrollTo(0, 0);
   }
 
 
   handleSubmit(e) {
-    this.props.postPost(this.props.thisUser.userName, this.state.input);
+    this.props.postPost(this.props.thisUser.user.userName, this.state.input);
     e.preventDefault();
   }
 
@@ -47,11 +49,14 @@ class UserPage extends Component {
       userPage = <UserPageTopInfo
         user={this.props.user}
         loadUser={this.props.loadUser}
+        thisUser={this.props.thisUser}
+        follows={this.props.follows}
+        follow={this.props.follow}
       />;
     }
 
     //If this is the user's own page or front page, render reply box
-    if (this.props.all || (this.props.user && this.props.user.userName === this.props.thisUser.userName)) {
+    if (this.props.thisUser.isLoggedIn && (this.props.all || (this.props.user && this.props.user.userName === this.props.thisUser.user.userName))) {
       postForm = <div className="post">
         <form onSubmit={this.handleSubmit}>
           Post something
@@ -62,46 +67,46 @@ class UserPage extends Component {
           <div className="notification">{isLoading ? 'loading...' : null }{notification} </div>
         </form>
       </div>;
-
     }
 
     let userName = this.props.match.params.userName;
     let posts = this.props.posts;
     if (userName) {
       posts = posts.filter((post) => {
-        return (post.user.userName === userName);
+        return (post.user.userName === userName && !post.parentId);
       });
+      if (posts.length > 0) {
+        var userId = posts[0].user._id;
+        posts = posts.concat(this.props.posts.filter((post) => {
+          return (post.parentUserId === userId);
+        }));
+      }
     }
 
-
     return <div className="">
-
       {userPage}
-
       <div className="content">
         <div className="postList">
-
           {postForm}
-
-
           <Posts
             posts={posts}
-            isFetching={this.props.contentIsFetching}
+            isDoneFetching={this.props.contentIsDoneFetching}
             loadPosts={this.props.loadPosts}
+            getFollows={this.props.getFollows}
             changeReplyInputVisibility={this.props.changeReplyInputVisibility}
             routerKey={this.props.routerKey}
+            thisUser={this.props.thisUser}
           />
         </div>
       </div>
     </div>;
   }
 }
-
-
 UserPage.propTypes = {
   posts: PropTypes.array.isRequired,
-  contentIsFetching: PropTypes.bool.isRequired,
+  contentIsDoneFetching: PropTypes.bool.isRequired,
   loadPosts: PropTypes.func.isRequired,
+  getFollows: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
   postPost: PropTypes.func.isRequired,
   user: PropTypes.object,
@@ -110,6 +115,8 @@ UserPage.propTypes = {
   routerKey: PropTypes.string.isRequired,
   thisUser: PropTypes.object.isRequired,
   all: PropTypes.bool.isRequired,
+  follows: PropTypes.array.isRequired,
+  follow: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -119,24 +126,27 @@ const mapStateToProps = (state, ownProps) => {
   let all = !userFilter;
 
   let posts = state.posts.items;
-  let contentIsFetching = posts ? (state.posts.isFetching[userFilter] === true) : true;
+  let contentIsDoneFetching = posts ? (state.posts.isDoneFetching[userFilter] === true) : true;
 
   let user;
   if (!all) {
     user = state.users.byUserName[userFilter];
   }
 
-  let thisUser = state.thisUser.user;
+  let thisUser = state.thisUser;
 
   let routerKey = ownProps.location.key;
 
+  let follows = state.follows;
+
   return {
     posts,
-    contentIsFetching,
+    contentIsDoneFetching,
     user,
     all,
     thisUser,
-    routerKey // updates component when linked from same page
+    routerKey, // updates component when linked from same page
+    follows
   };
 };
 
@@ -147,8 +157,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   let userName = ownProps.match.params.userName || "_all";
 
   return {
-    loadPosts: () => dispatch(loadPosts(userName)),
+    loadPosts: (thisUserName) => dispatch(loadPosts(userName, thisUserName)),
     loadUser: () => dispatch(loadUsers(userName)),
+    getFollows: (thisUserId) => dispatch(getFollows(thisUserId, null)),
+    follow: (followerId, followingId, unFollow) => dispatch(follow(followerId, followingId, unFollow)),
     postPost: (userName, text) => dispatch(postPost(userName, text)),
     changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, userName, visible))
   };

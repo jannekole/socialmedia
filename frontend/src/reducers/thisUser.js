@@ -5,7 +5,8 @@ const posts = (state = {user: {userName: ""}, loginErrorMessage: ""}, action) =>
   switch (action.type) {
     case CHANGE_THIS_USER: {
       let user = action.data.users[0];
-      let newState = {...state, user};
+      let isLoggedIn = true;
+      let newState = {...state, user, isLoggedIn};
       return newState;
     }
     case LOGIN_ERROR: {

@@ -13,26 +13,26 @@ const postReducer = (state = {}, action) => {
   }
 };
 
-const posts = (state = {items: [], isFetching: {}}, action) => {
+const posts = (state = {items: [], isDoneFetching: {}}, action) => {
   switch (action.type) {
     case REQUEST_POSTS: {
-      let isFetching = {...state.isFetching, [action.user]: true};
-      return {...state, isFetching};
+      let isDoneFetching = {...state.isDoneFetching, [action.user]: false};
+      return {...state, isDoneFetching};
     }
     case LIKE_RECEIVED:
     case RECEIVE_POSTS:
     case POST_POST_SUCCESS:
     case POST_REPLY_SUCCESS:
     case RECEIVE_USER: {
-      let isFetching = {...state.isFetching, [action.user]: false};
+      let isDoneFetching = {...state.isDoneFetching, [action.user]: true};
 
-      let newState = {...state, isFetching};
+      let newState = {...state, isDoneFetching};
 
       if (action.data.posts) {
-        newState.items = merge( action.data.posts, newState.items);
+        newState.items = merge(newState.items, action.data.posts);
       }
       if (action.data.replies) {
-        newState.items = merge(action.data.replies, newState.items);
+        newState.items = merge(newState.items, action.data.replies);
       }
       return newState;
     }
