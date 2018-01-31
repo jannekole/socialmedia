@@ -2,7 +2,7 @@ import TopBar from '../components/TopBar';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadPosts } from '../actions/actions';
+import { loadPosts , signIn} from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
   var thisUser = state.thisUser;
@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
+    signIn : (userName) => dispatch(signIn(userName))
     //loadPosts: (userFilter) => dispatch(loadPosts("jdksdlkdsl"))
 
   };

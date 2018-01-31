@@ -48,7 +48,7 @@ exports.userToBody = function (req, res, next) {
 };
 
 exports.getUsers = function (req, res, next) {
-
+  console.log(req.user);
   let userName = req.params.userName;
   let query = {};
   if (userName) {

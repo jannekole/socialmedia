@@ -80,10 +80,10 @@ export const sendLike = (userName, like, subjectId, type) => {
     apiFetch(dispatch, '/api/likes', loadSuccess, loadError, 'PUT', data);
   };
 };
-export const setThisUser = (data) => {
+export const setThisUser = (user) => {
   return {
     type: CHANGE_THIS_USER,
-    data
+    user
   };
 };
 const loginError = (errors) => {
@@ -244,14 +244,51 @@ export const postPost = (userName, text) => {
 
   };
 };
+var jwtDecode = require('jwt-decode');
+export const checkSignIn = () => {
+  return (dispatch) => {
+    var token = localStorage.getItem('token') || null;
+    var { _id, userName } = jwtDecode(token);
+    let user = {userName, _id};
+    dispatch(setThisUser(user));
+  };
+};
 
+export const signIn = (userName, password) => {
+  return (dispatch) => {
+    //dispatch(loadPostsPre(userName));
+    var loadError = function(error) {
+      return ()=> null;
+    };
+
+    var loadSuccess = (json) => {
+
+      localStorage.setItem('token', json.token);
+
+      var { _id, userName } = jwtDecode(json.token);
+      let user = {userName, _id};
+      console.log('local storage set:', json.token, user);
+      return setThisUser(user);
+
+    };
+
+    var data = {
+      userName,
+      password
+    };
+    apiFetch(dispatch, '/api/signin', loadSuccess, loadError, 'POST', data);
+
+
+  };
+};
 const apiFetch = (dispatch, url, success, error, method, data) => {
-
+  let token = localStorage.getItem('token') || null;
   fetch(url, {
     method,
     body: JSON.stringify(data),
     headers: new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
     }),
     credentials: 'same-origin'
   }).then((res) => {

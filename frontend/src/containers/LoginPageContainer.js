@@ -2,7 +2,7 @@ import LoginPage from '../components/LoginPage';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../actions/actions';
+import { signIn } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
   var user = state.thisUser.user;
@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
-    login: (userName) => dispatch(login(userName))
+    signIn : (userName) => dispatch(signIn(userName))
 
   };
 };

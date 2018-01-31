@@ -3,25 +3,61 @@ var mongoose = require('mongoose');
 var express = require('express');
 var path = require('path');
 
+var User = require('./api/models/user');
+
 var bodyParser = require('body-parser');
 
+var jwt = require('jsonwebtoken');
+var passport = require('passport');
+var JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
 
 var port = process.env.PORT || 3001;
 var app = express();
+
+
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/socialmedia');
 
 
 var routes = require('./api/routes/routes');
 
+
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(passport.initialize());
+var opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = 'secret';
+passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+  console.log(jwt_payload);
+  return done(null, jwt_payload);
+}));
 
+
+app.route('/api/signin/')
+  .post((req, res, next) => {
+    if (req.body.userName) {
+      let {userName} = req.body;
+      User.findOne({userName}, (err, user) =>{
+        if (err) {
+          next(err);
+        } else if (!user) {
+          next({message: "Wrong username or password"});
+        } else {
+          let options = {expiresIn: 60};
+          let {userName, _id} = user;
+          let payload = {userName, _id};
+          let token = jwt.sign(payload, 'secret', options);
+          res.json({token});
+        }
+      });
+    }
+  }
+);
 
 routes(app);
-
-
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("frontend/build"));

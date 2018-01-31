@@ -6,8 +6,7 @@ const users = (state = {
   byUserName: {}}, action) => {
   switch (action.type) {
 
-    case RECEIVE_USER:
-    case CHANGE_THIS_USER: {
+    case RECEIVE_USER: {
 
       let newState = {...state};
 

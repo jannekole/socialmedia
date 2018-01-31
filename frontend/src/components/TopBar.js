@@ -4,8 +4,16 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 class TopBar extends Component {
+  constructor(props) {
+    super(props);
 
+    this.signInClick = this.signInClick.bind(this);
+  }
 
+  signInClick(e) {
+    this.props.signIn("j");
+    e.preventDefault();
+  }
   render() {
     var { user, isLoggedIn } = this.props.thisUser;
     var userName = user.userName;
@@ -33,7 +41,7 @@ class TopBar extends Component {
           </NavLink>
         </div>
         <div className="topBarRight">
-          <NavLink to="/login" className="topBarButton">
+          <NavLink to="/" onClick={this.signInClick} className="topBarButton">
 
             <img  src="/messages.png" alt="Messages"/>
 
@@ -48,4 +56,5 @@ export default TopBar;
 
 TopBar.propTypes = {
   thisUser: PropTypes.object.isRequired,
+  signIn: PropTypes.func.isRequired,
 };

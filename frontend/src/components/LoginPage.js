@@ -18,7 +18,7 @@ class LoginPage extends Component  {
     if (userName == "") {
       this.setState({notification: "Enter a username"});
     } else {
-      this.props.login(this.state.userNameInput);
+      this.props.signIn(this.state.userNameInput);
     }
     e.preventDefault();
 
@@ -63,7 +63,7 @@ class LoginPage extends Component  {
 }
 
 LoginPage.propTypes = {
-  login: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
   thisUser: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };

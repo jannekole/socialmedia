@@ -1,5 +1,5 @@
 var Post = require('../models/post');
-var User = require('../models/user');
+
 
 exports.error = (req, res) => {
   throw new Error('something went wrong');
