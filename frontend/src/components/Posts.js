@@ -68,6 +68,6 @@ Posts.propTypes = {
   getFollows: PropTypes.func.isRequired,
   isDoneFetching: PropTypes.bool.isRequired,
   changeReplyInputVisibility: PropTypes.func.isRequired,
-  routerKey: PropTypes.string.isRequired,
+  routerKey: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
 };

@@ -9,9 +9,9 @@ module.exports = function(app) {
   app.route('/api/posts/followed/')
     .put(authenticate, followControllers.followsToBody, postControllers.getPosts); //GET /userControllers.userToBody,
   app.route('/api/posts/')
-    .post(userControllers.userToBody, postControllers.postPost);
+    .post(authenticate, postControllers.postPost);
   app.route('/api/posts/reply/:parentId?')
-    .post(userControllers.userToBody, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
+    .post(authenticate, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
 
   app.route('/api/users/:userName?')
     .get(userControllers.getUsers)

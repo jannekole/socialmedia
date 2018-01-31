@@ -7,6 +7,8 @@ import { loadPosts, loadUsers, postPost, changeReplyInputVisibility , getFollows
 import Posts from '../components/Posts';
 import UserPageTopInfo from '../components/UserPageTopInfo';
 
+import LoginPageContainer from '../containers/LoginPageContainer';
+
 class UserPage extends Component {
 
   constructor(props) {
@@ -34,6 +36,7 @@ class UserPage extends Component {
     this.setState({input: e.target.value});
 
   }
+
 
   render() {
 
@@ -84,6 +87,7 @@ class UserPage extends Component {
     }
 
     return <div className="">
+
       {userPage}
       <div className="content">
         <div className="postList">
@@ -112,7 +116,7 @@ UserPage.propTypes = {
   user: PropTypes.object,
   changeReplyInputVisibility: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  routerKey: PropTypes.string.isRequired,
+  routerKey: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
   all: PropTypes.bool.isRequired,
   follows: PropTypes.array.isRequired,

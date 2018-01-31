@@ -86,6 +86,11 @@ export const setThisUser = (user) => {
     user
   };
 };
+export const logOut = (user) => {
+  return {
+    type: LOG_OUT
+  };
+};
 const loginError = (errors) => {
   return {
     type: LOGIN_ERROR,
@@ -247,38 +252,60 @@ export const postPost = (userName, text) => {
 var jwtDecode = require('jwt-decode');
 export const checkSignIn = () => {
   return (dispatch) => {
+    var user = {};
     var token = localStorage.getItem('token') || null;
-    var { _id, userName } = jwtDecode(token);
-    let user = {userName, _id};
+    if (token) {
+      var { _id, userName } = jwtDecode(token);
+      user = {userName, _id};
+    }
     dispatch(setThisUser(user));
   };
 };
 
-export const signIn = (userName, password) => {
+const handleTokenReceve = (handle) => (json) => {
+  if (json.token) {
+    localStorage.setItem('token', json.token);
+    //
+    var { _id, userName } = jwtDecode(json.token);
+    let user = {userName, _id};
+    console.log('local storage set:', json.token, user);
+    return setThisUser(user);
+  } else {
+    console.log('error logging in', handle);
+    return ()=>null;
+  }
+};
+export const signIn = (username, password) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(userName));
     var loadError = function(error) {
       return ()=> null;
     };
-
-    var loadSuccess = (json) => {
-
-      localStorage.setItem('token', json.token);
-
-      var { _id, userName } = jwtDecode(json.token);
-      let user = {userName, _id};
-      console.log('local storage set:', json.token, user);
-      return setThisUser(user);
-
-    };
-
+    var loadSuccess = handleTokenReceve('signin');
     var data = {
-      userName,
+      username,
       password
     };
     apiFetch(dispatch, '/api/signin', loadSuccess, loadError, 'POST', data);
+  };
+};
 
-
+export const signUp = (userName, password, firstName, lastName) => {
+  return (dispatch) => {
+    //dispatch(loadPostsPre(userName));
+    var loadError = function(error) {
+      return ()=> null;
+    };
+    var loadSuccess = handleTokenReceve('signup');
+    var data = {
+      userName,
+      password,
+      name: {
+        first: firstName,
+        last: lastName
+      }
+    };
+    apiFetch(dispatch, '/api/users/', loadSuccess, loadError, 'POST', data);
   };
 };
 const apiFetch = (dispatch, url, success, error, method, data) => {
@@ -293,7 +320,13 @@ const apiFetch = (dispatch, url, success, error, method, data) => {
     credentials: 'same-origin'
   }).then((res) => {
     if (!res.ok) {
-      console.log('response not ok');
+      console.log('response not ok!');
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        dispatch(logOut());
+        dispatch(error("Could not access posts"));
+      }
+      console.log('fin');
       res.json().then(
         (json) => {
           console.log('json ok');
@@ -344,6 +377,7 @@ export const CHANGE_REPLY_INPUT = 'CHANGE_REPLY_INPUT';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
+export const LOG_OUT = 'LOG_OUT';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 

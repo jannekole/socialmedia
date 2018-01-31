@@ -38,21 +38,23 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 
 app.route('/api/signin/')
   .post((req, res, next) => {
-    if (req.body.userName) {
-      let {userName} = req.body;
-      User.findOne({userName}, (err, user) =>{
+    if (req.body.username) {
+      let {username} = req.body;
+      User.findOne({userName: username}, (err, user) =>{
         if (err) {
           next(err);
         } else if (!user) {
           next({message: "Wrong username or password"});
         } else {
-          let options = {expiresIn: 60};
+          let options = {expiresIn: 10};
           let {userName, _id} = user;
           let payload = {userName, _id};
-          let token = jwt.sign(payload, 'secret', options);
+          let token = jwt.sign(payload, opts.secretOrKey, options);
           res.json({token});
         }
       });
+    } else {
+      next({message: "no username given"});
     }
   }
 );
