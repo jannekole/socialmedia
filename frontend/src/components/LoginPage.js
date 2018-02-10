@@ -70,34 +70,34 @@ class LoginPage extends Component  {
     </span>;
   }
   render() {
-
-
-
     let notification = this.state.notification || this.props.thisUser.loginErrorMessage;
 
     var { isLoggedIn } = this.props.thisUser;
 
     var text;
     var toggleLinkText;
+    var title;
     if (this.state.signUp) {
+      title = "Sign up";
       text = "Already have an account? ";
       toggleLinkText = "Log in";
 
     } else {
-      text = "Don't have an account? ";
-      toggleLinkText = "Sign up";
+      title = "You are not logged in.";
+      text = "Please log in or ";
+      toggleLinkText = "sign up";
     }
-
     return <div className="content">
       <div className="postList">
         <div className="post">
+
           <div className="formContainer">
 
             <form onSubmit={this.handleSubmit} className="signInForm">
-              <div>
-                {text}
+              <div className="loginTitle"> {title} </div>
+              <div className="loginText">{text}
                 <a href=""
-                  className="notLink toggleForm"
+                  className=" toggleForm"
                   onClick={this.toggleSignUp}>
                   {toggleLinkText}
                 </a>

@@ -2,13 +2,18 @@ import TopBar from '../components/TopBar';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadPosts , signIn} from '../actions/actions';
+import { logOut, signIn} from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
   var thisUser = state.thisUser;
   //var currentPath = ownProps.location.pathname;
+
+  var isLoading = !!Object.keys(state.loading.likes).length;
+
+
   return {
     thisUser,
+    isLoading
   //  currentPath
   };
 };
@@ -16,7 +21,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
-    signIn : (userName) => dispatch(signIn(userName))
+    signIn : (userName) => dispatch(signIn(userName)),
+    logOut : () => dispatch(logOut())
     //loadPosts: (userFilter) => dispatch(loadPosts("jdksdlkdsl"))
 
   };

@@ -1,26 +1,28 @@
-import Post from '../components/Post';
-import { postReply, changeReplyInput, sendLike} from '../actions/actions';
+import PostForm from '../components/PostForm';
+import { postReply, changeReplyInput} from '../actions/actions';
 
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
-  var { _id } = ownProps.post;
+  var { _id } = ownProps;
+  if (!_id) {
+    _id = "post";
+  }
   return {
     thisUser: state.thisUser.user,
     replyIsLoading: state.loading.postReplies[_id] || false,
-    replyInputText: ownProps.post.replyInputText || "",
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 
+
   return {
     postReply: (userName, text, parentId) => dispatch(postReply(userName, text, parentId)),
     changeReplyInput: (text, parentId) => dispatch(changeReplyInput(text, parentId)),
-    sendLike: (userId, like, subjectId, type) => dispatch(sendLike(userId, like, subjectId, type))
   };
 };
 
-const PostContainer = connect(mapStateToProps, mapDispatchToProps)(Post);
+const PostFormContainer = connect(mapStateToProps, mapDispatchToProps)(PostForm);
 
-export default PostContainer;
+export default PostFormContainer;

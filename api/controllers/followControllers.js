@@ -1,5 +1,5 @@
 var Follow = require('../models/follow');
-
+var User = require('../models/user');
 
 exports.addFollow = function (req, res, next) {
 
@@ -70,10 +70,28 @@ exports.followsToBody = function (req, res, next) {
     if (err) {
       next(err);
     } else {
-      req.follows = follows.map((follow) => {return follow.followingId;});
+      req.follows = follows.map((follow) => {return follow.followingId.toString();});
       next();
     }
   });
+};
+exports.filterFollows = function (req, res, next) {
+  let userName = req.params.userName;
+  let query = {userName};
+  User.findOne(query, (err, user) => {
+    if (err) {
+      next(err);
+    } else if (!user) {
+      next({message: "User not found"});
+    } else {
+      req.follows = req.follows.filter((follow)=>(follow == user._id));
+      next();
+    }
+  });
+};
+exports.addSelfToFollows = function (req, res, next) {
+  req.follows = req.follows.concat(req.user._id);
+  next();
 };
 
 exports.removeFollow = function (req, res, next) {

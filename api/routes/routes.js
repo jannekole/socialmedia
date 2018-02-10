@@ -1,27 +1,35 @@
-var postControllers = require('../controllers/controllers');
+var postControllers = require('../controllers/postControllers');
 var userControllers = require('../controllers/userControllers');
 var followControllers = require('../controllers/followControllers');
+var auth = require('../controllers/auth');
 
-var passport = require('passport');
-var authenticate = passport.authenticate('jwt', { session: false });
+var jwtAuth = auth.jwtAuth;
+var localAuth = auth.localAuthenticate;
+var sendToken = auth.sendToken;
 
 module.exports = function(app) {
-  app.route('/api/posts/followed/')
-    .put(authenticate, followControllers.followsToBody, postControllers.getPosts); //GET /userControllers.userToBody,
-  app.route('/api/posts/')
-    .post(authenticate, postControllers.postPost);
-  app.route('/api/posts/reply/:parentId?')
-    .post(authenticate, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
+  app.route('/api/signin/')
+    .post(localAuth, sendToken);
 
-  app.route('/api/users/:userName?')
+  app.route('/api/posts/')
+    .get(jwtAuth, followControllers.followsToBody, followControllers.addSelfToFollows, postControllers.getPosts);
+  app.route('/api/posts/:userName')
+    .get(jwtAuth, followControllers.followsToBody, followControllers.addSelfToFollows, followControllers.filterFollows, postControllers.getPosts);
+
+  app.route('/api/posts/')
+    .post(jwtAuth, userControllers.userToBody, postControllers.postPost);
+  app.route('/api/posts/reply/:parentId?')
+    .post(jwtAuth, userControllers.userToBody, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
+
+  app.route('/api/users/:userName')
     .get(userControllers.getUsers)
-    .post(userControllers.addUser);
+    .post(userControllers.addUser, sendToken);
 
   app.route('/api/likes/')
-    .put(authenticate, postControllers.putLike);
+    .put(jwtAuth, postControllers.putLike);
 
   app.route('/api/follows/')
-    .put(authenticate, userControllers.followingToBody, followControllers.addFollow);
+    .put(jwtAuth, userControllers.followingToBody, followControllers.addFollow);
   app.route('/api/follows/:followerId?/:followingId?')
     .get(followControllers.getFollows);
   app.route('/api/followers/:followingId')
@@ -29,7 +37,7 @@ module.exports = function(app) {
   app.route('/api/following/:followerId')
     .get(followControllers.getFollows);
   app.route('/api/follows/')
-    .delete(authenticate, userControllers.followingToBody, followControllers.deleteFollow);
+    .delete(jwtAuth, userControllers.followingToBody, followControllers.deleteFollow);
 
   app.route('/api/internalError/')
     .get(postControllers.error);

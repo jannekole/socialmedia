@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import PostContentContainer from '../containers/PostContentContainer';
+import ActionButton from '../components/ActionButton';
+import PostFormContainer from '../containers/PostFormContainer';
+import PostForm from '../components/PostForm';
 
 import sortPostsByDate from '../utils/sortPostsByDate';
 
@@ -21,10 +24,10 @@ class Post extends Component {
     e.preventDefault();
   }
   clickLike(e) {
-    let { userName } = this.props.thisUser;
+    let userId = this.props.thisUser._id;
     let {_id } = this.props.post;
     let like = !this.isLiked();
-    this.props.sendLike(userName, like, _id, "post");
+    this.props.sendLike(userId, like, _id, "post");
     e.preventDefault();
   }
   handleInputChange(e) {
@@ -36,7 +39,6 @@ class Post extends Component {
     this.props.postReply(userName, e.target.text.value, this.props.post._id);
     e.preventDefault();
   }
-
   renderReply(reply) {
     return <div className="reply" key={reply._id}>
 
@@ -53,9 +55,6 @@ class Post extends Component {
     let { _id } = this.props.thisUser;
     return likes.includes(_id);
   }
-  buttonClass(isActive) {
-    return isActive ? "notLink activated" : "notLink";
-  }
   numberOfLikedText() {
     var num = this.props.post.likes.length;
     if (num <= 0) {
@@ -67,26 +66,26 @@ class Post extends Component {
     }
   }
   renderActionBar() {
-    var a;
     return <div className="postActionBar" >
-      <a href="" onClick={this.clickReply} className="notLink"> Reply </a>
-      <a href="#" onClick={this.clickLike} className={this.buttonClass(this.isLiked())}> Like </a>
+      <ActionButton action={this.clickReply} isActive={false}>Reply</ActionButton>
+      <ActionButton action={this.clickLike} isActive={this.isLiked()}>Like</ActionButton>
       <span className="likesText">{this.numberOfLikedText()}</span>
-      {/* <a href="#" onClick={a} className="notLink"> Share </a> */}
     </div>;
   }
 
   renderReplyBox() {
-    let { replyInputVisible, replyInputText } = this.props.post;
-
+    let { replyInputVisible } = this.props.post;
     if (!replyInputVisible) {
       return null;
     }
-    return <form onSubmit={this.handleSubmit}>
-      <textarea name="text" autoFocus="true" className="replyInput" value={replyInputText} onChange={this.handleInputChange}/>
-      <input type="submit" disabled={false} value="Reply" />
-    </form>;
+    return <PostForm handleSubmit={this.handleSubmit}
+      handleInputChange={this.handleInputChange}
+      rows={2}
+      disabled={this.props.replyIsLoading}
+      inputText={this.props.replyInputText}>
+    </PostForm>;
   }
+
 
   render() {
     return <div className="post">
@@ -110,4 +109,6 @@ Post.propTypes = {
   changeReplyInput: PropTypes.func.isRequired,
   thisUser: PropTypes.object,
   sendLike: PropTypes.func.isRequired,
+  replyIsLoading: PropTypes.bool.isRequired,
+  replyInputText: PropTypes.string.isRequired,
 };

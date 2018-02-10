@@ -1,4 +1,4 @@
-import { CHANGE_THIS_USER, LOGIN_ERROR , LOG_OUT } from '../actions/actions';
+import { CHANGE_THIS_USER, LOGIN_ERROR, POST_POST_ERROR, LOG_OUT, CHANGE_POST_INPUT, POST_POST_SUCCESS, POST_POST_PRE} from '../actions/actions';
 import jwtDecode from 'jwt-decode';
 
 let user = {};
@@ -10,9 +10,7 @@ if (token) {
   isLoggedIn = true;
 }
 
-
-
-let initialState = {user, loginErrorMessage: "", isLoggedIn};
+let initialState = {user, loginErrorMessage: "", isLoggedIn, postInput: ""};
 // let user = {};
 
 const posts = (state = initialState, action) => {
@@ -33,7 +31,22 @@ const posts = (state = initialState, action) => {
       let newState = {...state, loginErrorMessage};
       return newState;
     }
-
+    case CHANGE_POST_INPUT: {
+      let newState = {...state, postInput: action.text};
+      return newState;
+    }
+    case POST_POST_PRE: {
+      let newState = {...state, postInputDisabled: true};
+      return newState;
+    }
+    case POST_POST_ERROR: {
+      let newState = {...state, postInputDisabled: false};
+      return newState;
+    }
+    case POST_POST_SUCCESS: {
+      let newState = {...state, postInput: "", postInputDisabled: false};
+      return newState;
+    }
     default: {
       return state;
     }

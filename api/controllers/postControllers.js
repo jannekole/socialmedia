@@ -4,8 +4,6 @@ var Post = require('../models/post');
 exports.error = (req, res) => {
   throw new Error('something went wrong');
 };
-
-
 const likePost = (req, res, next) => {
   var userId = req.user._id;
   var like = req.body.like;
@@ -48,8 +46,6 @@ exports.putLike = function (req, res, next) {
       break;
     }
   }
-
-
 };
 exports.parentPostToBody = function (req, res, next) {
   var _id = req.params.parentId;
@@ -70,9 +66,6 @@ exports.latestSiblingToBody = function (req, res, next) {
   Post.findOne({parentId}, (err, post) => {
     if (err) {
       next(err);
-    // } else if (!post) {
-    //   console.log('post',post);
-    //   next({message: "Sibling post not found" });
     } else {
       req.latestPost = post;
       next();
@@ -94,35 +87,24 @@ exports.postReply = function (req, res, next) {
       res.json({posts: [message]});
     }
   });
-  // Post.findOneAndUpdate({_id: parentId}, {$push: {replies: {text, user}}}, { runValidators: true, new: true }, (err, post) => {
-  //   if (err) {
-  //     next(err);
-  //   } else {
-  //     res.json({posts: [post]});
-  //   }
-  // });
 };
 
 exports.getPosts = function (req, res, next) {
-  console.log(req.follows);
   let follows = req.follows;
-  Post.find({'user._id': { $in: follows}}, (err, posts) => {
+  Post.find({'parentUserId': { $in: follows}}, (err, posts) => {
     if (err) {
       next(err);
     } else {
       res.json({posts: posts});
     }
   });
-
 };
-
-
 exports.postPost = function (req, res, next) {
   var user = req.user;
   var text = req.body.text;
+  var parentUserId = user._id
 
-  let post = new Post({user, text});
-
+  let post = new Post({user, text, parentUserId});
   post.save((err, message) => {
     if (err) {
       console.log('err',err);

@@ -2,54 +2,40 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadPosts, loadUsers, postPost, changeReplyInputVisibility , getFollows, follow} from '../actions/actions';
+import { loadPosts, loadUsers, postPost, changeReplyInputVisibility , getFollows, follow, changePostInput} from '../actions/actions';
 
 import Posts from '../components/Posts';
+import PostForm from '../components/PostForm';
 import UserPageTopInfo from '../components/UserPageTopInfo';
 
 import LoginPageContainer from '../containers/LoginPageContainer';
 
 class UserPage extends Component {
-
   constructor(props) {
     super(props);
-
     this.state = {input: ""};
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   componentDidMount() {
-    this.props.loadUser();
-
 
     window.scrollTo(0, 0);
   }
-
-
   handleSubmit(e) {
-    this.props.postPost(this.props.thisUser.user.userName, this.state.input);
+    this.props.postPost(this.props.thisUser.user.userName, this.props.postInput);
     e.preventDefault();
   }
-
   handleInputChange(e) {
-    this.setState({input: e.target.value});
-
+    this.props.changePostInput(e.target.value);
   }
-
-
   render() {
-
     let userPage = null;
     let postForm = null;
-
-    let isDisabled = false;
-    let isLoading = false;
-    let notification = null;
 
     //if this is a userpage, render UserPageTopInfo
     if (!this.props.all) {
       userPage = <UserPageTopInfo
+        userName={this.props.userName}
         user={this.props.user}
         loadUser={this.props.loadUser}
         thisUser={this.props.thisUser}
@@ -61,14 +47,13 @@ class UserPage extends Component {
     //If this is the user's own page or front page, render reply box
     if (this.props.thisUser.isLoggedIn && (this.props.all || (this.props.user && this.props.user.userName === this.props.thisUser.user.userName))) {
       postForm = <div className="post">
-        <form onSubmit={this.handleSubmit}>
-          Post something
-          <label>
-            <textarea  name="text" rows="4" className="messageInput" onChange={this.handleInputChange} value={this.state.input} type="text" disabled={isDisabled} ></textarea>
-          </label>
-          <input type="submit" disabled={isDisabled} value="Send" />
-          <div className="notification">{isLoading ? 'loading...' : null }{notification} </div>
-        </form>
+        <PostForm handleSubmit={this.handleSubmit}
+          handleInputChange={this.handleInputChange}
+          inputText={this.props.postInput}
+          rows={4}
+          disabled={this.props.postInputDisabled}>
+          Post something:
+        </PostForm>
       </div>;
     }
 
@@ -98,7 +83,7 @@ class UserPage extends Component {
             loadPosts={this.props.loadPosts}
             getFollows={this.props.getFollows}
             changeReplyInputVisibility={this.props.changeReplyInputVisibility}
-            routerKey={this.props.routerKey}
+            routerKey={this.props.key}
             thisUser={this.props.thisUser}
           />
         </div>
@@ -116,18 +101,22 @@ UserPage.propTypes = {
   user: PropTypes.object,
   changeReplyInputVisibility: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  routerKey: PropTypes.string,
+  key: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
   all: PropTypes.bool.isRequired,
   follows: PropTypes.array.isRequired,
   follow: PropTypes.func.isRequired,
+  postInput: PropTypes.string.isRequired,
+  changePostInput: PropTypes.func.isRequired,
+  postInputDisabled: PropTypes.bool,
+  userName: PropTypes.string,
 };
 
 const mapStateToProps = (state, ownProps) => {
 
-
-  let userFilter = ownProps.match.params.userName;
-  let all = !userFilter;
+  let userName = ownProps.match.params.userName;
+  let userFilter = userName || "_all";
+  let all = !userName;
 
   let posts = state.posts.items;
   let contentIsDoneFetching = posts ? (state.posts.isDoneFetching[userFilter] === true) : true;
@@ -139,9 +128,11 @@ const mapStateToProps = (state, ownProps) => {
 
   let thisUser = state.thisUser;
 
-  let routerKey = ownProps.location.key;
+  let key = ownProps.location.key;
 
   let follows = state.follows;
+  let postInput = thisUser.postInput;
+  let postInputDisabled = thisUser.postInputDisabled;
 
   return {
     posts,
@@ -149,8 +140,11 @@ const mapStateToProps = (state, ownProps) => {
     user,
     all,
     thisUser,
-    routerKey, // updates component when linked from same page
-    follows
+    key, // updates component when linked from same page
+    follows,
+    postInput,
+    postInputDisabled,
+    userName,
   };
 };
 
@@ -162,11 +156,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     loadPosts: (thisUserName) => dispatch(loadPosts(userName, thisUserName)),
-    loadUser: () => dispatch(loadUsers(userName)),
+    loadUser: (name) => dispatch(loadUsers(name)),
     getFollows: (thisUserId) => dispatch(getFollows(thisUserId, null)),
     follow: (followerId, followingId, unFollow) => dispatch(follow(followerId, followingId, unFollow)),
     postPost: (userName, text) => dispatch(postPost(userName, text)),
-    changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, userName, visible))
+    changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, userName, visible)),
+    changePostInput: (text) => dispatch(changePostInput(text)),
   };
 };
 

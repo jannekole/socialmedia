@@ -1,16 +1,15 @@
 import fetch from 'isomorphic-fetch';
 
 
-export const followSuccess = (data, remove) => {
-  console.log('like');
+export const followSuccess = (data, remove, userToFollow) => {
   return {
     type: FOLLOW_SUCCESS,
     data,
-    remove
+    remove,
+    userToFollow
   };
 };
 export const receiveFollows = (data) => {
-  console.log('like');
   return {
     type: FOLLOWS_RECEIVED,
     data
@@ -19,31 +18,30 @@ export const receiveFollows = (data) => {
 export const getFollows = (followerId, followingId) => {
   return (dispatch) => {
     var loadError = function(error) {
-      return ()=>null;
+      return null;
     };
     var loadSuccess = (json) => {
-      return receiveFollows(json);
+      dispatch(receiveFollows(json));
     };
     console.log(followerId, followingId);
     let followerUrl = followerId || "null";
     let followingUrl = followingId || "null";
     var url = '/api/follows/' + followerUrl + '/' + followingUrl;
-    apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
+    apiFetchD(dispatch, url, loadSuccess, loadError, 'GET');
   };
 };
-export const follow = (userId, followingId, unFollow=false) => {
+export const follow = (userId, userToFollow, unFollow=false) => {
   return (dispatch) => {
     var loadError = function(error) {
       return ()=>null;
     };
     var loadSuccess = (json) => {
-      return followSuccess(json, unFollow);
+      dispatch(followSuccess(json, unFollow, userToFollow));
+      dispatch(loadPosts(userToFollow.userName));
     };
-    console.log(userId, followingId);
-
     let data = {
       userId,
-      followingId
+      followingId: userToFollow._id
     };
     let method;
     if (unFollow) {
@@ -52,31 +50,50 @@ export const follow = (userId, followingId, unFollow=false) => {
       method = 'PUT';
     }
     var url = '/api/follows/';
-    apiFetch(dispatch, url, loadSuccess, loadError, method, data);
+    apiFetchD(dispatch, url, loadSuccess, loadError, method, data);
   };
 };
-export const likeSuccessful = (data) => {
-  console.log('like');
+export const likeSuccessful = (data, postId) => {
   return {
     type: LIKE_RECEIVED,
-    data
+    data,
+    postId
   };
 };
-export const sendLike = (userName, like, subjectId, type) => {
+export const likePre = (postId, liked, userId) => {
+  return {
+    type: LIKE_PRE,
+    postId,
+    liked,
+    userId
+  };
+};
+export const likeError = (error, postId, liked, userId) => {
+  return {
+    type: LIKE_ERROR,
+    error,
+    postId,
+    liked,
+    userId
+  };
+};
+export const sendLike = (userId, like, subjectId, type) => {
   return (dispatch) => {
+
     var loadError = function(error) {
-      return ()=>null;
+      return likeError(error, subjectId, like, userId);
     };
     var loadSuccess = (json) => {
-      return likeSuccessful(json);
+      return likeSuccessful(json, subjectId);
     };
     var data = {
-      userName,
+      userId,
       like,
       id: subjectId,
       type
     };
     console.log('likepre')
+    dispatch(likePre(subjectId, like, userId));
     apiFetch(dispatch, '/api/likes', loadSuccess, loadError, 'PUT', data);
   };
 };
@@ -86,7 +103,8 @@ export const setThisUser = (user) => {
     user
   };
 };
-export const logOut = (user) => {
+export const logOut = () => {
+  localStorage.removeItem('token');
   return {
     type: LOG_OUT
   };
@@ -145,9 +163,13 @@ export const loadPostsError = (user, error) => {
   };
 };
 
-export const loadPosts = (user, thisUserName) => {
+export const loadPosts = (user) => {
   return (dispatch) => {
 
+    let url = '/api/posts/';
+    if (user !== "_all") {
+      url = url + user;
+    }
     var loadError = function(error) {
       return loadPostsError(user, error);
     };
@@ -156,10 +178,7 @@ export const loadPosts = (user, thisUserName) => {
       return loadPostsSuccess(user, json);
     };
     dispatch(loadPostsPre(user));
-    var body = {
-      userName: thisUserName
-    };
-    apiFetch(dispatch, '/api/posts/followed', loadSuccess, loadError, 'PUT', body);
+    apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
 
 
   };
@@ -182,10 +201,7 @@ export const loadUsers = (userName) => {
     var loadSuccess = (json) => {
       return loadUserSuccess(userName, json);
     };
-
-    apiFetch(dispatch, '/api/users', loadSuccess, loadError, 'GET');
-
-
+    getUserByName(dispatch, userName, loadSuccess, loadError);
   };
 };
 const postPostSuccess = (data) => {
@@ -194,13 +210,12 @@ const postPostSuccess = (data) => {
     data
   };
 };
-const postReplySuccess = (data) => {
+export const changePostInput = (text) => {
   return {
-    type: POST_REPLY_SUCCESS,
-    data
+    type: CHANGE_POST_INPUT,
+    text
   };
 };
-
 export const changeReplyInput = (text, postId) => {
   return {
     type: CHANGE_REPLY_INPUT,
@@ -208,45 +223,67 @@ export const changeReplyInput = (text, postId) => {
     postId
   };
 };
+const postReplyPre = (parentId) => {
+  return {
+    type: POST_REPLY_PRE,
+    postId: parentId
+  };
+};
+const postReplySuccess = (data, parentId) => {
+  return {
+    type: POST_REPLY_SUCCESS,
+    data,
+    postId: parentId
+  };
+};
+const postReplyError = (error, parentId) => {
+  return {
+    type: POST_REPLY_ERROR,
+    error,
+    postId: parentId
+  };
+};
 export const postReply = (userName, text, parentId) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(userName));
+    dispatch(postReplyPre(parentId));
     var loadError = function(error) {
-      return ()=>{return null;};
+      return postReplyError(error, parentId);
     };
-
     var loadSuccess = (json) => {
-      return postReplySuccess(json);
+      return postReplySuccess(json, parentId);
     };
-
     var data = {
       userName,
       text
     };
     let url = '/api/posts/reply/' + parentId;
     apiFetch(dispatch, url, loadSuccess, loadError, 'POST', data);
-
-
+  };
+};
+export const postPostsPre = () => {
+  return {
+    type: POST_POST_PRE
+  };
+};
+export const postPostsError = () => {
+  return {
+    type: POST_POST_ERROR
   };
 };
 export const postPost = (userName, text) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(userName));
+    dispatch(postPostsPre(userName));
     var loadError = function(error) {
-      return ()=>{return null;};
+      return postPostsError();
     };
-
     var loadSuccess = (json) => {
       return postPostSuccess(json);
     };
-
     var data = {
       userName,
       text
     };
     apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'POST', data);
-
-
   };
 };
 var jwtDecode = require('jwt-decode');
@@ -322,7 +359,6 @@ const apiFetch = (dispatch, url, success, error, method, data) => {
     if (!res.ok) {
       console.log('response not ok!');
       if (res.status === 401) {
-        localStorage.removeItem('token');
         dispatch(logOut());
         dispatch(error("Could not access posts"));
       }
@@ -357,6 +393,53 @@ const apiFetch = (dispatch, url, success, error, method, data) => {
 
 };
 
+const apiFetchD = (dispatch, url, success, error, method, data) => {
+  let token = localStorage.getItem('token') || null;
+  fetch(url, {
+    method,
+    body: JSON.stringify(data),
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }),
+    credentials: 'same-origin'
+  }).then((res) => {
+    if (!res.ok) {
+      console.log('response not ok!');
+      if (res.status === 401) {
+        dispatch(logOut());
+        error("Could not access posts");
+      }
+      console.log('fin');
+      res.json().then(
+        (json) => {
+          console.log('json ok');
+          error(json.errors);
+        },
+        (err) => {
+          console.log('error parsing json');
+          error(err);
+        }
+      );
+    } else {
+      res.json().then(
+        (json) => {
+          console.log('json', json);
+          success(json);
+        },
+        (err) => {
+          console.log('error parsing json');
+          error(err);
+        }
+      );
+    }
+  }).catch(err => {
+    console.log('catcherr', err);
+    error(err);
+  });
+
+
+};
 
 
 
@@ -381,9 +464,19 @@ export const LOG_OUT = 'LOG_OUT';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
-export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';
+export const POST_REPLY_PRE = 'POST_REPLY_PRE';
+export const POST_REPLY_ERROR = 'POST_REPLY_ERROR';
 export const POST_REPLY_SUCCESS = 'POST_REPLY_SUCCESS';
+
 export const LIKE_RECEIVED = 'LIKE_RECEIVED';
+export const LIKE_PRE = 'LIKE_PRE';
+export const LIKE_ERROR = 'LIKE_ERROR';
 
 export const FOLLOWS_RECEIVED = 'FOLLOWS_RECEIVED';
 export const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
+
+export const CHANGE_POST_INPUT = 'CHANGE_POST_INPUT';
+
+export const POST_POST_PRE = 'POST_POST_PRE';
+export const POST_POST_ERROR = 'POST_POST_ERROR';
+export const POST_POST_SUCCESS = 'POST_POST_SUCCESS';

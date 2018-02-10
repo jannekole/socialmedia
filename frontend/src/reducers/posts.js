@@ -1,31 +1,21 @@
 import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_POSTS_ERROR, RECEIVE_USER,
   REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS, CHANGE_REPLY_INPUT,
-  POST_REPLY_SUCCESS, LIKE_RECEIVED, LOG_OUT} from '../actions/actions';
-
+  POST_REPLY_SUCCESS, LIKE_RECEIVED, LOG_OUT, FOLLOW_SUCCESS} from '../actions/actions';
+import post from './post';
 import merge from './merge';
 
-const postReducer = (state = {}, action) => {
-  switch (action.type) {
-    case REPLY_INPUT_VISIBILITY:
-      return {...state, replyInputVisible: action.visible};
-    case CHANGE_REPLY_INPUT:
-      return {...state, replyInputText: action.text};
-    default:
-      return state;
-  }
-};
 var defaultState = {items: [], isDoneFetching: {}};
 const posts = (state = defaultState, action) => {
+  state = post(state, action);
   switch (action.type) {
     case REQUEST_POSTS: {
       let isDoneFetching = {...state.isDoneFetching, [action.user]: false};
       return {...state, isDoneFetching};
     }
-    case LIKE_RECEIVED:
+    // case LIKE_RECEIVED:
     case RECEIVE_POSTS:
     case POST_POST_SUCCESS:
-    case POST_REPLY_SUCCESS:
-    case RECEIVE_USER: {
+    case POST_REPLY_SUCCESS: {
       let isDoneFetching = {...state.isDoneFetching, [action.user]: true};
 
       let newState = {...state, isDoneFetching};
@@ -43,17 +33,12 @@ const posts = (state = defaultState, action) => {
       let newState = {...state, isDoneFetching};
       return newState;
     }
-    case REPLY_INPUT_VISIBILITY:
-    case CHANGE_REPLY_INPUT: {
-      let newState = {...state};
+    case FOLLOW_SUCCESS: {
+      if (!action.remove) {return state;}
 
-      newState.items = state.items.map((post) => {
-        if (post._id === action.postId) {
-          return postReducer(post, action);
-        } else {
-          return post;
-        }
-      });
+      let items = state.items.filter((post) => {return post.parentUserId !== action.userToFollow._id;});
+      let newState = {...state, items};
+
       return newState;
     }
     case LOG_OUT: {
