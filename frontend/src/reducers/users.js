@@ -16,7 +16,7 @@ const users = (state = {
         let newUsers = {};
         for (let i = 0; i < numOfUsers; i++) {
           let user = users[i];
-          newUsers[user.userName] = user;
+          newUsers[user.username] = user;
         }
         newState.byUserName =  merge({}, state.byUserName, newUsers);
       }

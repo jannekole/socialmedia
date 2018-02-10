@@ -76,8 +76,8 @@ exports.followsToBody = function (req, res, next) {
   });
 };
 exports.filterFollows = function (req, res, next) {
-  let userName = req.params.userName;
-  let query = {userName};
+  let username = req.params.username;
+  let query = {username};
   User.findOne(query, (err, user) => {
     if (err) {
       next(err);

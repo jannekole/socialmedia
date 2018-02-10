@@ -7,13 +7,13 @@ import sortPostsByDate from '../utils/sortPostsByDate';
 class Posts extends Component {
 
   componentDidMount() {
-    this.props.loadPosts(this.props.thisUser.user.userName);
+    this.props.loadPosts(this.props.thisUser.user.username);
     this.props.getFollows(this.props.thisUser.user._id);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.routerKey !== this.props.routerKey) {
-      this.props.loadPosts(this.props.thisUser.user.userName);
+      this.props.loadPosts(this.props.thisUser.user.username);
       console.log('thisuser',this.props.thisUser.user._id)
       this.props.getFollows(this.props.thisUser.user._id);
     }

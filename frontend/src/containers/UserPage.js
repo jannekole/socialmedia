@@ -22,7 +22,7 @@ class UserPage extends Component {
     window.scrollTo(0, 0);
   }
   handleSubmit(e) {
-    this.props.postPost(this.props.thisUser.user.userName, this.props.postInput);
+    this.props.postPost(this.props.thisUser.user.username, this.props.postInput);
     e.preventDefault();
   }
   handleInputChange(e) {
@@ -35,7 +35,7 @@ class UserPage extends Component {
     //if this is a userpage, render UserPageTopInfo
     if (!this.props.all) {
       userPage = <UserPageTopInfo
-        userName={this.props.userName}
+        username={this.props.username}
         user={this.props.user}
         loadUser={this.props.loadUser}
         thisUser={this.props.thisUser}
@@ -45,7 +45,7 @@ class UserPage extends Component {
     }
 
     //If this is the user's own page or front page, render reply box
-    if (this.props.thisUser.isLoggedIn && (this.props.all || (this.props.user && this.props.user.userName === this.props.thisUser.user.userName))) {
+    if (this.props.thisUser.isLoggedIn && (this.props.all || (this.props.user && this.props.user.username === this.props.thisUser.user.username))) {
       postForm = <div className="post">
         <PostForm handleSubmit={this.handleSubmit}
           handleInputChange={this.handleInputChange}
@@ -57,11 +57,11 @@ class UserPage extends Component {
       </div>;
     }
 
-    let userName = this.props.match.params.userName;
+    let username = this.props.match.params.username;
     let posts = this.props.posts;
-    if (userName) {
+    if (username) {
       posts = posts.filter((post) => {
-        return (post.user.userName === userName && !post.parentId);
+        return (post.user.username === username && !post.parentId);
       });
       if (posts.length > 0) {
         var userId = posts[0].user._id;
@@ -109,14 +109,14 @@ UserPage.propTypes = {
   postInput: PropTypes.string.isRequired,
   changePostInput: PropTypes.func.isRequired,
   postInputDisabled: PropTypes.bool,
-  userName: PropTypes.string,
+  username: PropTypes.string,
 };
 
 const mapStateToProps = (state, ownProps) => {
 
-  let userName = ownProps.match.params.userName;
-  let userFilter = userName || "_all";
-  let all = !userName;
+  let username = ownProps.match.params.username;
+  let userFilter = username || "_all";
+  let all = !username;
 
   let posts = state.posts.items;
   let contentIsDoneFetching = posts ? (state.posts.isDoneFetching[userFilter] === true) : true;
@@ -144,7 +144,7 @@ const mapStateToProps = (state, ownProps) => {
     follows,
     postInput,
     postInputDisabled,
-    userName,
+    username,
   };
 };
 
@@ -152,15 +152,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 
-  let userName = ownProps.match.params.userName || "_all";
+  let username = ownProps.match.params.username || "_all";
 
   return {
-    loadPosts: (thisUserName) => dispatch(loadPosts(userName, thisUserName)),
+    loadPosts: (thisUserName) => dispatch(loadPosts(username, thisUserName)),
     loadUser: (name) => dispatch(loadUsers(name)),
     getFollows: (thisUserId) => dispatch(getFollows(thisUserId, null)),
     follow: (followerId, followingId, unFollow) => dispatch(follow(followerId, followingId, unFollow)),
-    postPost: (userName, text) => dispatch(postPost(userName, text)),
-    changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, userName, visible)),
+    postPost: (username, text) => dispatch(postPost(username, text)),
+    changeReplyInputVisibility: (postId, visible) => dispatch(changeReplyInputVisibility(postId, username, visible)),
     changePostInput: (text) => dispatch(changePostInput(text)),
   };
 };

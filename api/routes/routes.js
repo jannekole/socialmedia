@@ -13,7 +13,7 @@ module.exports = function(app) {
 
   app.route('/api/posts/')
     .get(jwtAuth, followControllers.followsToBody, followControllers.addSelfToFollows, postControllers.getPosts);
-  app.route('/api/posts/:userName')
+  app.route('/api/posts/:username')
     .get(jwtAuth, followControllers.followsToBody, followControllers.addSelfToFollows, followControllers.filterFollows, postControllers.getPosts);
 
   app.route('/api/posts/')
@@ -21,8 +21,9 @@ module.exports = function(app) {
   app.route('/api/posts/reply/:parentId?')
     .post(jwtAuth, userControllers.userToBody, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
 
-  app.route('/api/users/:userName')
-    .get(userControllers.getUsers)
+  app.route('/api/users/:username')
+    .get(userControllers.getUsers);
+  app.route('/api/users/')  
     .post(userControllers.addUser, sendToken);
 
   app.route('/api/likes/')

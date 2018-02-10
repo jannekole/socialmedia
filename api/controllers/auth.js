@@ -15,8 +15,8 @@ exports.opts = opts;
 exports.sendToken = (req, res, next) => {
   console.log('req.user', req.user)
   let options = {expiresIn: jwtEspireSeconds};
-  let {userName, _id} = req.user;
-  let payload = {userName, _id};
+  let {username, _id} = req.user;
+  let payload = {username, _id};
   let token = jwt.sign(payload, opts.secretOrKey, options);
   res.json({token});
 };
@@ -30,7 +30,7 @@ exports.passportSetupStrategies = (passport) => {
   passport.use(new LocalStrategy(
     function(username, password, done) {
       console.log(username.toLowerCase(), password)
-      User.findOne({userName: username.toLowerCase()}, function(err, user) {
+      User.findOne({username: username.toLowerCase()}, function(err, user) {
         console.log('user',user);
         if (err) {
           return done(err); }

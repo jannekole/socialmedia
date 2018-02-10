@@ -10,7 +10,7 @@ class UserPageTopInfo extends Component {
     this.handleFollowClick = this.handleFollowClick.bind(this);
   }
   componentDidMount() {
-    this.props.loadUser(this.props.userName);
+    this.props.loadUser(this.props.username);
   }
   handleFollowClick(e) {
     let { thisUser, user } = this.props;
@@ -39,7 +39,7 @@ class UserPageTopInfo extends Component {
       let url = user.picUrl || "default";
       return <div className="userPageTopInfo">
         <div>
-          <img src={`/profilepics/${url}.jpg`} alt={user.userName +"'s picture"} className="profilePic" height="200" width="200" />
+          <img src={`/profilepics/${url}.jpg`} alt={user.username +"'s picture"} className="profilePic" height="200" width="200" />
         </div>
         <div className="userPageInfo">
           <UserLink user={user}/>
@@ -59,5 +59,5 @@ UserPageTopInfo.propTypes = {
   follows: PropTypes.array.isRequired,
   thisUser: PropTypes.object,
   follow: PropTypes.func.isRequired,
-  userName: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };

@@ -27,7 +27,7 @@ class App extends Component {
 
     var pageContent = <div className="" >
       <Route exact path="/" component={UserPage} />
-      <Route path="/user/:userName" component={UserPage}/>
+      <Route path="/user/:username" component={UserPage}/>
       <Route exact path="/userpage" component={UserPage} />
     </div>;
 

@@ -44,10 +44,10 @@ exports.userToBody = function (req, res, next) {
 };
 
 exports.getUsers = function (req, res, next) {
-  let userName = req.params.userName;
+  let username = req.params.username;
   let query = {};
-  if (userName) {
-    query = {userName};
+  if (username) {
+    query = {username};
   }
   User.find(query, (err, users) => {
     if (err) {
@@ -62,28 +62,28 @@ exports.getUsers = function (req, res, next) {
 };
 const cleanUsers = (users) => {
   return users.map((user) => {
-    let {userName, name, _id} = user;
-    return {userName, name, _id};
+    let {username, name, _id} = user;
+    return {username, name, _id};
   });
 };
 
 
 exports.addUser = function (req, res, next) {
-  let userName = req.body.userName.toLowerCase();
+  let username = req.body.username.toLowerCase();
   let password = req.body.password;
   let { first, last } = req.body.name;
   let name = {first, last};
-  let user = new User({userName, name, password});
+  let user = new User({username, name, password});
 
   user.save((err, savedUser) => {
     if (err) {
       if (err.message.startsWith("E11000 ")) {
-        err = {message: `Username "${userName}" already exists`};
+        err = {message: `Username "${username}" already exists`};
       }
       next(err);
     } else {
-      let { userName, _id } = savedUser;
-      req.user = {userName, _id};
+      let { username, _id } = savedUser;
+      req.user = {username, _id};
       next();
     }
   });

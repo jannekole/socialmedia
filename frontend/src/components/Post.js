@@ -35,8 +35,8 @@ class Post extends Component {
     e.preventDefault();
   }
   handleSubmit(e) {
-    let userName = this.props.thisUser.userName;
-    this.props.postReply(userName, e.target.text.value, this.props.post._id);
+    let username = this.props.thisUser.username;
+    this.props.postReply(username, e.target.text.value, this.props.post._id);
     e.preventDefault();
   }
   renderReply(reply) {

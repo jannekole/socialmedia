@@ -37,7 +37,7 @@ export const follow = (userId, userToFollow, unFollow=false) => {
     };
     var loadSuccess = (json) => {
       dispatch(followSuccess(json, unFollow, userToFollow));
-      dispatch(loadPosts(userToFollow.userName));
+      dispatch(loadPosts(userToFollow.username));
     };
     let data = {
       userId,
@@ -115,7 +115,7 @@ const loginError = (errors) => {
     errors
   };
 };
-export const login = (userName) => {
+export const login = (username) => {
   return (dispatch) => {
 
     var loadError = function(error) {
@@ -128,13 +128,13 @@ export const login = (userName) => {
 
 
     //dispatch(loadPostsPre(user));
-    getUserByName(dispatch, userName, loadSuccess, loadError);
+    getUserByName(dispatch, username, loadSuccess, loadError);
 
 
   };
 };
-const getUserByName = (dispatch, userName, loadSuccess, loadError) => {
-  let uri = '/api/users/' + userName;
+const getUserByName = (dispatch, username, loadSuccess, loadError) => {
+  let uri = '/api/users/' + username;
 
   apiFetch(dispatch, uri, loadSuccess, loadError, 'GET');
 
@@ -184,24 +184,24 @@ export const loadPosts = (user) => {
   };
 };
 
-export const loadUserSuccess = (userName, data) => {
+export const loadUserSuccess = (username, data) => {
   return {
     type: RECEIVE_USER,
-    userName,
+    username,
     data
   };
 };
-export const loadUsers = (userName) => {
+export const loadUsers = (username) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(userName));
+    //dispatch(loadPostsPre(username));
     var loadError = function(error) {
       return ()=>{return null;};
     };
 
     var loadSuccess = (json) => {
-      return loadUserSuccess(userName, json);
+      return loadUserSuccess(username, json);
     };
-    getUserByName(dispatch, userName, loadSuccess, loadError);
+    getUserByName(dispatch, username, loadSuccess, loadError);
   };
 };
 const postPostSuccess = (data) => {
@@ -243,7 +243,7 @@ const postReplyError = (error, parentId) => {
     postId: parentId
   };
 };
-export const postReply = (userName, text, parentId) => {
+export const postReply = (username, text, parentId) => {
   return (dispatch) => {
     dispatch(postReplyPre(parentId));
     var loadError = function(error) {
@@ -253,7 +253,7 @@ export const postReply = (userName, text, parentId) => {
       return postReplySuccess(json, parentId);
     };
     var data = {
-      userName,
+      username,
       text
     };
     let url = '/api/posts/reply/' + parentId;
@@ -270,9 +270,9 @@ export const postPostsError = () => {
     type: POST_POST_ERROR
   };
 };
-export const postPost = (userName, text) => {
+export const postPost = (username, text) => {
   return (dispatch) => {
-    dispatch(postPostsPre(userName));
+    dispatch(postPostsPre(username));
     var loadError = function(error) {
       return postPostsError();
     };
@@ -280,7 +280,7 @@ export const postPost = (userName, text) => {
       return postPostSuccess(json);
     };
     var data = {
-      userName,
+      username,
       text
     };
     apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'POST', data);
@@ -292,8 +292,8 @@ export const checkSignIn = () => {
     var user = {};
     var token = localStorage.getItem('token') || null;
     if (token) {
-      var { _id, userName } = jwtDecode(token);
-      user = {userName, _id};
+      var { _id, username } = jwtDecode(token);
+      user = {username, _id};
     }
     dispatch(setThisUser(user));
   };
@@ -303,8 +303,8 @@ const handleTokenReceve = (handle) => (json) => {
   if (json.token) {
     localStorage.setItem('token', json.token);
     //
-    var { _id, userName } = jwtDecode(json.token);
-    let user = {userName, _id};
+    var { _id, username } = jwtDecode(json.token);
+    let user = {username, _id};
     console.log('local storage set:', json.token, user);
     return setThisUser(user);
   } else {
@@ -314,7 +314,7 @@ const handleTokenReceve = (handle) => (json) => {
 };
 export const signIn = (username, password) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(userName));
+    //dispatch(loadPostsPre(username));
     var loadError = function(error) {
       return ()=> null;
     };
@@ -327,15 +327,15 @@ export const signIn = (username, password) => {
   };
 };
 
-export const signUp = (userName, password, firstName, lastName) => {
+export const signUp = (username, password, firstName, lastName) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(userName));
+    //dispatch(loadPostsPre(username));
     var loadError = function(error) {
       return ()=> null;
     };
     var loadSuccess = handleTokenReceve('signup');
     var data = {
-      userName,
+      username,
       password,
       name: {
         first: firstName,

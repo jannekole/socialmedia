@@ -15,7 +15,7 @@ Sample requests:
 
 
     /api/likes/  PUT
-    {id, type: [post, reply], like: bool, userName}
+    {id, type: [post, reply], like: bool, username}
 Sample responses:
 
 Contains at minimum "data" or "errors"
@@ -25,7 +25,7 @@ Contains at minimum "data" or "errors"
     users: [
       {
         _id: "12345",
-        userName: "jannekole",
+        username: "jannekole",
         name: "Janne Kolehmainen"
       }
     ],
@@ -33,7 +33,7 @@ Contains at minimum "data" or "errors"
       {
         user:{
           userId: "12345",
-          userName: "jannekole",
+          username: "jannekole",
           name: "Janne Kolehmainen"
         },
         _id: "kkl3k3k32",
@@ -45,7 +45,7 @@ Contains at minimum "data" or "errors"
         parentId: "kkl3k3k32",
         user:{
           userId: "d12dsd45",
-          userName: "jannekole",
+          username: "jannekole",
           name: "Janne Kolehmainen"
         }
         text: "reply from api"

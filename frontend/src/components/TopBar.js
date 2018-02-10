@@ -29,12 +29,12 @@ class TopBar extends Component {
   }
   render() {
     var { user, isLoggedIn } = this.props.thisUser;
-    var userName = user.userName;
+    var username = user.username;
     var { isLoading } = this.props;
-    var userNameText = isLoggedIn ? userName : "Log in";
+    var usernameText = isLoggedIn ? username : "Log in";
 
     var loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
-    var userUrl = "/user/" + userName;
+    var userUrl = "/user/" + username;
     var url = isLoggedIn ? userUrl : loginUrl;
     var topBarContent = <div className="topBar">
       {isLoading ? <div className="loader"></div> : null}
@@ -43,7 +43,7 @@ class TopBar extends Component {
           <div className="buttonText">Home</div>
         </NavLink>
         <NavLink to={url} className="topBarElement topBarButton">
-          <div className="buttonText">{userNameText}</div>
+          <div className="buttonText">{usernameText}</div>
         </NavLink>
       </div>
 

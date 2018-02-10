@@ -16,7 +16,7 @@ class PageContent extends Component {
   render() {
     var pageContent = <Switch >
       <Route exact path="/" component={UserPage} />
-      <Route path="/user/:userName" component={UserPage} />
+      <Route path="/user/:username" component={UserPage} />
       <Route exact path="/userpage" component={UserPage} />
       <Route exact path="/login" component={LoginPageContainer} />
     </Switch>;
@@ -46,8 +46,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
-    signUp: (userName, password, firstName, lastName) => dispatch(signUp(userName, password, firstName, lastName)),
-    signIn : (userName, password) => dispatch(signIn(userName, password))
+    signUp: (username, password, firstName, lastName) => dispatch(signUp(username, password, firstName, lastName)),
+    signIn : (username, password) => dispatch(signIn(username, password))
   };
 };
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const UserLink = (props) => {
   let { user } = props;
   let fullName;
-  let userName;
+  let username;
   if (!user.name) {
     fullName = "";
   } else {
@@ -13,12 +13,12 @@ const UserLink = (props) => {
     let lastName = user.name.last || "";
     fullName = firstName + ' ' + lastName;
   }
-  userName = user.userName || "";
+  username = user.username || "";
 
   return <div className="userLinkContainer">
-    <Link  to={`/user/${userName}`} className="userLink" >
+    <Link  to={`/user/${username}`} className="userLink" >
       <span className="fullName">{fullName}</span>
-      <span className="userName">{` @${userName}`}</span>
+      <span className="username">{` @${username}`}</span>
     </Link>
   </div>;
 };

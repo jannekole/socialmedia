@@ -10,7 +10,7 @@ var reply = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       required: [true, 'No user Id']
     },
-    userName: {
+    username: {
       type: String,
       required: [true, 'No username']
     },
@@ -39,7 +39,7 @@ var post = new Schema({
       type: String,
       required: [true, 'No user Id']
     },
-    userName: {
+    username: {
       type: String,
       required: [true, 'No username']
     },

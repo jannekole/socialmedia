@@ -5,8 +5,8 @@ let user = {};
 let isLoggedIn = false;
 var token = localStorage.getItem('token') || null;
 if (token) {
-  var { _id, userName } = jwtDecode(token);
-  user = {userName, _id};
+  var { _id, username } = jwtDecode(token);
+  user = {username, _id};
   isLoggedIn = true;
 }
 
