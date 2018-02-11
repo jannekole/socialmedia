@@ -179,8 +179,8 @@ label {
 }
 .topBarCenter {
   justify-content:center;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: ;
+  padding-right: ;
 }
 
 .topBarLeft > .topBarButton {
@@ -191,7 +191,7 @@ label {
 }
 .topBarElement {
   align-items: center;
-  padding: 0px 10px;
+  padding: 0px 5px;
   display: flex;
   height: 40px;
 
@@ -203,15 +203,16 @@ label {
   background-color: rgb(0, 81, 205);
 }
 .searchInput {
-  width: 100px;
+  width: 70px;
   border-radius: 200px;
   padding-left: 5px;
   font-size: 70%;
-  height: 24px;
+  height: 22px;
   border: none;
   position: relative;
   top: -2px;
-  box-sizing: border-box;
+  background-color: white;
+
 }
 .searchInput:focus, .searchButton:focus {
   outline: none;
@@ -222,7 +223,7 @@ label {
   border-color: black;
   border-radius: 200px;
   height: 24px;
-
+  overflow: hidden;
 
 }
 .searchButton:hover {
@@ -243,8 +244,6 @@ label {
   position: relative;
   top: -2px;
   right: -2px;
-  box-sizing: border-box;
-
 }
 img {
   height: ;
