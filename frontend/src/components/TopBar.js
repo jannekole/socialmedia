@@ -43,12 +43,13 @@ class TopBar extends Component {
           {/* <div className="buttonText">Home</div> */}
           <img  className="icon" src="/home.svg" alt="Messages"/>
         </NavLink>
+
+      </div>
+      <div className="topBarCenter">
         <NavLink to={url} className="topBarElement topBarButton">
           <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
           {/* <div className="topBarProfileLink">{usernameText}</div> */}
         </NavLink>
-      </div>
-      <div className="topBarCenter">
         <div className="topBarElement">
           <form className="searchForm" onSubmit={this.handleSearch}>
             <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
