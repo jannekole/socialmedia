@@ -61,16 +61,25 @@ class UserPage extends Component {
     let username = this.props.match.params.username;
     let posts = this.props.posts;
     if (username) {
-      posts = posts.filter((post) => {
-        return (post.user.username === username && !post.parentId);
-      });
-      if (posts.length > 0) {
-        var userId = posts[0].user._id;
-        posts = posts.concat(this.props.posts.filter((post) => {
-          return (post.parentUserId === userId);
-        }));
+      let { user } = this.props;
+      if (user) {
+        posts = this.props.posts.filter((post) => {
+          return (post.parentUserId === user._id);
+        });
       }
     }
+
+    // if (username) {
+    //   posts = posts.filter((post) => {
+    //     return (post.user.username === username && !post.parentId);
+    //   });
+    //   if (posts.length > 0) {
+    //     var userId = posts[0].user._id;
+    //     posts = this.props.posts.filter((post) => {
+    //       return (post.parentUserId === userId);
+    //     });
+    //   }
+    // }
 
 
     return <div className="">
@@ -103,7 +112,6 @@ UserPage.propTypes = {
   user: PropTypes.object,
   changeReplyInputVisibility: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  key: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
   all: PropTypes.bool.isRequired,
   follows: PropTypes.array.isRequired,
