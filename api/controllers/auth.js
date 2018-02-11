@@ -13,7 +13,6 @@ var jwtEspireSeconds = 60*60*24*7;
 exports.opts = opts;
 
 exports.sendToken = (req, res, next) => {
-  console.log('req.user', req.user)
   let options = {expiresIn: jwtEspireSeconds};
   let {username, _id} = req.user;
   let payload = {username, _id};
