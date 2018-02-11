@@ -75,7 +75,7 @@ class TopBar extends Component {
     var topBarempty = <div className="topBar">
       <div className="topBarLeft">
         <NavLink to="/" className="topBarElement topBarButton">
-          <div className="buttonText">Home</div>
+          {/* <div className="buttonText">Home</div> */}
         </NavLink>
       </div>
     </div>;
