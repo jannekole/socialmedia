@@ -9,20 +9,17 @@ body {
   padding-top: 3px;
 }
 .content {
-
   display: flex;
   justify-content: center;
 }
-
 .username {
   color: #777777
 }
 .userLink {
   text-decoration: none;
   color: black;
-
 }
-.userLink:hover .fullName{
+.userLink:hover .fullName {
   text-decoration: underline;
   color: #7ca7fb;
 }
@@ -45,9 +42,7 @@ body {
   height: 0px;
   border-top: 1px solid rgb(186, 186, 186);
   margin: 7px 20px;
-
 }
-
 .postActionBar {
   padding: 3px 7px;
   margin: 5px 0px 0px 0px;
@@ -55,7 +50,6 @@ body {
 }
 .notLink {
   margin: 0px 10px 0px 0px;
-
   text-decoration: none;
   color: rgb(115, 115, 115);
 }
@@ -63,19 +57,15 @@ body {
   font-weight: bold;
   color: rgb(0, 33, 255);
 }
-
 .notLink:hover {
   text-decoration: underline;
 }
-
 .postContent {
   margin: 0px 0px;
 }
 .postContent ~ .postContent {
   border-top: 1px solid grey;
 }
-
-
 .postText {
   /*break long words*/
   /* These are technically the same, but use both */
@@ -93,8 +83,6 @@ body {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-
-
 }
 .reply {
   margin-top: 10px;
@@ -102,9 +90,7 @@ body {
 .reply > .postContent {
   border-left: 7px solid hsl(215, 100%, 82%);
   padding-left: 10px;
-
 }
-
 .messageInput {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -113,7 +99,6 @@ body {
   width: 100%;
   margin-bottom: 5px;
   margin-top: 5px;
-
 }
 .formContainer {
   /*max-width: 75%;
@@ -157,50 +142,51 @@ label {
 }
 .topBar{
   max-width: 600px;
-
   margin: 0 auto;
-
   display: flex;
   justify-content:space-between;
+  font-size: 20px;
+}
+.topBarProfilePic {
+  height: 30px;
+
+}
+.topBarProfileLink {
+  margin: 5px;
+    font-weight: bold;
 }
 .buttonText {
-
   display: inline;
-  margin: 0px 20px;
-  font-size: 20px;
+
   font-weight: bold;
   text-transform: uppercase;
   vertical-align: bottom;
-
 }
 .topBarLeft, .topBarRight, .topBarCenter{
   width: 300px;
   display: flex;
 }
-
 .topBarLeft {
   justify-content: flex-start;
 }
-
 .topBarRight {
   justify-content: flex-end;
 }
 .topBarCenter {
   justify-content:center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .topBarLeft > .topBarButton {
   float: left;
 }
-
 .topBarRight > .topBarButton {
   float:right;
 }
 .topBarElement {
-
-
   align-items: center;
-
+  padding: 0px 10px;
   display: flex;
   height: 40px;
 
@@ -208,13 +194,40 @@ label {
   white-space: nowrap;
   color: black;
 }
-
-
-.topBarButton:hover {
+.topBarButton:hover{
   background-color: rgb(93, 127, 179);
 }
 .searchInput {
-  width: 80px;
+  width: 100px;
+  border-radius: 200px;
+  padding-left: 5px;
+  font-size: 80%;
+  height: 28px;
+  border: none;
+}
+.searchInput:focus, .searchButton:focus {
+  outline: none;
+}
+.searchForm {
+
+  border: 3px solid;
+  border-color: rgb(93, 127, 179);
+  border-radius: 200px;
+
+}
+.searchButton:hover {
+  background-color: rgb(93, 127, 179);
+}
+.searchButton {
+  font-size: 78%;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  display:inline-block;
+  height: 30px;
+  border-radius: 200px;
+  background-color: inherit;
 }
 img {
   height: ;
@@ -227,8 +240,6 @@ img {
   border-bottom: 1px solid rgb(205, 205, 205);
 
   position: relative;
-
-
 }
 .profilePic {
   float: left;
@@ -245,7 +256,6 @@ img {
   bottom: 12px;
 left: 230px;
 }
-
 .notification {
   font-size: 12px;
   color: red;

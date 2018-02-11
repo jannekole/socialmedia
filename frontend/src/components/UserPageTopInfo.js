@@ -29,26 +29,34 @@ class UserPageTopInfo extends Component {
   isOwnPage() {
     return this.props.user._id === this.props.thisUser.user._id;
   }
-  render() {
+  userFoundPage() {
     let { user } = this.props;
+    let url = user.picUrl || "default";
+    return <div>
+      <div>
+        <img src={`/profilepics/${url}.jpg`} alt={user.username +"'s picture"} className="profilePic" height="200" width="200" />
+      </div>
+      <div className="userPageInfo">
+        <UserLink user={user}/>
+        {this.isOwnPage() ? null : <ActionButton action={this.handleFollowClick} activeText="Following" inActiveText="Follow" isActive={this.isFollowing()} />}
+      </div>
+      <div className="bottomRow">
+      </div>
+    </div>;
+  }
+  render() {
+    let { user , isLoading} = this.props;
+    let content;
 
-    if (!user) {
-      return <div>No user found</div>;
-    } else {
-
-      let url = user.picUrl || "default";
-      return <div className="userPageTopInfo">
-        <div>
-          <img src={`/profilepics/${url}.jpg`} alt={user.username +"'s picture"} className="profilePic" height="200" width="200" />
-        </div>
-        <div className="userPageInfo">
-          <UserLink user={user}/>
-          {this.isOwnPage() ? null : <ActionButton action={this.handleFollowClick} activeText="Following" inActiveText="Follow" isActive={this.isFollowing()} />}
-        </div>
-        <div className="bottomRow">
-        </div>
-      </div>;
+    if (!user && isLoading === false) {
+      content = "User not found";
+    } else if (!user) {
+      content = "Loading...";
     }
+    else {
+      content = this.userFoundPage();
+    }
+    return <div className="userPageTopInfo"> {content} </div>;
   }
 }
 export default UserPageTopInfo;
@@ -60,4 +68,5 @@ UserPageTopInfo.propTypes = {
   thisUser: PropTypes.object,
   follow: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
 };

@@ -184,6 +184,19 @@ export const loadPosts = (user) => {
   };
 };
 
+export const loadUserPre = (username) => {
+  return {
+    type: LOAD_USER_PRE,
+    username
+  };
+};
+export const loadUserError = (username, error) => {
+  return {
+    type: LOAD_USER_ERROR,
+    username,
+    error
+  };
+};
 export const loadUserSuccess = (username, data) => {
   return {
     type: RECEIVE_USER,
@@ -193,9 +206,9 @@ export const loadUserSuccess = (username, data) => {
 };
 export const loadUsers = (username) => {
   return (dispatch) => {
-    //dispatch(loadPostsPre(username));
+    dispatch(loadUserPre(username));
     var loadError = function(error) {
-      return ()=>{return null;};
+      return loadUserError(username, error);
     };
 
     var loadSuccess = (json) => {
@@ -458,7 +471,11 @@ export const RECEIVE_POSTS_ERROR = 'RECEIVE_POSTS_ERROR';
 export const REPLY_INPUT_VISIBILITY = 'REPLY_INPUT_VISIBILITY';
 export const CHANGE_REPLY_INPUT = 'CHANGE_REPLY_INPUT';
 
+export const LOAD_USER_PRE = 'LOAD_USER_PRE';
+export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
 export const RECEIVE_USER = 'RECEIVE_USER';
+
+
 export const CHANGE_THIS_USER = 'CHANGE_THIS_USER';
 export const LOG_OUT = 'LOG_OUT';
 

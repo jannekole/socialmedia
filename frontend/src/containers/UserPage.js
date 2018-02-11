@@ -29,18 +29,19 @@ class UserPage extends Component {
     this.props.changePostInput(e.target.value);
   }
   render() {
-    let userPage = null;
+    let userPageTop = null;
     let postForm = null;
 
     //if this is a userpage, render UserPageTopInfo
     if (!this.props.all) {
-      userPage = <UserPageTopInfo
+      userPageTop = <UserPageTopInfo
         username={this.props.username}
         user={this.props.user}
         loadUser={this.props.loadUser}
         thisUser={this.props.thisUser}
         follows={this.props.follows}
         follow={this.props.follow}
+        isLoading={this.props.userIsLoading}
       />;
     }
 
@@ -71,21 +72,22 @@ class UserPage extends Component {
       }
     }
 
+
     return <div className="">
 
-      {userPage}
+      {userPageTop}
       <div className="content">
         <div className="postList">
           {postForm}
-          <Posts
+          {this.props.user || this.props.all ? <Posts
             posts={posts}
             isDoneFetching={this.props.contentIsDoneFetching}
             loadPosts={this.props.loadPosts}
             getFollows={this.props.getFollows}
             changeReplyInputVisibility={this.props.changeReplyInputVisibility}
-            routerKey={this.props.key}
+            // routerKey={this.props.key}
             thisUser={this.props.thisUser}
-          />
+          /> : null}
         </div>
       </div>
     </div>;
@@ -110,6 +112,7 @@ UserPage.propTypes = {
   changePostInput: PropTypes.func.isRequired,
   postInputDisabled: PropTypes.bool,
   username: PropTypes.string,
+  userIsLoading: PropTypes.bool,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -127,12 +130,14 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   let thisUser = state.thisUser;
-
+  //
   let key = ownProps.location.key;
 
   let follows = state.follows;
   let postInput = thisUser.postInput;
   let postInputDisabled = thisUser.postInputDisabled;
+
+  let userIsLoading = state.loading.users[username];
 
   return {
     posts,
@@ -145,6 +150,7 @@ const mapStateToProps = (state, ownProps) => {
     postInput,
     postInputDisabled,
     username,
+    userIsLoading,
   };
 };
 

@@ -32,7 +32,7 @@ class TopBar extends Component {
     var username = user.username;
     var { isLoading } = this.props;
     var usernameText = isLoggedIn ? username : "Log in";
-
+    var profilePicUrl = user.picUrl || "default";
     var loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
     var userUrl = "/user/" + username;
     var url = isLoggedIn ? userUrl : loginUrl;
@@ -42,26 +42,31 @@ class TopBar extends Component {
         <NavLink to="/" className="topBarElement topBarButton">
           <div className="buttonText">Home</div>
         </NavLink>
-        <NavLink to={url} className="topBarElement topBarButton">
-          <div className="buttonText">{usernameText}</div>
-        </NavLink>
+
       </div>
 
       <div className="topBarCenter">
         <div className="topBarElement">
-          <form onSubmit={this.handleSearch}>
-            <input className="searchInput" placeholder="Username" onChange={this.handleInputChange} name="searchInput" type="text" />
+          <form className="searchForm" onSubmit={this.handleSearch}>
+            <input className="searchInput" placeholder="Username" autoComplete="off" onChange={this.handleInputChange} name="searchInput" type="text" />
+            <input className="searchButton" name="searchInput" type="submit" value="Find user" />
+
           </form>
         </div>
-        <a href="" onClick={this.handleSearch} className="topBarElement topBarButton">
+        {/* <a href="" onClick={this.handleSearch} className="topBarElement topBarButton">
           <div className="buttonText">Go</div>
-        </a>
+        </a> */}
       </div>
 
       <div className="topBarRight">
+        <NavLink to={url} className="topBarElement topBarButton">
+          <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
+          <div className="topBarProfileLink">{usernameText}</div>
+        </NavLink>
         <a href="/" onClick={this.logOutClick} className="topBarElement topBarButton">
           <div className="buttonText">Log out</div>
           {/* <img  src="/messages.png" alt="Messages"/> */}
+
         </a>
       </div>
     </div>;
