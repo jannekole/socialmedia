@@ -47,7 +47,8 @@ exports.getUsers = function (req, res, next) {
   let username = req.params.username;
   let query = {};
   if (username) {
-    query = {username};
+    query = {username: username.toLowerCase()};
+    console.log(query)
   }
   User.find(query, (err, users) => {
     if (err) {

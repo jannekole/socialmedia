@@ -22,8 +22,8 @@ module.exports = function(app) {
     .post(jwtAuth, userControllers.userToBody, postControllers.parentPostToBody, postControllers.latestSiblingToBody, postControllers.postReply);
 
   app.route('/api/users/:username')
-    .get(userControllers.getUsers);
-  app.route('/api/users/')  
+    .get(jwtAuth, userControllers.getUsers);
+  app.route('/api/users/')
     .post(userControllers.addUser, sendToken);
 
   app.route('/api/likes/')
@@ -32,11 +32,11 @@ module.exports = function(app) {
   app.route('/api/follows/')
     .put(jwtAuth, userControllers.followingToBody, followControllers.addFollow);
   app.route('/api/follows/:followerId?/:followingId?')
-    .get(followControllers.getFollows);
+    .get(jwtAuth, followControllers.getFollows);
   app.route('/api/followers/:followingId')
-    .get(followControllers.getFollows);
+    .get(jwtAuth, followControllers.getFollows);
   app.route('/api/following/:followerId')
-    .get(followControllers.getFollows);
+    .get(jwtAuth, followControllers.getFollows);
   app.route('/api/follows/')
     .delete(jwtAuth, userControllers.followingToBody, followControllers.deleteFollow);
 

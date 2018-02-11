@@ -25,7 +25,8 @@ var user = new Schema({
     type: String,
     required: [true, 'No password'],
     select: false      //password is not selected by default, remember
-  }                    //to select when comparing
+  },                    //to select when comparing
+  acceptFollows: Boolean
 
 });
 user.methods.verifyPassword = function(password, callback) {
