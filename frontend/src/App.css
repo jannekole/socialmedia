@@ -212,6 +212,11 @@ label {
   position: relative;
   top: -2px;
   background-color: white;
+  transition: width 0.5s;
+
+}
+.searchInput:focus {
+  width: 100px;
 
 }
 .searchInput:focus, .searchButton:focus {
