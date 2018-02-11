@@ -81,6 +81,7 @@ class Post extends Component {
     return <PostForm handleSubmit={this.handleSubmit}
       handleInputChange={this.handleInputChange}
       rows={2}
+      autoFocus={true}
       disabled={this.props.replyIsLoading}
       inputText={this.props.replyInputText}>
     </PostForm>;

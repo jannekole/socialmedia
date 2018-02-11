@@ -159,6 +159,7 @@ label {
 .topBarProfileLink {
   margin: 5px;
     font-weight: ;
+    max-width: 80px;
 }
 .buttonText {
   display: inline;

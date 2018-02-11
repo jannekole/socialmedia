@@ -9,7 +9,7 @@ const PostForm = (props) => {
     {props.children}
     <textarea
       name="text"
-      autoFocus="true"
+      autoFocus={props.autoFocus}
       rows={props.rows}
       className="messageInput"
       value={props.inputText}
@@ -25,6 +25,7 @@ PostForm.propTypes = {
   children: PropTypes.string,
   rows: PropTypes.number,
   disabled: PropTypes.bool,
+  autoFocus: PropTypes.bool,
 };
 
 
