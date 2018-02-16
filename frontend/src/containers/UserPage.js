@@ -18,11 +18,10 @@ class UserPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidMount() {
-
     window.scrollTo(0, 0);
   }
   handleSubmit(e) {
-    this.props.postPost(this.props.thisUser.user.username, this.props.postInput);
+    this.props.postPost(null, this.props.postInput);
     e.preventDefault();
   }
   handleInputChange(e) {
@@ -48,7 +47,8 @@ class UserPage extends Component {
     //If this is the user's own page or front page, render reply box
     if (this.props.thisUser.isLoggedIn && (this.props.all || (this.props.user && this.props.user.username === this.props.thisUser.user.username))) {
       postForm = <div className="post">
-        <PostForm handleSubmit={this.handleSubmit}
+        <PostForm id={""}
+          handleSubmit={this.handleSubmit}
           handleInputChange={this.handleInputChange}
           inputText={this.props.postInput}
           rows={4}
@@ -68,18 +68,6 @@ class UserPage extends Component {
         });
       }
     }
-
-    // if (username) {
-    //   posts = posts.filter((post) => {
-    //     return (post.user.username === username && !post.parentId);
-    //   });
-    //   if (posts.length > 0) {
-    //     var userId = posts[0].user._id;
-    //     posts = this.props.posts.filter((post) => {
-    //       return (post.parentUserId === userId);
-    //     });
-    //   }
-    // }
 
 
     return <div className="">

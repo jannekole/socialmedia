@@ -80,8 +80,11 @@ class TopBar extends Component {
       </div>
     </div>;
 
-    return <div className="topBarContainer">
-      {isLoggedIn ? topBarContent : topBarempty}
+    return <div>
+      <div className="topBarContainer">
+        {isLoggedIn ? topBarContent : topBarempty}
+      </div>
+      <div className="topBarSpacer"> </div>
     </div>;
   }
 }

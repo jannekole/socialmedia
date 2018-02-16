@@ -1,23 +1,38 @@
-import React from 'react';
+import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { loadPosts, changePostInput, postReply, changeReplyInputVisibility , getFollows, follow} from '../actions/actions';
 
-const PostForm = (props) => {
 
-
-  return <form onSubmit={props.handleSubmit}>
-    {props.children}
-    <textarea
-      name="text"
-      autoFocus={props.autoFocus}
-      rows={props.rows}
-      className="messageInput"
-      value={props.inputText}
-      onChange={props.handleInputChange}
-    />
-    <input type="submit" disabled={props.disabled} value="Submit" />
-  </form>;
-};
+class PostForm extends Component {
+  constructor(props) {
+    super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(e) {
+    this.props.handleSubmit(this.props.inputText);
+    e.preventDefault();
+  }
+  handleInputChange(e) {
+    this.props.handleInputChange(e.target.value);
+  }
+  render() {
+    return <form onSubmit={this.handleSubmit}>
+      {this.props.children}
+      <textarea
+        name="text"
+        autoFocus={this.props.autoFocus}
+        rows={this.props.rows}
+        className="messageInput"
+        value={this.props.inputText}
+        onChange={this.handleInputChange}
+      />
+      <input type="submit" disabled={this.props.disabled} value="Submit" />
+    </form>;
+  }
+}
 PostForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   inputText: PropTypes.string.isRequired,
@@ -28,15 +43,27 @@ PostForm.propTypes = {
   autoFocus: PropTypes.bool,
 };
 
-
+var all = undefined;
 const mapStateToProps = (state, ownProps) => {
-  var id = ownProps.parentId || "_allForm";
-  var disabled = state.status.loading.postForms[id];
-  var error = state.status.errors.postForms[id];
+  var id = ownProps.parentId || all;
+  var disabled = state.loading.postReplies[id];
+  var inputText = state.input.forms[id] || "";
+  // var error = state.status.errors.postForms[id];
   return {
     disabled,
-    error
+    // error
+    inputText,
+  };
+};
+const mapDispatchToProps = (dispatch, ownProps) => {
+  let parentId = ownProps.parentId || all;
+  return {
+    handleSubmit: (text) => dispatch(postReply(null, text, parentId)),
+
+    handleInputChange: (text) => dispatch(changePostInput(text, parentId)),
   };
 };
 
-export default PostForm;
+const PostFormContainer = connect(mapStateToProps, mapDispatchToProps)(PostForm);
+
+export default PostFormContainer;

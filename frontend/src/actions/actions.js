@@ -223,13 +223,13 @@ const postPostSuccess = (data) => {
     data
   };
 };
-export const changePostInput = (text) => {
-  return {
-    type: CHANGE_POST_INPUT,
-    text
-  };
-};
-export const changeReplyInput = (text, postId) => {
+// export const changePostInput = (text) => {
+//   return {
+//     type: CHANGE_POST_INPUT,
+//     text
+//   };
+// };
+export const changePostInput = (text, postId) => {
   return {
     type: CHANGE_REPLY_INPUT,
     text,
@@ -266,10 +266,15 @@ export const postReply = (username, text, parentId) => {
       return postReplySuccess(json, parentId);
     };
     var data = {
-      username,
       text
     };
-    let url = '/api/posts/reply/' + parentId;
+    let url;
+    if (parentId) {
+      url = '/api/posts/reply/' + parentId;
+    } else {
+      url = '/api/posts/';
+    }
+
     apiFetch(dispatch, url, loadSuccess, loadError, 'POST', data);
   };
 };
@@ -285,7 +290,7 @@ export const postPostsError = () => {
 };
 export const postPost = (username, text) => {
   return (dispatch) => {
-    dispatch(postPostsPre(username));
+    dispatch(postPostsPre());
     var loadError = function(error) {
       return postPostsError();
     };
@@ -293,7 +298,6 @@ export const postPost = (username, text) => {
       return postPostSuccess(json);
     };
     var data = {
-      username,
       text
     };
     apiFetch(dispatch, '/api/posts', loadSuccess, loadError, 'POST', data);
@@ -359,6 +363,7 @@ export const signUp = (username, password, firstName, lastName) => {
   };
 };
 const apiFetch = (dispatch, url, success, error, method, data) => {
+  console.log('data',data)
   let token = localStorage.getItem('token') || null;
   fetch(url, {
     method,

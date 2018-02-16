@@ -2,8 +2,8 @@ body {
   font-family:  Segoe UI, arial, comic sans ms, sans-serif;
   background-color: hsl(0, 0%, 97%);
 }
-.page {
-    margin-top: 40px;
+.topBarSpacer {
+  height: 40px;
 }
 .page > *:first-child{
   padding-top: 3px;
@@ -203,8 +203,12 @@ label {
 .topBarButton:hover{
   background-color: rgb(0, 81, 205);
 }
+
+.searchForm:hover .searchInput{
+
+}
 .searchInput {
-  width: 70px;
+  width: 67px;
   border-radius: 200px;
   padding-left: 5px;
   font-size: 70%;
@@ -214,7 +218,6 @@ label {
   top: -2px;
   background-color: white;
   transition: width 0.5s;
-
 }
 .searchInput:focus {
   width: 100px;

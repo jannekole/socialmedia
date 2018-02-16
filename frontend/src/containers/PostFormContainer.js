@@ -1,5 +1,5 @@
 import PostForm from '../components/PostForm';
-import { postReply, changeReplyInput} from '../actions/actions';
+import { postReply, changePostInput} from '../actions/actions';
 
 import { connect } from 'react-redux';
 
@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     postReply: (username, text, parentId) => dispatch(postReply(username, text, parentId)),
-    changeReplyInput: (text, parentId) => dispatch(changeReplyInput(text, parentId)),
+    changeReplyInput: (text, parentId) => dispatch(changePostInput(text, parentId)),
   };
 };
 

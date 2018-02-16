@@ -1,5 +1,5 @@
 import Post from '../components/Post';
-import { postReply, changeReplyInput, sendLike} from '../actions/actions';
+import { postReply, changePostInput, sendLike} from '../actions/actions';
 
 import { connect } from 'react-redux';
 
@@ -13,10 +13,9 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-
   return {
     postReply: (username, text, parentId) => dispatch(postReply(username, text, parentId)),
-    changeReplyInput: (text, parentId) => dispatch(changeReplyInput(text, parentId)),
+    changeReplyInput: (text, parentId) => dispatch(changePostInput(text, parentId)),
     sendLike: (userId, like, subjectId, type) => dispatch(sendLike(userId, like, subjectId, type))
   };
 };
