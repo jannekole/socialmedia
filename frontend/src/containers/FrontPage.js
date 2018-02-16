@@ -17,9 +17,7 @@ class FrontPage extends Component {
           <div className="postList">
             <div className="post">
               {shouldRenderPostForm ?
-                <PostForm handleSubmit={this.handleSubmit}
-                  handleInputChange={this.handleInputChange}
-                  inputText={this.props.postInput}
+                <PostForm 
                   rows={4}
                   disabled={this.props.postInputDisabled}>
                   Post something:

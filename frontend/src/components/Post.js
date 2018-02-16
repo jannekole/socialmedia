@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import PostContentContainer from '../containers/PostContentContainer';
 import ActionButton from '../components/ActionButton';
-import PostFormContainer from '../containers/PostFormContainer';
 import PostForm from '../components/PostForm';
 
 import sortPostsByDate from '../utils/sortPostsByDate';
@@ -12,11 +11,8 @@ class Post extends Component {
   constructor(props) {
     super(props);
     this.clickReply = this.clickReply.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.clickLike = this.clickLike.bind(this);
   }
-
   clickReply(e) {
     let { replyInputVisible } = this.props.post;
     this.props.changeReplyInputVisibility(
@@ -30,18 +26,8 @@ class Post extends Component {
     this.props.sendLike(userId, like, _id, "post");
     e.preventDefault();
   }
-  handleInputChange(e) {
-    this.props.changeReplyInput(e.target.value, this.props.post._id);
-    e.preventDefault();
-  }
-  handleSubmit(e) {
-    let username = this.props.thisUser.username;
-    this.props.postReply(username, e.target.text.value, this.props.post._id);
-    e.preventDefault();
-  }
   renderReply(reply) {
     return <div className="reply" key={reply._id}>
-
       <PostContentContainer post={reply}/>
     </div>;
   }
@@ -72,22 +58,17 @@ class Post extends Component {
       <span className="likesText">{this.numberOfLikedText()}</span>
     </div>;
   }
-
   renderReplyBox() {
     let { replyInputVisible } = this.props.post;
     if (!replyInputVisible) {
       return null;
     }
-    return <PostForm handleSubmit={this.handleSubmit}
-      handleInputChange={this.handleInputChange}
+    return <PostForm
       rows={2}
       autoFocus={true}
-      inputText={this.props.replyInputText}
       parentId={this.props.post._id}>
     </PostForm>;
   }
-
-
   render() {
     return <div className="post">
       <PostContentContainer post={this.props.post}/>
@@ -98,9 +79,6 @@ class Post extends Component {
     ;
   }
 }
-
-export default Post;
-
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   replies: PropTypes.array.isRequired,
@@ -113,3 +91,4 @@ Post.propTypes = {
   replyIsLoading: PropTypes.bool.isRequired,
   replyInputText: PropTypes.string.isRequired,
 };
+export default Post;
