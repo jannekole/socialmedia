@@ -84,6 +84,7 @@ class UserPage extends Component {
             changeReplyInputVisibility={this.props.changeReplyInputVisibility}
             // routerKey={this.props.key}
             thisUser={this.props.thisUser}
+
           /> : null}
         </div>
       </div>

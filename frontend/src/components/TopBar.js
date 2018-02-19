@@ -63,11 +63,9 @@ class TopBar extends Component {
       </div>
 
       <div className="topBarRight">
-
         <a href="/" onClick={this.logOutClick} className="topBarElement topBarButton">
           <div className="buttonText">Log out</div>
           {/* <img  src="/messages.png" alt="Messages"/> */}
-
         </a>
       </div>
     </div>;

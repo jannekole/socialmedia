@@ -11,6 +11,7 @@ class UserPageTopInfo extends Component {
   }
   componentDidMount() {
     this.props.loadUser(this.props.username);
+    this.props.getFollows();
   }
   handleFollowClick(e) {
     let { thisUser, user } = this.props;
@@ -64,9 +65,11 @@ export default UserPageTopInfo;
 UserPageTopInfo.propTypes = {
   user: PropTypes.object,
   loadUser: PropTypes.func.isRequired,
+  getFollows: PropTypes.func.isRequired,
   follows: PropTypes.array.isRequired,
   thisUser: PropTypes.object,
   follow: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
+
 };

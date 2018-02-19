@@ -1,45 +1,53 @@
 import React, { Component } from 'react';
 import PostForm from '../components/PostForm';
 import Posts from '../containers/PostsContainer';
+import UserPageTopInfo from '../containers/UserPageTopInfoContainer';
+import LoginPageContainer from '../containers/LoginPageContainer';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class FrontPage extends Component {
   render() {
-    let username = this.props.username;
+    let username = this.props.match.params.username;
     let shouldRenderUserPageTop = !!username;
-    let shouldRenderPostForm = (!username || username === this.props.thisUser.username);
-    return (
-      <div className="page">
-        <div>{shouldRenderUserPageTop ? "usertop" : null}</div>
-        <div className="content">
-          <div className="postList">
-            <div className="post">
+    let shouldRenderPostForm = (!username || username === this.props.thisUser.user.username);
+    let { isLoggedIn } = this.props.thisUser;
+    if (isLoggedIn) {
+      return (
+        <div className="page">
+          <div>{shouldRenderUserPageTop ? <UserPageTopInfo
+            username={this.props.match.params.username}
+          /> : null}</div>
+          <div className="content">
+            <div className="postList">
               {shouldRenderPostForm ?
-                <PostForm 
-                  rows={4}
-                  disabled={this.props.postInputDisabled}>
-                  Post something:
-                </PostForm> : null
+                <div className="post">
+                  <PostForm
+                    rows={4}>
+                    Post something:
+                  </PostForm>
+                </div> : null
               }
+              <Posts routerKey={this.props.location.key} username={username}/>
             </div>
-            <Posts username={username}/>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <LoginPageContainer />;
+    }
+
   }
 }
-
 FrontPage.propTypes = {
   thisUser: PropTypes.object.isRequired,
-  username: PropTypes.string,
+  match: PropTypes.object,
+  location: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => {
   let thisUser = state.thisUser;
-
   return {
     thisUser,
   };

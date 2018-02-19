@@ -11,20 +11,15 @@ class Posts extends Component {
     this.props.getFollows(this.props.thisUser.user._id);
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.routerKey !== this.props.routerKey) {
-  //     this.props.loadPosts(this.props.thisUser.user.username);
-  //     console.log('thisuser',this.props.thisUser.user._id)
-  //     this.props.getFollows(this.props.thisUser.user._id);
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.routerKey !== this.props.routerKey) {
+      this.props.loadPosts(this.props.thisUser.user.username);
+      this.props.getFollows(this.props.thisUser.user._id);
+    }
+  }
 
   render() {
-    var secondsFromObjectId = function (objectId) {
-      return parseInt(objectId.substring(0, 8), 16);
-    };
     let posts;
-    let order = 1; // -1 to reverse
     if (this.props.posts) {
       posts = this.props.posts
         .filter((post) => {
@@ -68,6 +63,6 @@ Posts.propTypes = {
   getFollows: PropTypes.func.isRequired,
   isDoneFetching: PropTypes.bool.isRequired,
   changeReplyInputVisibility: PropTypes.func.isRequired,
-  // routerKey: PropTypes.string,
+  routerKey: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
 };

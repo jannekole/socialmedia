@@ -30,10 +30,10 @@ class App extends Component {
       <Router>
         <div>
           <Route component={TopBar} />
-          {/* <Route exact path="/" component={FrontPage} />
-          <Route path="/user/:username" component={UserPage} /> */}
+          <Route exact path="/" component={FrontPage} />
+          <Route path="/user/:username" component={FrontPage} />
+          <Route path="/login" component={LoginPageContainer} />
 
-          <PageContentContainer />
         </div>
       </Router>
     </Provider>;

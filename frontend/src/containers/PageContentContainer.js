@@ -36,22 +36,17 @@ PageContent.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => {
   var thisUser = state.thisUser;
-
   return {
     thisUser
-
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-
   return {
     signUp: (username, password, firstName, lastName) => dispatch(signUp(username, password, firstName, lastName)),
     signIn : (username, password) => dispatch(signIn(username, password))
   };
 };
-
-
 const PageContentContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(PageContent));
 
 PageContentContainer.propTypes = {

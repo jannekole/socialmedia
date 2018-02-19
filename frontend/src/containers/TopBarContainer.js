@@ -9,22 +9,16 @@ const mapStateToProps = (state, ownProps) => {
   //var currentPath = ownProps.location.pathname;
 
   var isLoading = !!Object.keys(state.loading.likes).length;
-
-
   return {
     thisUser,
     isLoading
-  //  currentPath
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-
   return {
     signIn : (username) => dispatch(signIn(username)),
     logOut : () => dispatch(logOut())
-    //loadPosts: (userFilter) => dispatch(loadPosts("jdksdlkdsl"))
-
   };
 };
 

@@ -163,21 +163,21 @@ export const loadPostsError = (user, error) => {
   };
 };
 
-export const loadPosts = (user) => {
+export const loadPosts = (username) => {
   return (dispatch) => {
 
     let url = '/api/posts/';
-    if (user !== "_all") {
-      url = url + user;
+    if (username) {
+      url = url + username;
     }
     var loadError = function(error) {
-      return loadPostsError(user, error);
+      return loadPostsError(username, error);
     };
 
     var loadSuccess = (json) => {
-      return loadPostsSuccess(user, json);
+      return loadPostsSuccess(username, json);
     };
-    dispatch(loadPostsPre(user));
+    dispatch(loadPostsPre(username));
     apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
 
 

@@ -149,8 +149,6 @@ LoginPage.propTypes = {
   signIn: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
   thisUser: PropTypes.object.isRequired,
-  isSignUp: PropTypes.bool
-
 };
 
 export default LoginPage;
