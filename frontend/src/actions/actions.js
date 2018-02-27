@@ -115,24 +115,6 @@ const loginError = (errors) => {
     errors
   };
 };
-export const login = (username) => {
-  return (dispatch) => {
-
-    var loadError = function(error) {
-      return loginError(error);
-    };
-
-    var loadSuccess = (json) => {
-      return setThisUser(json);
-    };
-
-
-    //dispatch(loadPostsPre(user));
-    getUserByName(dispatch, username, loadSuccess, loadError);
-
-
-  };
-};
 const getUserByName = (dispatch, username, loadSuccess, loadError) => {
   let uri = '/api/users/' + username;
 
@@ -140,18 +122,20 @@ const getUserByName = (dispatch, username, loadSuccess, loadError) => {
 
 
 };
-export const loadPostsPre = (user) => {
+export const loadPostsPre = (user, time) => {
   return {
     type: REQUEST_POSTS,
-    user
+    user,
+    time
   };
 };
 
-export const loadPostsSuccess = (user, data) => {
+export const loadPostsSuccess = (user, data, time) => {
   return {
     type: RECEIVE_POSTS,
     user,
-    data
+    data,
+    time
   };
 };
 
@@ -175,12 +159,10 @@ export const loadPosts = (username) => {
     };
 
     var loadSuccess = (json) => {
-      return loadPostsSuccess(username, json);
+      return loadPostsSuccess(username, json, Date.now());
     };
-    dispatch(loadPostsPre(username));
+    dispatch(loadPostsPre(username, Date.now()));
     apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
-
-
   };
 };
 
@@ -333,7 +315,7 @@ export const signIn = (username, password) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(username));
     var loadError = function(error) {
-      return ()=> null;
+      return loginError(error);
     };
     var loadSuccess = handleTokenReceve('signin');
     var data = {
@@ -343,12 +325,17 @@ export const signIn = (username, password) => {
     apiFetch(dispatch, '/api/signin', loadSuccess, loadError, 'POST', data);
   };
 };
-
+const loginErrorj = (errors) => {
+  return {
+    type: LOGIN_ERROR,
+    errors
+  };
+};
 export const signUp = (username, password, firstName, lastName) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(username));
     var loadError = function(error) {
-      return ()=> null;
+      return loginError(error);
     };
     var loadSuccess = handleTokenReceve('signup');
     var data = {
@@ -378,19 +365,19 @@ const apiFetch = (dispatch, url, success, error, method, data) => {
       console.log('response not ok!');
       if (res.status === 401) {
         dispatch(logOut());
-        dispatch(error("Could not access posts"));
+        dispatch(error(["Unauthorized"]));
+      } else {
+        res.json().then(
+          (json) => {
+            console.log('json ok');
+            dispatch(error(json.errors));
+          },
+          (err) => {
+            console.log('error parsing json');
+            dispatch(error(err));
+          }
+        );
       }
-      console.log('fin');
-      res.json().then(
-        (json) => {
-          console.log('json ok');
-          dispatch(error(json.errors));
-        },
-        (err) => {
-          console.log('error parsing json');
-          dispatch(error(err));
-        }
-      );
     } else {
       res.json().then(
         (json) => {

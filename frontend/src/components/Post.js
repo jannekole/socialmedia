@@ -27,8 +27,9 @@ class Post extends Component {
     e.preventDefault();
   }
   renderReply(reply) {
+    let isNew = this.isNew(reply._id);
     return <div className="reply" key={reply._id}>
-      <PostContentContainer post={reply}/>
+      <PostContentContainer post={reply} isNew={isNew}/>
     </div>;
   }
   renderReplies(replies) {
@@ -51,6 +52,9 @@ class Post extends Component {
       return `${num} likes`;
     }
   }
+  isNew(id) {
+    return this.props.lastFetched < parseInt(id.substring(0, 8), 16) * 1000;
+  }
   renderActionBar() {
     return <div className="postActionBar" >
       <ActionButton action={this.clickReply} isActive={false}>Reply</ActionButton>
@@ -66,12 +70,15 @@ class Post extends Component {
     return <PostForm
       rows={2}
       autoFocus={true}
-      parentId={this.props.post._id}>
+      parentId={this.props.post._id}
+      page={this.props.username}>
     </PostForm>;
   }
   render() {
+    let isNew = this.isNew(this.props.post._id);
     return <div className="post">
-      <PostContentContainer post={this.props.post}/>
+      <PostContentContainer post={this.props.post} isNew={isNew}/>
+
       {this.renderActionBar()}
       {this.renderReplyBox()}
       {this.renderReplies(this.props.replies)}
@@ -90,5 +97,7 @@ Post.propTypes = {
   sendLike: PropTypes.func.isRequired,
   replyIsLoading: PropTypes.bool.isRequired,
   replyInputText: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  lastFetched: PropTypes.number,
 };
 export default Post;

@@ -18,6 +18,7 @@ class FrontPage extends Component {
         <div className="page">
           <div>{shouldRenderUserPageTop ? <UserPageTopInfo
             username={this.props.match.params.username}
+            key={this.props.location.key}
           /> : null}</div>
           <div className="content">
             <div className="postList">
@@ -29,7 +30,7 @@ class FrontPage extends Component {
                   </PostForm>
                 </div> : null
               }
-              <Posts routerKey={this.props.location.key} username={username}/>
+              <Posts key={this.props.location.key} username={username}/>
             </div>
           </div>
         </div>

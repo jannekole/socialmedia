@@ -20,9 +20,11 @@ const mapStateToProps = (state, ownProps) => {
 
   let thisUser = state.thisUser;
   let isDoneFetching = posts ? (state.posts.isDoneFetching[username] === true) : true;
+  let isLoading = state.loading.posts[username];
   return {
     thisUser,
-    isDoneFetching,
+    isDoneFetching: !isLoading,
+    isLoading,
     posts
   };
 };

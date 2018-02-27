@@ -46,13 +46,13 @@ class UserPageTopInfo extends Component {
     </div>;
   }
   render() {
-    let { user , isLoading} = this.props;
+    let { user , userIsLoading} = this.props;
     let content;
 
-    if (!user && isLoading === false) {
+    if (!user && !userIsLoading) {
       content = "User not found";
     } else if (!user) {
-      content = "Loading...";
+      content = "";
     }
     else {
       content = this.userFoundPage();
@@ -70,6 +70,6 @@ UserPageTopInfo.propTypes = {
   thisUser: PropTypes.object,
   follow: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool,
+  userIsLoading: PropTypes.bool,
 
 };

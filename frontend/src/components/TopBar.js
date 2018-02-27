@@ -39,21 +39,22 @@ class TopBar extends Component {
     var topBarContent = <div className="topBar">
       {isLoading ? <div className="loader"></div> : null}
       <div className="topBarLeft">
-        <NavLink to="/" className="topBarElement topBarButton">
+        <NavLink to="/" exact className="topBarElement topBarButton">
           {/* <div className="buttonText">Home</div> */}
           <img  className="icon" src="/home.svg" alt="Messages"/>
         </NavLink>
-
-      </div>
-      <div className="topBarCenter">
         <NavLink to={url} className="topBarElement topBarButton">
           <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
           {/* <div className="topBarProfileLink">{usernameText}</div> */}
         </NavLink>
+
+      </div>
+      <div className="topBarCenter">
+
         <div className="topBarElement">
           <form className="searchForm" onSubmit={this.handleSearch}>
             <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
-            <input className="searchButton" name="searchInput" type="submit" value="Find" />
+            <input className="searchButton" name="searchInput" type="submit" value="Search" />
 
           </form>
         </div>
@@ -72,9 +73,9 @@ class TopBar extends Component {
 
     var topBarempty = <div className="topBar">
       <div className="topBarLeft">
-        <NavLink to="/" className="topBarElement topBarButton">
+        <div className="topBarElement">
           {/* <div className="buttonText">Home</div> */}
-        </NavLink>
+        </div>
       </div>
     </div>;
 

@@ -5,21 +5,33 @@ import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_POSTS_ERROR, RECEIVE_USER,
 
 import merge from './merge';
 
-const loading = (state = {postReplies:{}, likes:{}, users:{}}, action) => {
+const loading = (state = {postReplies:{}, likes:{}, users:{}, posts:{}}, action) => {
   console.log('type',action.type);
   switch (action.type) {
 
+    case REQUEST_POSTS: {
+      let newState = {...state};
+      newState.posts = {...state.posts};
+      newState.posts[action.user] = true;
+      return newState;
+    }
+    case RECEIVE_POSTS:
+    case RECEIVE_POSTS_ERROR: {
+      let newState = {...state};
+      newState.posts = {...state.posts};
+      delete newState.posts[action.user];
+      return newState;
+    }
     case LOAD_USER_PRE: {
       let newState = {...state};
-      console.log('hei')
       newState.users = {...state.users, [action.username]: true};
       return newState;
     }
     case LOAD_USER_ERROR:
     case RECEIVE_USER: {
       let newState = {...state};
-      console.log('loading: false')
-      newState.users = {...state.users, [action.username]: false};
+      newState.users = {...state.users};
+      delete newState.users[action.username];
       return newState;
     }
 

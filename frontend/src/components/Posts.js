@@ -7,50 +7,50 @@ import sortPostsByDate from '../utils/sortPostsByDate';
 class Posts extends Component {
 
   componentDidMount() {
+    this.fetchData();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.routerKey !== this.props.routerKey) {
+      this.fetchData();
+    }
+  }
+  fetchData() {
     this.props.loadPosts(this.props.thisUser.user.username);
     this.props.getFollows(this.props.thisUser.user._id);
   }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.routerKey !== this.props.routerKey) {
-      this.props.loadPosts(this.props.thisUser.user.username);
-      this.props.getFollows(this.props.thisUser.user._id);
-    }
-  }
-
   render() {
     let posts;
     if (this.props.posts) {
       posts = this.props.posts
         .filter((post) => {
-          return post.parentId === "000000000000000000000000" || !post.parentId;
+          return !post.parentId;
         });
-      sortPostsByDate(posts, 1);
-      //posts.sort((a, b) => {return order * (secondsFromObjectId(b._id) - secondsFromObjectId(a._id));});
+      let sortOrder = 1;
+      sortPostsByDate(posts, sortOrder);
       posts = posts.map((post) => {
         let replies = this.props.posts.filter((childPost) => {
           return post._id === childPost.parentId;
         });
-        return <PostContainer post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replies={replies} key={post._id} />;
+        return <PostContainer username={this.props.username} post={post} user={post.user} changeReplyInputVisibility={this.props.changeReplyInputVisibility} replies={replies} key={post._id} />;
       });
     }
 
-    const loadingIndicator = (isDoneFetching) => {
-      return !isDoneFetching
+    const loadingIndicator = (isLoading) => {
+      return isLoading
         ? <div className="post infoBox">Loading... </div>
-        : null;
+        : <div className="infoBox infoBoxHidden"></div>;
     };
 
-    const nothingHereIndicator = (isDoneFetching) => {
-      return isDoneFetching && !posts.length
+    const nothingHereIndicator = (isLoading) => {
+      return !isLoading && !posts.length
         ? <div className="post infoBox">{"There doesn't seem to be anything here"} </div>
         : null;
     };
 
     return <div>
-      {loadingIndicator(this.props.isDoneFetching)}
+      {loadingIndicator(this.props.isLoading)}
       {posts}
-      {nothingHereIndicator(this.props.isDoneFetching)}
+      {nothingHereIndicator(this.props.isLoading)}
     </div>;
   }
 }
@@ -65,4 +65,6 @@ Posts.propTypes = {
   changeReplyInputVisibility: PropTypes.func.isRequired,
   routerKey: PropTypes.string,
   thisUser: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool,
+  username: PropTypes.string,
 };

@@ -4,13 +4,16 @@ import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_POSTS_ERROR, RECEIVE_USER,
 import post from './post';
 import merge from './merge';
 
-var defaultState = {items: [], isDoneFetching: {}};
+var defaultState = {items: [], isDoneFetching: {}, lastFetched: {}};
 const posts = (state = defaultState, action) => {
   state = post(state, action);
   switch (action.type) {
     case REQUEST_POSTS: {
+      let lastFetched = {...state.lastFetched};
+      lastFetched[action.user] = action.time;
+
       let isDoneFetching = {...state.isDoneFetching, [action.user]: false};
-      return {...state, isDoneFetching};
+      return {...state, isDoneFetching, lastFetched};
     }
     // case LIKE_RECEIVED:
     case RECEIVE_POSTS:
@@ -25,6 +28,10 @@ const posts = (state = defaultState, action) => {
       }
       if (action.data.replies) {
         newState.items = merge(newState.items, action.data.replies);
+      }
+      if (action.type === RECEIVE_POSTS || action.type === REQUEST_POSTS) {
+        newState.lastFetched = {...state.lastFetched};
+        newState.lastFetched[action.user] = action.time;
       }
       return newState;
     }

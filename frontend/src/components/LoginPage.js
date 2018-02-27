@@ -7,7 +7,7 @@ class LoginPage extends Component  {
 
   constructor(props) {
     super(props);
-    this.state = {notification: "", signUp: false};
+    this.state = {signUp: false, errors:{}};
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -18,21 +18,67 @@ class LoginPage extends Component  {
     let password = this.state.password || "";
     let lastName = this.state.lastName || "";
     let firstName = this.state.firstName || "";
-    if (!username) {
-      this.setState({notification: "Enter a username"});
-    } else {
+
+
+    if (this.validate()) {
       if (this.state.signUp) {
         this.props.signUp(username, password, firstName, lastName);
       } else {
         this.props.signIn(username, password);
       }
     }
-
     e.preventDefault();
   }
+  validate() {
+    if (this.state.signUp) {
+      return this.validateSignUp();
+    } else {
+      return this.validateSignIn();
+    }
+  }
+  validateSignUp() {
+    let signin = this.validateSignIn();
+    let lname = this.checkEmpty("lastName");
+    let fname = this.checkEmpty("firstName");
+
+    if (signin && lname && fname) {
+      return true;
+    } else return false;
+
+  }
+  validateSignIn() {
+    let uname = this.checkEmpty("username");
+    let pword = this.checkEmpty("password");
+    if (uname && pword) {
+      return true;
+    } else return false;
+
+  }
+  checkEmpty(fieldName) {
+    if(!this.state[fieldName]) {
+      this.setState((prevState) => {
+        let newState = {...prevState};
+        newState.errors[fieldName] = "empty";
+        return newState;
+      });
+      return false;
+    } else {
+      this.setState((prevState) => {
+        let newState = {...prevState};
+        delete newState.errors[fieldName];
+        return newState;
+      });
+      return true;
+    }
+  }
   handleInputChange(e) {
-    this.setState({notification: ""});
-    this.setState({[e.target.name]: e.target.value});
+    let name = e.target.name;
+    this.setState((prevState) => {
+      let newState = {...prevState};
+      delete newState.errors[name];
+      return newState;
+    });
+    this.setState({[name]: e.target.value});
     e.preventDefault();
   }
   redirect(shouldRedirect) {
@@ -40,38 +86,51 @@ class LoginPage extends Component  {
     return shouldRedirect ? <Redirect to={redirectUrl} /> : null;
   }
   toggleSignUp(e) {
-    this.setState({signUp: !this.state.signUp});
+    this.setState({
+      signUp: !this.state.signUp,
+      errors: {}
+    });
+
     e.preventDefault();
+  }
+  renderField(label, name, type="text") {
+    let autoFocus = false;
+    if (name === "username") {
+      autoFocus = true;
+    }
+    let error = this.state.errors[name];
+    let className = "inputField";
+    if (error === "empty") {
+      error = `${label} is required`;
+      className= "inputField inputFieldError";
+    }
+    return <label>
+      {label + ": "}
+      <input
+        name={name}
+        className={className}
+        onChange={this.handleInputChange}
+        value={this.state[name]}
+        type={type}
+        disabled={this.state.isDisabled}
+        placeholder={error}
+        autoFocus={autoFocus}
+      >
+      </input>
+    </label>;
   }
   renderSignUp() {
     return <span>
-      <label>
-        {"First name: "}
-        <input
-          name="firstName"
-          className="inputField"
-          onChange={this.handleInputChange}
-          value={this.state.input}
-          type="text"
-          disabled={this.state.isDisabled} >
-        </input>
-      </label>
-      <label>
-        {"Last name: "}
-        <input
-          name="lastName"
-          className="inputField"
-          onChange={this.handleInputChange}
-          value={this.state.input}
-          type="text"
-          disabled={this.state.isDisabled} >
-        </input>
-      </label>
+      {this.renderField("First name", "firstName")}
+      {this.renderField("Last name", "lastName")}
     </span>;
   }
   render() {
-    let notification = this.state.notification || this.props.thisUser.loginErrorMessage;
-
+    let notification = this.props.thisUser.loginErrorMessage;
+    let finalNotification = "";
+    if (notification === "Unauthorized" && !this.state.signUp) {
+      finalNotification = "Incorrect username or password";
+    } else {finalNotification = notification;}
     var { isLoggedIn } = this.props.thisUser;
 
     var text;
@@ -102,30 +161,12 @@ class LoginPage extends Component  {
                   {toggleLinkText}
                 </a>
               </div>
-              <label>
-                {"Username: "}
-                <input
-                  name="username"
-                  className="inputField"
-                  onChange={this.handleInputChange}
-                  value={this.state.input}
-                  type="text"
-                  autoFocus="true"
-                  disabled={this.state.isDisabled} >
-                </input>
-              </label>
-              <label>
-                {"Password: "}
-                <input
-                  name="password"
-                  className="inputField"
-                  onChange={this.handleInputChange}
-                  value={this.state.input}
-                  type="password"
-                  disabled={this.state.isDisabled} >
-                </input>
-              </label>
+              {this.renderField("Username", "username")}
+              {this.renderField("Password", "password", "password")}
               {this.state.signUp ? this.renderSignUp() : null}
+              <div className="notification">
+                {finalNotification}
+              </div>
               <input
                 type="submit"
                 disabled={this.state.isDisabled}
@@ -133,8 +174,8 @@ class LoginPage extends Component  {
 
               <div className="notification">
                 {this.state.isLoading ? 'loading...' : null }
-                {notification}
               </div>
+
             </form>
           </div>
 

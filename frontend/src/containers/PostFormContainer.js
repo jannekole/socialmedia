@@ -15,8 +15,6 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-
-
   return {
     postReply: (username, text, parentId) => dispatch(postReply(username, text, parentId)),
     changeReplyInput: (text, parentId) => dispatch(changePostInput(text, parentId)),

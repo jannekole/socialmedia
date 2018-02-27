@@ -31,12 +31,17 @@ body {
 }
 .infoBox {
   text-align: center;
+  max-height: 60px;
+}
+.infoBoxHidden {
+  max-height: 0px;
 }
 .post {
   margin: 10px;
   border: 1px solid rgb(205, 205, 205);
   padding: 10px;
   background-color: white;
+
 }
 .replyDivider {
   height: 0px;
@@ -62,6 +67,15 @@ body {
 }
 .postContent {
   margin: 0px 0px;
+}
+.newPostContent {
+  animation: fadecolor 1.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes fadecolor {
+0% { background-color: rgb(255, 255, 173); }
+10% { background-color: rgb(255, 255, 173); }
+100%   { background-color: rgb(255, 255, 232); }
 }
 .postContent ~ .postContent {
   border-top: 1px solid grey;
@@ -124,6 +138,10 @@ body {
 .inputField {
   display: inline;
 }
+.inputFieldError {
+  background-color: rgb(255, 213, 213);
+}
+
 label {
   display: block;
   align-content: center;
@@ -146,6 +164,7 @@ label {
   display: flex;
   justify-content:space-between;
   font-size: 20px;
+  box-sizing: border-box;
 }
 .topBarProfilePic {
   height: 24px;
@@ -192,9 +211,11 @@ label {
 }
 .topBarElement {
   align-items: center;
-  padding: 0px 5px;
+  padding: 4px 7px 0px 7px;
+  border-bottom: solid 4px transparent;
   display: flex;
   height: 40px;
+  box-sizing: border-box;
 
   text-decoration: none;
   white-space: nowrap;
@@ -203,14 +224,19 @@ label {
 .topBarButton:hover{
   background-color: rgb(0, 81, 205);
 }
+.topBarButton{
 
+
+}
+.topBarElement.active{
+  border-color: rgb(0, 81, 205);
+}
 .searchForm:hover .searchInput{
 
 }
 .searchInput {
   width: 67px;
-  border-radius: 200px;
-  padding-left: 5px;
+  padding: 0px 5px 0px 7px;
   font-size: 70%;
   height: 22px;
   border: none;
@@ -218,6 +244,7 @@ label {
   top: -2px;
   background-color: white;
   transition: width 0.5s;
+
 }
 .searchInput:focus {
   width: 100px;
@@ -234,6 +261,7 @@ label {
   height: 24px;
   overflow: hidden;
 
+
 }
 .searchButton:hover {
   background-color: rgb(0, 81, 205);
@@ -246,13 +274,13 @@ label {
   font-weight: ;
   display:inline-block;
   height: 28px;
-  border-radius: 200px;
-  border: 2px solid;
+  border-left: 2px solid;
   border-color: black;
-  background-color: rgb(133, 182, 255);
+  background-color: lightgrey;
   position: relative;
   top: -2px;
-  right: -2px;
+  right: 0px;
+  padding-right: 10px;
 }
 img {
   height: ;
@@ -297,7 +325,7 @@ left: 230px;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    animation: spin 1s linear infinite, fadein 1s;
+    animation: spin 1s linear infinite, fadein 1.5s;
 }
 @keyframes fadein {
     0% { opacity: 0; }

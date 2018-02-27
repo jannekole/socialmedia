@@ -9,6 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     thisUser: state.thisUser.user,
     replyIsLoading: state.loading.postReplies[_id] || false,
     replyInputText: ownProps.post.replyInputText || "",
+    lastFetched: state.posts.lastFetched[ownProps.username],
   };
 };
 
