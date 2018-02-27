@@ -174,11 +174,13 @@ label {
 }
 .topBarProfilePic {
   height: 24px;
+  width: 24px;
   border: 2px solid;
   border-radius: 200px;
 }
 .icon {
   height: inherit;
+  width: 40px;
 
 }
 .topBarProfileLink {
@@ -246,8 +248,8 @@ label {
 
 }
 .searchInput {
-  width: 75px;
-  font-size: 70%;
+  width: 83px;
+  font-size: 80%;
   border: none;
 
   background-color: white;
@@ -255,6 +257,7 @@ label {
   box-sizing: border-box;
 vertical-align: bottom;
 padding-left: 8px;
+text-transform: lowercase;
   /*padding: 0px 0px 0px 0px;*/
 }
 .searchInput:focus {
