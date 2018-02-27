@@ -15,11 +15,11 @@ class FrontPage extends Component {
     let { isLoggedIn } = this.props.thisUser;
     if (isLoggedIn) {
       return (
-        <div className="page">
-          <div>{shouldRenderUserPageTop ? <UserPageTopInfo
+        <div className="page"><div>
+          <div className="contentContainer">{shouldRenderUserPageTop ? <UserPageTopInfo
             username={this.props.match.params.username}
             key={this.props.location.key}
-          /> : null}</div>
+          /> : null}
           <div className="content">
             <div className="postList">
               {shouldRenderPostForm ?
@@ -33,6 +33,8 @@ class FrontPage extends Component {
               <Posts key={this.props.location.key} username={username}/>
             </div>
           </div>
+          </div>
+        </div>
         </div>
       );
     } else {

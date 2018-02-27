@@ -10,7 +10,13 @@ body {
 }
 .content {
   display: flex;
+
   justify-content: center;
+}
+.contentContainer {
+  margin: auto;
+  box-sizing: border-box;
+  max-width: 834px;
 }
 .username {
   color: #777777
@@ -221,7 +227,12 @@ label {
   white-space: nowrap;
   color: black;
 }
-.topBarButton:hover{
+@media (hover:hover) {
+  .topBarButton:hover{
+    background-color: rgb(0, 81, 205);
+  }
+}
+.topBarButton:active{
   background-color: rgb(0, 81, 205);
 }
 .topBarButton{
@@ -235,33 +246,36 @@ label {
 
 }
 .searchInput {
-  width: 67px;
-  padding: 0px 5px 0px 7px;
+  width: 75px;
   font-size: 70%;
-  height: 22px;
   border: none;
-  position: relative;
-  top: -2px;
+
   background-color: white;
   transition: width 0.5s;
-
+  box-sizing: border-box;
+vertical-align: bottom;
+padding-left: 8px;
+  /*padding: 0px 0px 0px 0px;*/
 }
 .searchInput:focus {
   width: 100px;
-
 }
 .searchInput:focus, .searchButton:focus {
   outline: none;
 }
 .searchForm {
-  background-color: white;
+  background-color: red;
+  border-radius: 200px;
+  overflow: hidden;
   border: 2px solid;
   border-color: black;
-  border-radius: 200px;
-  height: 24px;
-  overflow: hidden;
-
-
+  height: 28px;
+  vertical-align:top;
+}
+.searchForm > * {
+  position: relative;
+  top:-3px;
+  height: 34px;
 }
 .searchButton:hover {
   background-color: rgb(0, 81, 205);
@@ -273,14 +287,10 @@ label {
   text-transform: lowercase;
   font-weight: ;
   display:inline-block;
-  height: 28px;
   border-left: 2px solid;
   border-color: black;
   background-color: lightgrey;
-  position: relative;
-  top: -2px;
-  right: 0px;
-  padding-right: 10px;
+
 }
 img {
   height: ;
@@ -293,7 +303,10 @@ img {
   border-bottom: 1px solid rgb(205, 205, 205);
 
   position: relative;
+  overflow: hidden;
 }
+
+
 .profilePic {
   float: left;
   display: block;
@@ -308,6 +321,23 @@ img {
   position: absolute;
   bottom: 12px;
 left: 230px;
+}
+
+@media only screen and (min-width: 830px){
+.userPageTopInfo-l {
+  float: left;
+  border: 1px solid rgb(205, 205, 205);
+  width: 220px;
+  margin: 10px;
+  margin-right: 0px;
+  padding: 5px;
+}
+.userPageInfo-l {
+  position:static;
+  margin: 0px 5px 0px 5px;
+}
+.content{
+}
 }
 .notification {
   font-size: 12px;
@@ -337,3 +367,6 @@ left: 230px;
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}

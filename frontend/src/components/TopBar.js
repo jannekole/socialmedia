@@ -53,9 +53,12 @@ class TopBar extends Component {
 
         <div className="topBarElement">
           <form className="searchForm" onSubmit={this.handleSearch}>
-            <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
-            <input className="searchButton" name="searchInput" type="submit" value="Search" />
-
+            {/* <table>
+              <tr> */}
+                <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
+                <input className="searchButton" name="searchInput" type="submit" value="Search" />
+              {/* </tr>
+            </table> */}
           </form>
         </div>
         {/* <a href="" onClick={this.handleSearch} className="topBarElement topBarButton">

@@ -37,7 +37,7 @@ class UserPageTopInfo extends Component {
       <div>
         <img src={`/profilepics/${url}.jpg`} alt={user.username +"'s picture"} className="profilePic" height="200" width="200" />
       </div>
-      <div className="userPageInfo">
+      <div className="userPageInfo userPageInfo-l">
         <UserLink user={user}/>
         {this.isOwnPage() ? null : <ActionButton action={this.handleFollowClick} activeText="Following" inActiveText="Follow" isActive={this.isFollowing()} />}
       </div>
@@ -57,7 +57,7 @@ class UserPageTopInfo extends Component {
     else {
       content = this.userFoundPage();
     }
-    return <div className="userPageTopInfo"> {content} </div>;
+    return <div className="userPageTopInfo userPageTopInfo-l"> {content} </div>;
   }
 }
 export default UserPageTopInfo;
