@@ -45,6 +45,9 @@ class TopBar extends Component {
         </NavLink>
         <NavLink to={url} className="topBarElement topBarButton">
           <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
+          <div className="buttonText show-m">
+            {username}
+          </div>
           {/* <div className="topBarProfileLink">{usernameText}</div> */}
         </NavLink>
 

@@ -11,7 +11,6 @@ class PostContent extends Component {
     return <div className={className}>
       <UserLink user={this.props.user}/>
       <div className="postText">
-
         {this.props.post.text}
       </div>
     </div>;

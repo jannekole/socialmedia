@@ -177,6 +177,7 @@ label {
   width: 24px;
   border: 2px solid;
   border-radius: 200px;
+  margin: 4px;
 }
 .icon {
   height: inherit;
@@ -190,7 +191,7 @@ label {
 }
 .buttonText {
   display: inline;
-
+  margin: 0px 5px;
   font-weight: ;
   text-transform: lowercase;
   vertical-align: bottom;
@@ -219,7 +220,7 @@ label {
 }
 .topBarElement {
   align-items: center;
-  padding: 4px 7px 0px 7px;
+  padding: 4px 4px 0px 4px;
   border-bottom: solid 4px transparent;
   display: flex;
   height: 40px;
@@ -256,12 +257,11 @@ label {
   transition: width 0.5s;
   box-sizing: border-box;
 vertical-align: bottom;
-padding-left: 8px;
+padding-left: 10px;
 text-transform: lowercase;
-  /*padding: 0px 0px 0px 0px;*/
 }
 .searchInput:focus {
-  width: 100px;
+  width: 140px;
 }
 .searchInput:focus, .searchButton:focus {
   outline: none;
@@ -275,13 +275,13 @@ text-transform: lowercase;
   height: 28px;
   vertical-align:top;
 }
-.searchForm > * {
+.searchForm > input {
   position: relative;
   top:-3px;
   height: 34px;
 }
 .searchButton:hover {
-  background-color: rgb(0, 81, 205);
+  background-color: grey;
 }
 .searchButton {
   font-size: 80%;
@@ -293,6 +293,7 @@ text-transform: lowercase;
   border-left: 2px solid;
   border-color: black;
   background-color: lightgrey;
+  padding-right: 10px;
 
 }
 img {
@@ -326,6 +327,14 @@ img {
 left: 230px;
 }
 
+[class*="show-"] {
+       display: none;
+   }
+@media only screen and (min-width: 590px){
+  .show-m {
+    display:initial;
+  }
+  }
 @media only screen and (min-width: 830px){
 .userPageTopInfo-l {
   float: left;
@@ -334,12 +343,17 @@ left: 230px;
   margin: 10px;
   margin-right: 0px;
   padding: 5px;
+  position:sticky;
+  top: 53px;
 }
 .userPageInfo-l {
   position:static;
   margin: 0px 5px 0px 5px;
 }
-.content{
+.content {
+}
+.show-l {
+  display:initial;
 }
 }
 .notification {

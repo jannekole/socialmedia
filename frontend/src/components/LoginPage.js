@@ -7,7 +7,7 @@ class LoginPage extends Component  {
 
   constructor(props) {
     super(props);
-    this.state = {signUp: false, errors:{}};
+    this.state = {signUp: false, username: "", password: "", lastName: "", firstName: "", errors:{}};
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);

@@ -1,5 +1,4 @@
-import fetch from 'isomorphic-fetch';
-
+import { apiFetch } from './apiFetch';
 
 export const followSuccess = (data, remove, userToFollow) => {
   return {
@@ -27,7 +26,7 @@ export const getFollows = (followerId, followingId) => {
     let followerUrl = followerId || "null";
     let followingUrl = followingId || "null";
     var url = '/api/follows/' + followerUrl + '/' + followingUrl;
-    apiFetchD(dispatch, url, loadSuccess, loadError, 'GET');
+    apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
   };
 };
 export const follow = (userId, userToFollow, unFollow=false) => {
@@ -50,7 +49,7 @@ export const follow = (userId, userToFollow, unFollow=false) => {
       method = 'PUT';
     }
     var url = '/api/follows/';
-    apiFetchD(dispatch, url, loadSuccess, loadError, method, data);
+    apiFetch(dispatch, url, loadSuccess, loadError, method, data);
   };
 };
 export const likeSuccessful = (data, postId) => {
@@ -81,10 +80,10 @@ export const sendLike = (userId, like, subjectId, type) => {
   return (dispatch) => {
 
     var loadError = function(error) {
-      return likeError(error, subjectId, like, userId);
+      return dispatch(likeError(error, subjectId, like, userId));
     };
     var loadSuccess = (json) => {
-      return likeSuccessful(json, subjectId);
+      return dispatch(likeSuccessful(json, subjectId));
     };
     var data = {
       userId,
@@ -92,7 +91,6 @@ export const sendLike = (userId, like, subjectId, type) => {
       id: subjectId,
       type
     };
-    console.log('likepre')
     dispatch(likePre(subjectId, like, userId));
     apiFetch(dispatch, '/api/likes', loadSuccess, loadError, 'PUT', data);
   };
@@ -117,10 +115,7 @@ const loginError = (errors) => {
 };
 const getUserByName = (dispatch, username, loadSuccess, loadError) => {
   let uri = '/api/users/' + username;
-
   apiFetch(dispatch, uri, loadSuccess, loadError, 'GET');
-
-
 };
 export const loadPostsPre = (user, time) => {
   return {
@@ -155,11 +150,11 @@ export const loadPosts = (username) => {
       url = url + username;
     }
     var loadError = function(error) {
-      return loadPostsError(username, error);
+      return dispatch(loadPostsError(username, error));
     };
 
     var loadSuccess = (json) => {
-      return loadPostsSuccess(username, json, Date.now());
+      return dispatch(loadPostsSuccess(username, json, Date.now()));
     };
     dispatch(loadPostsPre(username, Date.now()));
     apiFetch(dispatch, url, loadSuccess, loadError, 'GET');
@@ -190,11 +185,11 @@ export const loadUsers = (username) => {
   return (dispatch) => {
     dispatch(loadUserPre(username));
     var loadError = function(error) {
-      return loadUserError(username, error);
+      return dispatch(loadUserError(username, error));
     };
 
     var loadSuccess = (json) => {
-      return loadUserSuccess(username, json);
+      return dispatch(loadUserSuccess(username, json));
     };
     getUserByName(dispatch, username, loadSuccess, loadError);
   };
@@ -205,12 +200,6 @@ const postPostSuccess = (data) => {
     data
   };
 };
-// export const changePostInput = (text) => {
-//   return {
-//     type: CHANGE_POST_INPUT,
-//     text
-//   };
-// };
 export const changePostInput = (text, postId) => {
   return {
     type: CHANGE_REPLY_INPUT,
@@ -242,10 +231,10 @@ export const postReply = (username, text, parentId) => {
   return (dispatch) => {
     dispatch(postReplyPre(parentId));
     var loadError = function(error) {
-      return postReplyError(error, parentId);
+      return dispatch(postReplyError(error, parentId));
     };
     var loadSuccess = (json) => {
-      return postReplySuccess(json, parentId);
+      return dispatch(postReplySuccess(json, parentId));
     };
     var data = {
       text
@@ -274,10 +263,10 @@ export const postPost = (username, text) => {
   return (dispatch) => {
     dispatch(postPostsPre());
     var loadError = function(error) {
-      return postPostsError();
+      return dispatch(postPostsError(error));
     };
     var loadSuccess = (json) => {
-      return postPostSuccess(json);
+      return dispatch(postPostSuccess(json));
     };
     var data = {
       text
@@ -298,16 +287,14 @@ export const checkSignIn = () => {
   };
 };
 
-const handleTokenReceve = (handle) => (json) => {
+const handleTokenReceve = (json) => {
   if (json.token) {
     localStorage.setItem('token', json.token);
     //
     var { _id, username } = jwtDecode(json.token);
     let user = {username, _id};
-    console.log('local storage set:', json.token, user);
     return setThisUser(user);
   } else {
-    console.log('error logging in', handle);
     return ()=>null;
   }
 };
@@ -315,9 +302,9 @@ export const signIn = (username, password) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(username));
     var loadError = function(error) {
-      return loginError(error);
+      return dispatch(loginError(error));
     };
-    var loadSuccess = handleTokenReceve('signin');
+    var loadSuccess = (json) => dispatch(handleTokenReceve(json));
     var data = {
       username,
       password
@@ -325,19 +312,13 @@ export const signIn = (username, password) => {
     apiFetch(dispatch, '/api/signin', loadSuccess, loadError, 'POST', data);
   };
 };
-const loginErrorj = (errors) => {
-  return {
-    type: LOGIN_ERROR,
-    errors
-  };
-};
 export const signUp = (username, password, firstName, lastName) => {
   return (dispatch) => {
     //dispatch(loadPostsPre(username));
     var loadError = function(error) {
-      return loginError(error);
+      return dispatch(loginError(error));
     };
-    var loadSuccess = handleTokenReceve('signup');
+    var loadSuccess = (json) => dispatch(handleTokenReceve(json));
     var data = {
       username,
       password,
@@ -349,105 +330,6 @@ export const signUp = (username, password, firstName, lastName) => {
     apiFetch(dispatch, '/api/users/', loadSuccess, loadError, 'POST', data);
   };
 };
-const apiFetch = (dispatch, url, success, error, method, data) => {
-  console.log('data',data)
-  let token = localStorage.getItem('token') || null;
-  fetch(url, {
-    method,
-    body: JSON.stringify(data),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }),
-    credentials: 'same-origin'
-  }).then((res) => {
-    if (!res.ok) {
-      console.log('response not ok!');
-      if (res.status === 401) {
-        dispatch(logOut());
-        dispatch(error(["Unauthorized"]));
-      } else {
-        res.json().then(
-          (json) => {
-            console.log('json ok');
-            dispatch(error(json.errors));
-          },
-          (err) => {
-            console.log('error parsing json');
-            dispatch(error(err));
-          }
-        );
-      }
-    } else {
-      res.json().then(
-        (json) => {
-          console.log('json', json);
-          dispatch(success(json));
-        },
-        (err) => {
-          console.log('error parsing json');
-          dispatch(error(err));
-        }
-      );
-    }
-  }).catch(err => {
-    console.log('catcherr', err);
-    dispatch(error(err));
-  });
-
-
-};
-
-const apiFetchD = (dispatch, url, success, error, method, data) => {
-  let token = localStorage.getItem('token') || null;
-  fetch(url, {
-    method,
-    body: JSON.stringify(data),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }),
-    credentials: 'same-origin'
-  }).then((res) => {
-    if (!res.ok) {
-      console.log('response not ok!');
-      if (res.status === 401) {
-        dispatch(logOut());
-        error("Could not access posts");
-      }
-      console.log('fin');
-      res.json().then(
-        (json) => {
-          console.log('json ok');
-          error(json.errors);
-        },
-        (err) => {
-          console.log('error parsing json');
-          error(err);
-        }
-      );
-    } else {
-      res.json().then(
-        (json) => {
-          console.log('json', json);
-          success(json);
-        },
-        (err) => {
-          console.log('error parsing json');
-          error(err);
-        }
-      );
-    }
-  }).catch(err => {
-    console.log('catcherr', err);
-    error(err);
-  });
-
-
-};
-
-
-
 export const changeReplyInputVisibility = (postId, user, visible) => {
   return {
     type: REPLY_INPUT_VISIBILITY,
