@@ -4,7 +4,6 @@ import Posts from '../containers/PostsContainer';
 import UserPageTopInfo from '../containers/UserPageTopInfoContainer';
 import LoginPageContainer from '../containers/LoginPageContainer';
 
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class FrontPage extends Component {
@@ -48,13 +47,4 @@ FrontPage.propTypes = {
   match: PropTypes.object,
   location: PropTypes.object,
 };
-
-const mapStateToProps = (state, ownProps) => {
-  let thisUser = state.thisUser;
-  return {
-    thisUser,
-  };
-};
-
-const FrontPageContainer = connect(mapStateToProps)(FrontPage);
-export default FrontPageContainer;
+export default FrontPage;

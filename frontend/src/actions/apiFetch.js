@@ -16,19 +16,20 @@ export const apiFetch = (dispatch, url, success, error, method, data) => {
       console.log('response not ok!');
       if (res.status === 401) {
         dispatch(logOut());
-        error("Could not access posts");
+        error(["Unauthorized"]);
       }
-      console.log('fin');
-      res.json().then(
-        (json) => {
-          console.log('json ok');
-          error(json.errors);
-        },
-        (err) => {
-          console.log('error parsing json');
-          error(err);
-        }
-      );
+      else {
+        res.json().then(
+          (json) => {
+            console.log('json ok');
+            error(json.errors);
+          },
+          (err) => {
+            console.log('error parsing json');
+            error(err);
+          }
+        );
+      }
     } else {
       res.json().then(
         (json) => {

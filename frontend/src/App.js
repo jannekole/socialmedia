@@ -10,9 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './App.css';
 import TopBar from './containers/TopBarContainer';
-import UserPage from './containers/UserPage';
-import FrontPage from './containers/FrontPage';
-import PageContentContainer from './containers/PageContentContainer';
+import FrontPageContainer from './containers/FrontPageContainer';
 import LoginPageContainer from './containers/LoginPageContainer';
 
 import reducer from './reducers';
@@ -30,8 +28,8 @@ class App extends Component {
       <Router>
         <div>
           <Route component={TopBar} />
-          <Route exact path="/" component={FrontPage} />
-          <Route path="/user/:username" component={FrontPage} />
+          <Route exact path="/" component={FrontPageContainer} />
+          <Route path="/user/:username" component={FrontPageContainer} />
           <Route path="/login" component={LoginPageContainer} />
 
         </div>
