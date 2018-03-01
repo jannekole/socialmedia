@@ -8,6 +8,7 @@ class Posts extends Component {
 
   componentDidMount() {
     this.fetchData();
+    window.scrollTo(0, 0);
   }
   componentDidUpdate(prevProps) {
     if (prevProps.routerKey !== this.props.routerKey) {
