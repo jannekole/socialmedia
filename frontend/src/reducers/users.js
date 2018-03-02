@@ -1,4 +1,4 @@
-import {RECEIVE_USER, CHANGE_THIS_USER} from '../actions/actions';
+import {RECEIVE_USER} from '../actions/actions';
 
 import merge from 'lodash/merge';
 

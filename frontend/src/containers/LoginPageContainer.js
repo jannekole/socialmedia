@@ -1,7 +1,6 @@
 import LoginPage from '../components/LoginPage';
 
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { signIn, signUp } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {

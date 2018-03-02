@@ -7,7 +7,14 @@ var passport = require('passport');
 var User = require('../models/user');
 
 var jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-var secretOrKey = 'iurthj56tdgfke9834jfiyft0k6ghh7630jjcuiy89trgk03uijhokvv9ktrtdgfh';
+
+var secretOrKey;
+if (process.env.NODE_ENV === "production") {
+  secretOrKey = process.env.JWT_SECRET;
+} else {
+  secretOrKey = require('../../secret');
+}
+
 var opts = {jwtFromRequest, secretOrKey};
 var jwtEspireSeconds = 60*60*24*7;
 exports.opts = opts;

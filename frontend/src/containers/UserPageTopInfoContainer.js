@@ -1,21 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {loadUsers, getFollows, follow} from '../actions/actions';
 
 import UserPageTopInfo from '../components/UserPageTopInfo';
 
-
-{/* <UserPageTopInfo
-  username={this.props.username}
-  user={this.props.user}
-  loadUser={this.props.loadUser}
-  thisUser={this.props.thisUser}
-  follows={this.props.follows}
-  follow={this.props.follow}
-  isLoading={this.props.userIsLoading}
-/>; */}
 const mapStateToProps = (state, ownProps) => {
   let username = ownProps.username;
   let userFilter = username || "_all";

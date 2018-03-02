@@ -1,4 +1,4 @@
-import { POST_POST_SUCCESS, CHANGE_REPLY_INPUT, POST_REPLY_SUCCESS, LIKE_RECEIVED, FOLLOWS_RECEIVED, FOLLOW_SUCCESS } from '../actions/actions';
+import { FOLLOWS_RECEIVED, FOLLOW_SUCCESS } from '../actions/actions';
 
 import merge from './merge';
 

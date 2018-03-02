@@ -9,14 +9,12 @@ const merge = (oldObjects, newObjects, remove=false) => {
   var newLength = newObjects.length;
   var objects;
   if (remove) {
-    console.log('remove', newObjects, oldObjects);
     objects = oldObjects.filter((object) => {
 
       return !isInArray(object, newObjects);
 
     });
   } else {
-    console.log('merge', newObjects, oldObjects);
     objects = [...newObjects];
     for (let i = 0; i < oldLength; i++) {
       let isDuplicate = false;

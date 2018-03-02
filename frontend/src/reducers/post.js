@@ -1,11 +1,7 @@
-import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_POSTS_ERROR, RECEIVE_USER,
-  REPLY_INPUT_VISIBILITY, POST_POST_SUCCESS, CHANGE_REPLY_INPUT,
-  POST_REPLY_SUCCESS, LIKE_PRE, LIKE_RECEIVED, LIKE_ERROR} from '../actions/actions';
-
-import merge from './merge';
+import { REPLY_INPUT_VISIBILITY, CHANGE_REPLY_INPUT,
+  POST_REPLY_SUCCESS, LIKE_PRE, LIKE_ERROR} from '../actions/actions';
 
 const post = (state = {}, action) => {
-  console.log(state, action);
   let newState = {...state};
   newState.items = state.items.map((post) => {
     if (post._id === action.postId) {

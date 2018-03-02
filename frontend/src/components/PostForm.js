@@ -2,7 +2,7 @@ import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { loadPosts, changePostInput, postReply, changeReplyInputVisibility , getFollows, follow} from '../actions/actions';
+import { changePostInput, postReply } from '../actions/actions';
 
 
 class PostForm extends Component {

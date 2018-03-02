@@ -1,7 +1,6 @@
 import TopBar from '../components/TopBar';
 
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { logOut, signIn} from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {

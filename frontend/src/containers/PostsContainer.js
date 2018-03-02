@@ -1,8 +1,7 @@
 import Posts from '../components/Posts';
-import { loadPosts, loadUsers, postPost, changeReplyInputVisibility , getFollows, follow, changePostInput} from '../actions/actions';
+import { loadPosts, changeReplyInputVisibility , getFollows} from '../actions/actions';
 
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 const mapStateToProps = (state, ownProps) => {
   let username = ownProps.username;
@@ -19,7 +18,6 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   let thisUser = state.thisUser;
-  let isDoneFetching = posts ? (state.posts.isDoneFetching[username] === true) : true;
   let isLoading = state.loading.posts[username];
   return {
     thisUser,

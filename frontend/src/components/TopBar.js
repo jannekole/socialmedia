@@ -31,7 +31,6 @@ class TopBar extends Component {
     var { user, isLoggedIn } = this.props.thisUser;
     var username = user.username;
     var { isLoading } = this.props;
-    var usernameText = isLoggedIn ? username : "Log in";
     var profilePicUrl = user.picUrl || "default";
     var loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
     var userUrl = "/user/" + username;
@@ -40,7 +39,6 @@ class TopBar extends Component {
       {isLoading ? <div className="loader"></div> : null}
       <div className="topBarLeft">
         <NavLink to="/" exact className="topBarElement topBarButton">
-          {/* <div className="buttonText">Home</div> */}
           <img  className="icon" src="/home.svg" alt="Messages"/>
         </NavLink>
         <NavLink to={url} className="topBarElement topBarButton">
@@ -48,27 +46,16 @@ class TopBar extends Component {
           <div className="buttonText show-m">
             {username}
           </div>
-          {/* <div className="topBarProfileLink">{usernameText}</div> */}
         </NavLink>
-
       </div>
       <div className="topBarCenter">
-
         <div className="topBarElement">
           <form className="searchForm" onSubmit={this.handleSearch}>
-            {/* <table>
-              <tr> */}
-                <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
-                <input className="searchButton" name="searchInput" type="submit" value="Search" />
-              {/* </tr>
-            </table> */}
+            <input className="searchInput" placeholder="Username" autoComplete="off" value={this.state.searchInput} onChange={this.handleInputChange} name="searchInput" type="text" />
+            <input className="searchButton" name="searchInput" type="submit" value="Search" />
           </form>
         </div>
-        {/* <a href="" onClick={this.handleSearch} className="topBarElement topBarButton">
-          <div className="buttonText">Go</div>
-        </a> */}
       </div>
-
       <div className="topBarRight">
         <a href="/" onClick={this.logOutClick} className="topBarElement topBarButton">
           <div className="buttonText">Log out</div>

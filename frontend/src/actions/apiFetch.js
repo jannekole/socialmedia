@@ -13,7 +13,6 @@ export const apiFetch = (dispatch, url, success, error, method, data) => {
     credentials: 'same-origin'
   }).then((res) => {
     if (!res.ok) {
-      console.log('response not ok!');
       if (res.status === 401) {
         dispatch(logOut());
         error(["Unauthorized"]);
@@ -21,11 +20,9 @@ export const apiFetch = (dispatch, url, success, error, method, data) => {
       else {
         res.json().then(
           (json) => {
-            console.log('json ok');
             error(json.errors);
           },
           (err) => {
-            console.log('error parsing json');
             error(err);
           }
         );
@@ -33,17 +30,14 @@ export const apiFetch = (dispatch, url, success, error, method, data) => {
     } else {
       res.json().then(
         (json) => {
-          console.log('json', json);
           success(json);
         },
         (err) => {
-          console.log('error parsing json');
           error(err);
         }
       );
     }
   }).catch(err => {
-    console.log('catcherr', err);
     error(err);
   });
 };

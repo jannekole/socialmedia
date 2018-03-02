@@ -22,7 +22,6 @@ export const getFollows = (followerId, followingId) => {
     var loadSuccess = (json) => {
       dispatch(receiveFollows(json));
     };
-    console.log(followerId, followingId);
     let followerUrl = followerId || "null";
     let followingUrl = followingId || "null";
     var url = '/api/follows/' + followerUrl + '/' + followingUrl;

@@ -39,7 +39,7 @@ class UserPageTopInfo extends Component {
       </div>
       <div className="userPageInfo userPageInfo-l">
         <UserLink user={user}/>
-        {this.isOwnPage() ? null : <ActionButton action={this.handleFollowClick} activeText="Following" inActiveText="Follow" isActive={this.isFollowing()} />}
+        {this.isOwnPage() ? null : <ActionButton action={this.handleFollowClick} activeText="Following" inactiveText="Follow" isActive={this.isFollowing()} />}
       </div>
       <div className="bottomRow">
       </div>
