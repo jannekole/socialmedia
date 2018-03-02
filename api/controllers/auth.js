@@ -11,9 +11,16 @@ var jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 var secretOrKey;
 if (process.env.NODE_ENV === "production") {
   secretOrKey = process.env.JWT_SECRET;
+  if (!secretOrKey) {
+    throw 'No JWT secret found. set enviromental variable JWT_SECRET';
+  }
 } else {
-  secretOrKey = require('../../secret');
+  secretOrKey = require('../../secret'); //Create a "secret.js" file in the root folder with module.exports = "secret"'
+  if (!secretOrKey) {
+    throw 'No JWT secret found.';
+  }
 }
+
 
 var opts = {jwtFromRequest, secretOrKey};
 var jwtEspireSeconds = 60*60*24*7;
