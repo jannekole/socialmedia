@@ -3,7 +3,6 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 import { createStore, applyMiddleware } from 'redux';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -17,8 +16,7 @@ import reducer from './reducers';
 
 let store = createStore(reducer, composeWithDevTools(
   applyMiddleware(
-    thunk,
-    logger
+    thunk
   )
 ));
 

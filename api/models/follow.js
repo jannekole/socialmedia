@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = mongoose.Schema.Types.ObjectId;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let ObjectId = mongoose.Schema.Types.ObjectId;
 
-var follow = new Schema({
+let follow = new Schema({
   followerId: {
     type: ObjectId,
     required: [true, "No follower ID"]

@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+let ObjectId = mongoose.Schema.Types.ObjectId;
 
-var reply = new Schema({
+let reply = new Schema({
   user: {
     _id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -32,7 +32,7 @@ var reply = new Schema({
 
 });
 
-var post = new Schema({
+let post = new Schema({
 
   user: {
     _id: {

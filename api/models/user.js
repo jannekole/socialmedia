@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var bcrypt   = require('bcrypt');
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
+let bcrypt   = require('bcrypt');
 
 
-var user = new Schema({
+let user = new Schema({
   username: {
     type: String,
     required: [true, 'No username'],
@@ -42,8 +42,8 @@ user.methods.verifyPassword = function(password, callback) {
   });
 };
 user.pre('save', function(next) {
-  var SALT_WORK_FACTOR = 12;
-  var user = this;
+  let SALT_WORK_FACTOR = 12;
+  let user = this;
 
   if (!user.isModified('password')) return next();
 

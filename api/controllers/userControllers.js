@@ -1,4 +1,4 @@
-var User = require('../models/user');
+let User = require('../models/user');
 
 
 exports.error = (req, res) => {
@@ -6,12 +6,11 @@ exports.error = (req, res) => {
 };
 
 exports.followingToBody = function (req, res, next) {
-  var followingId = req.body.followingId;
-  var query = {_id: followingId};
+  let followingId = req.body.followingId;
+  let query = {_id: followingId};
   User.findOne(query,
     (err, user) => {
       if (err) {
-        console.log('following',err)
         next(err);
       } else if (!user) {
         next({message: "User to follow not found"});
@@ -48,7 +47,6 @@ exports.getUsers = function (req, res, next) {
   let query = {};
   if (username) {
     query = {username: username.toLowerCase()};
-    console.log(query)
   }
   User.find(query, (err, users) => {
     if (err) {
@@ -56,7 +54,7 @@ exports.getUsers = function (req, res, next) {
     } else if (users.length === 0) {
       next({message: "No users found"});
     } else {
-      var resUsers = cleanUsers(users);
+      let resUsers = cleanUsers(users);
       res.json({users: resUsers});
     }
   });

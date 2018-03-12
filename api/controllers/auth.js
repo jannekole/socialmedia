@@ -1,14 +1,14 @@
-var jwt = require('jsonwebtoken');
-var ExtractJwt = require('passport-jwt').ExtractJwt;
-var JwtStrategy = require('passport-jwt').Strategy;
-var LocalStrategy = require('passport-local').Strategy;
-var passport = require('passport');
+let jwt = require('jsonwebtoken');
+let ExtractJwt = require('passport-jwt').ExtractJwt;
+let JwtStrategy = require('passport-jwt').Strategy;
+let LocalStrategy = require('passport-local').Strategy;
+let passport = require('passport');
 
-var User = require('../models/user');
+let User = require('../models/user');
 
-var jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+let jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 
-var secretOrKey;
+let secretOrKey;
 if (process.env.NODE_ENV === "production") {
   secretOrKey = process.env.JWT_SECRET;
   if (!secretOrKey) {
@@ -22,8 +22,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 
-var opts = {jwtFromRequest, secretOrKey};
-var jwtEspireSeconds = 60*60*24*7;
+let opts = {jwtFromRequest, secretOrKey};
+let jwtEspireSeconds = 60*60*24*7;
 exports.opts = opts;
 
 exports.sendToken = (req, res, next) => {
@@ -42,9 +42,7 @@ exports.passportSetupStrategies = (passport) => {
   }));
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      console.log(username.toLowerCase(), password)
       User.findOne({username: username.toLowerCase()}, function(err, user) {
-        console.log('user',user);
         if (err) {
           return done(err); }
         if (!user) {
@@ -54,7 +52,6 @@ exports.passportSetupStrategies = (passport) => {
           if (err) {
             return done(err);
           } else if (match) {
-            console.log(user);
             return done(null, user);
           } else {
             return done(null, false);

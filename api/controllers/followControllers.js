@@ -1,21 +1,20 @@
-var Follow = require('../models/follow');
-var User = require('../models/user');
+let Follow = require('../models/follow');
+let User = require('../models/user');
 
 exports.addFollow = function (req, res, next) {
 
-  var followerId = req.user._id;
-  var followingId = req.userToFollow._id;
-  var {acceptFollows} = req.userToFollow;
-  var accepted = false;
+  let followerId = req.user._id;
+  let followingId = req.userToFollow._id;
+  let {acceptFollows} = req.userToFollow;
+  let accepted = false;
   if (acceptFollows === undefined || acceptFollows) { //remove first cond.
     accepted = true;
   }
-  var follow = new Follow({followerId, followingId, accepted});
+  let follow = new Follow({followerId, followingId, accepted});
 
   follow.save((err, follow) => {
     if (err) {
       if(err.message.startsWith("E11000 ")) {
-        console.log(err)
         res.json({follows: [{followerId, followingId}]});
       } else {
         next(err);
@@ -27,15 +26,13 @@ exports.addFollow = function (req, res, next) {
   });
 };
 exports.deleteFollow = function (req, res, next) {
-  var followerId = req.user._id;
-  var followingId = req.userToFollow._id;
-  var query = {followerId, followingId};
-  console.log('delete query', query)
+  let followerId = req.user._id;
+  let followingId = req.userToFollow._id;
+  let query = {followerId, followingId};
   Follow.deleteOne(query, (err, result) => {
     if(err) {
       next(err);
     } else {
-      console.log('deleteresult', result.result)
       res.json({follows:[{followerId, followingId, delete: "true"}]});
     }
   });

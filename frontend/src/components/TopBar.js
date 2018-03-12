@@ -42,7 +42,7 @@ class TopBar extends Component {
           <img  className="icon" src="/home.svg" alt="Home"/>
         </NavLink>
         <NavLink to={url} className="topBarElement topBarButton">
-          <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
+          <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile pic"/>
           <div className="buttonText show-m">
             {username}
           </div>

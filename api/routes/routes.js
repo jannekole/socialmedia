@@ -1,11 +1,11 @@
-var postControllers = require('../controllers/postControllers');
-var userControllers = require('../controllers/userControllers');
-var followControllers = require('../controllers/followControllers');
-var auth = require('../controllers/auth');
+let postControllers = require('../controllers/postControllers');
+let userControllers = require('../controllers/userControllers');
+let followControllers = require('../controllers/followControllers');
+let auth = require('../controllers/auth');
 
-var jwtAuth = auth.jwtAuth;
-var localAuth = auth.localAuthenticate;
-var sendToken = auth.sendToken;
+let jwtAuth = auth.jwtAuth;
+let localAuth = auth.localAuthenticate;
+let sendToken = auth.sendToken;
 
 module.exports = function(app) {
   app.route('/api/signin/')
