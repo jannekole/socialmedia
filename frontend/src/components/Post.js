@@ -61,7 +61,7 @@ class Post extends Component {
   renderActionBar() {
     return <div className="postActionBar" >
       <ActionButton action={this.clickReply} isActive={false}>Reply</ActionButton>
-      <ActionButton action={this.clickLike} isActive={this.isLiked()}>Like</ActionButton>
+      <ActionButton action={this.clickLike} isActive={this.isLiked()} inactiveText="Like" activeText="Liked" />
       <span className="likesText">{this.numberOfLikedText()}</span>
     </div>;
   }
