@@ -10,13 +10,16 @@ import sortPostsByDate from '../utils/sortPostsByDate';
 class Post extends Component {
   constructor(props) {
     super(props);
+    this.state = {autoFocus: false};
     this.clickReply = this.clickReply.bind(this);
     this.clickLike = this.clickLike.bind(this);
   }
   clickReply(e) {
     let { replyInputVisible } = this.props.post;
+    this.setState({autoFocus: true});
     this.props.changeReplyInputVisibility(
-      this.props.post._id, !replyInputVisible);
+      this.props.post._id, !replyInputVisible
+    );
     e.preventDefault();
   }
   clickLike(e) {
@@ -69,7 +72,7 @@ class Post extends Component {
     }
     return <PostForm
       rows={2}
-      autoFocus={true}
+      autoFocus={this.state.autoFocus}
       parentId={this.props.post._id}
       page={this.props.username}>
     </PostForm>;

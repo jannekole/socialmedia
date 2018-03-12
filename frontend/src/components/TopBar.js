@@ -39,7 +39,7 @@ class TopBar extends Component {
       {isLoading ? <div className="loader"></div> : null}
       <div className="topBarLeft">
         <NavLink to="/" exact className="topBarElement topBarButton">
-          <img  className="icon" src="/home.svg" alt="Messages"/>
+          <img  className="icon" src="/home.svg" alt="Home"/>
         </NavLink>
         <NavLink to={url} className="topBarElement topBarButton">
           <img className="topBarProfilePic" src={`/profilepics/${profilePicUrl}.jpg`} alt="Profile picture"/>
