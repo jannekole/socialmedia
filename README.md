@@ -22,13 +22,10 @@ After signing up, the user can make posts, reply to and like posts, as well as f
 - passwords hashed with bcrypt
 - API end points require authentication
 - GETting posts only allowed if the user is being followed (although currently follows are automatically accepted)
-- MongoDB collections:
-  - users
-  - posts/replies (includes likes, includes info of the author)
-  - follows
 - input validation
 
-#### Possible additions:
+### Todo:
 - require that users accept follows to keep posts private
 - pagination, including for replies if there are many
 - upload profile pictures
+- public posts
