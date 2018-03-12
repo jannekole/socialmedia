@@ -82,7 +82,7 @@ class LoginPage extends Component  {
     e.preventDefault();
   }
   redirect(shouldRedirect) {
-    var redirectUrl = "/"; //this.props.location.pathname;
+    let redirectUrl = "/"; //this.props.location.pathname;
     return shouldRedirect ? <Redirect to={redirectUrl} /> : null;
   }
   toggleSignUp(e) {
@@ -131,11 +131,11 @@ class LoginPage extends Component  {
     if (notification === "Unauthorized" && !this.state.signUp) {
       finalNotification = "Incorrect username or password";
     } else {finalNotification = notification;}
-    var { isLoggedIn } = this.props.thisUser;
+    let { isLoggedIn } = this.props.thisUser;
 
-    var text;
-    var toggleLinkText;
-    var title;
+    let text;
+    let toggleLinkText;
+    let title;
     if (this.state.signUp) {
       title = "Sign up";
       text = "Already have an account? ";

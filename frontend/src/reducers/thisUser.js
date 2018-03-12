@@ -3,9 +3,9 @@ import jwtDecode from 'jwt-decode';
 
 let user = {};
 let isLoggedIn = false;
-var token = localStorage.getItem('token') || null;
+let token = localStorage.getItem('token') || null;
 if (token) {
-  var { _id, username } = jwtDecode(token);
+  let { _id, username } = jwtDecode(token);
   user = {username, _id};
   isLoggedIn = true;
 }

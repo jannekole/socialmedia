@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { logOut, signIn} from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
-  var thisUser = state.thisUser;
+  let thisUser = state.thisUser;
 
-  var numOfLikesLoading = Object.keys(state.loading.likes).length;
-  var numOfPostsLoading = Object.keys(state.loading.posts).length;
-  var numOfUsersLoading = Object.keys(state.loading.users).length;
-  var isLoading = !!(numOfLikesLoading + numOfPostsLoading + numOfUsersLoading);
+  let numOfLikesLoading = Object.keys(state.loading.likes).length;
+  let numOfPostsLoading = Object.keys(state.loading.posts).length;
+  let numOfUsersLoading = Object.keys(state.loading.users).length;
+  let isLoading = !!(numOfLikesLoading + numOfPostsLoading + numOfUsersLoading);
   return {
     thisUser,
     isLoading

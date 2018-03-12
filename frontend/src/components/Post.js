@@ -46,7 +46,7 @@ class Post extends Component {
     return likes.includes(_id);
   }
   numberOfLikedText() {
-    var num = this.props.post.likes.length;
+    let num = this.props.post.likes.length;
     if (num <= 0) {
       return "";
     } else if (num === 1) {

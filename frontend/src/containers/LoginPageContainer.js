@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { signIn, signUp } from '../actions/actions';
 
 const mapStateToProps = (state, ownProps) => {
-  var { thisUser } = state;
+  let { thisUser } = state;
 
   return {
     thisUser

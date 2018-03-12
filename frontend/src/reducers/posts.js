@@ -3,7 +3,7 @@ import { REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_POSTS_ERROR, POST_POST_SUCCESS,
 import post from './post';
 import merge from './merge';
 
-var defaultState = {items: [], isDoneFetching: {}, lastFetched: {}};
+let defaultState = {items: [], isDoneFetching: {}, lastFetched: {}};
 const posts = (state = defaultState, action) => {
   state = post(state, action);
   switch (action.type) {

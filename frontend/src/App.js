@@ -15,7 +15,7 @@ import LoginPageContainer from './containers/LoginPageContainer';
 
 import reducer from './reducers';
 
-var store = createStore(reducer, composeWithDevTools(
+let store = createStore(reducer, composeWithDevTools(
   applyMiddleware(
     thunk,
     logger

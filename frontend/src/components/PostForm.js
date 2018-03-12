@@ -43,12 +43,12 @@ PostForm.propTypes = {
   autoFocus: PropTypes.bool,
 };
 
-var all = undefined;
+let all = undefined;
 const mapStateToProps = (state, ownProps) => {
-  var id = ownProps.parentId || all;
-  var disabled = state.loading.postReplies[id];
-  var inputText = state.input.forms[id] || "";
-  // var error = state.status.errors.postForms[id];
+  let id = ownProps.parentId || all;
+  let disabled = state.loading.postReplies[id];
+  let inputText = state.input.forms[id] || "";
+  // let error = state.status.errors.postForms[id];
   return {
     disabled,
     // error

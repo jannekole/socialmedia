@@ -17,7 +17,7 @@ class TopBar extends Component {
   }
   handleSearch(e) {
     if (this.state.searchInput) {
-      var address = "/user/" + this.state.searchInput;
+      let address = "/user/" + this.state.searchInput;
       this.props.history.push(address);
     }
 
@@ -28,14 +28,14 @@ class TopBar extends Component {
     e.preventDefault();
   }
   render() {
-    var { user, isLoggedIn } = this.props.thisUser;
-    var username = user.username;
-    var { isLoading } = this.props;
-    var profilePicUrl = user.picUrl || "default";
-    var loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
-    var userUrl = "/user/" + username;
-    var url = isLoggedIn ? userUrl : loginUrl;
-    var topBarContent = <div className="topBar">
+    let { user, isLoggedIn } = this.props.thisUser;
+    let username = user.username;
+    let { isLoading } = this.props;
+    let profilePicUrl = user.picUrl || "default";
+    let loginUrl = "/login/"; // + "?redirect=" + this.props.currentPath;
+    let userUrl = "/user/" + username;
+    let url = isLoggedIn ? userUrl : loginUrl;
+    let topBarContent = <div className="topBar">
       {isLoading ? <div className="loader"></div> : null}
       <div className="topBarLeft">
         <NavLink to="/" exact className="topBarElement topBarButton">
@@ -64,7 +64,7 @@ class TopBar extends Component {
       </div>
     </div>;
 
-    var topBarempty = <div className="topBar">
+    let topBarempty = <div className="topBar">
       <div className="topBarLeft">
         <div className="topBarElement">
           {/* <div className="buttonText">Home</div> */}

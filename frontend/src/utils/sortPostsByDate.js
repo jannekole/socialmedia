@@ -1,4 +1,4 @@
-var secondsFromObjectId = function (objectId) {
+let secondsFromObjectId = function (objectId) {
   return parseInt(objectId.substring(0, 8), 16);
 };
 

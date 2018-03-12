@@ -4,7 +4,7 @@ import { postReply, changePostInput, sendLike} from '../actions/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
-  var { _id } = ownProps.post;
+  let { _id } = ownProps.post;
   return {
     thisUser: state.thisUser.user,
     replyIsLoading: state.loading.postReplies[_id] || false,

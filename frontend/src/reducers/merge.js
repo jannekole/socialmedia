@@ -5,9 +5,9 @@ const isInArray = (obj1, array) => {
   return !!array.find((obj2)=> areEqual(obj1, obj2));
 };
 const merge = (oldObjects, newObjects, remove=false) => {
-  var oldLength = oldObjects.length;
-  var newLength = newObjects.length;
-  var objects;
+  let oldLength = oldObjects.length;
+  let newLength = newObjects.length;
+  let objects;
   if (remove) {
     objects = oldObjects.filter((object) => {
 

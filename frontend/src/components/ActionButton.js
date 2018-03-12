@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ActionButton = (props) => {
-  var buttonClass = props.isActive ? "notLink activated" : "notLink";
-  var buttonText = props.isActive ? props.children || props.activeText : props.children || props.inactiveText;
+  let buttonClass = props.isActive ? "notLink activated" : "notLink";
+  let buttonText = props.isActive ? props.children || props.activeText : props.children || props.inactiveText;
   return (
     <a href="" onClick={props.action} className={buttonClass}> {buttonText} </a>
   );

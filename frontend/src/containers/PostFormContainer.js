@@ -4,7 +4,7 @@ import { postReply, changePostInput} from '../actions/actions';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
-  var { _id } = ownProps;
+  let { _id } = ownProps;
   if (!_id) {
     _id = "post";
   }
