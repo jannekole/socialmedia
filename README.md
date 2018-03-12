@@ -28,7 +28,8 @@ After signing up, the user can make posts, reply to and like posts, as well as f
   - follows
 - input validation
 
-#### Possible additions:
+#### Todo:
 - require that users accept follows to keep posts private
 - pagination, including for replies if there are many
 - upload profile pictures
+- public posts
