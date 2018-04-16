@@ -29,3 +29,22 @@ After signing up, the user can make posts, reply to and like posts, as well as f
 - pagination, including for replies if there are many
 - upload profile pictures
 - public posts
+
+
+### Installation:
+#### To run development version:
+- create a secret.js file in the root folder with the contents: "module.exports = 'your_jwt_secret_here';"
+- have mongodb running at 127.0.0.1:27017
+- in the root folder start the API with:
+
+`npm install`
+
+`npm start`
+- in the frontend folder:
+
+`npm install`
+
+`npm start`
+### To run production version in Heroku:
+- set environmental variable "JWT_SECRET" with a secret string
+- set environmental variable "MONGODB_URI" with the address of your MongoDB database. This is done automatically if you for example add the mLab MongoDB add-on in Heroku
