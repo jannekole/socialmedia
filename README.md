@@ -45,6 +45,6 @@ After signing up, the user can make posts, reply to and like posts, as well as f
 `npm install`
 
 `npm start`
-### To run production version in Heroku:
+#### To run production version in Heroku:
 - set environmental variable "JWT_SECRET" with a secret string
 - set environmental variable "MONGODB_URI" with the address of your MongoDB database. This is done automatically if you for example add the mLab MongoDB add-on in Heroku
