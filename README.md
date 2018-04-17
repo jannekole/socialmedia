@@ -5,6 +5,8 @@ https://socialmedi.herokuapp.com/
 
 (This is hosted on Heroku for free, so loading might be slow the first time)
 
+If you want to try it without creating an account, use username: guest and password: guest
+
 After signing up, the user can make posts, reply to and like posts, as well as follow others. Following other users adds their posts and any replies to these posts onto the front page.
 
 ### Features:
